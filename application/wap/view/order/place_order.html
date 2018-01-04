@@ -1,0 +1,201 @@
+{include file="header"}
+</head>
+<body ng-controller="myctrl" ng-cloak>
+	<div class="header">
+	    	<div style="overflow:visible;" class="wrapper">
+	    		<span class="back" on-back-render-filters></span>
+		     	<span class="title" style="color:#333">下单</span>
+		     	<span style="position:relative" ng-click="jump_cart()"  class="header-btn right-btn" >
+		     		<div ng-show="goods_number > 0" class="cart-goods-number" style="width:18px;height:18px;position:absolute;right:-5px;top:-5px;text-align:center;color:#008dff;background-color:#008dff;border-radius:50%;">
+              			<span style="color: white;font-size:10px;line-height:18px;vertical-align: top;">{{goods_number}}</span>
+              		</div>
+		     		<img style="width:20px ; height:20px; margin-top:3px;margin-right:5px;" src="__PUBLIC__/wap/image/bt_car2.png">
+		     	</span>
+		    </div>
+	</div>
+	<div  class="container main-container" style="padding-bottom:86px">
+		<div class="po-first-div">
+			<span class="po-first-span">收货地址</span>
+			<span class="po-second-span" ng-click="address_edit()">选择地址</span>
+		</div>
+		<div class="po-second-div" ng-clickk="address_edit()">
+			<div ng-if="address.name ">
+				<span class="po-second-name">{{address.name}}</span>
+				<span class="po-second-phone">{{address.phone}}</span>
+				<p>{{address.province}}{{address.city}}{{address.district}}{{address.address}}</p>
+			</div>
+			<div ng-if="!address.name ">
+				<div ng-click="address_edit()"  class="po-select-address">请先选择地址</div>
+			</div>
+			
+		</div>
+		<div class="po-third-div">
+			<img ng-src="{{goods.image}}" image-resize width="80px" goods="1">
+			<div class="po-third-child">
+				<p class="po-third-first-p">{{goods.goods_name}}</p>
+				<p class="po-mid-p">规格：{{option_name}}</p>
+				<p class="po-mid-p">数量：{{goods.quantity}}</p>
+				<p class="po-last-p">¥{{goods.price}}</p>
+			</div>
+		</div>
+		<div class="po-send-div">
+			<span class="po-send-left">配送方式:</span>
+			<span class="po-send-right">快递 {{express}}</span>
+		</div>
+
+
+		{if condition="$express_list"}
+
+		<div class="po-express-div">
+			<span class="po-express-left">选择快递:</span>
+			<span class="po-express-right" >
+
+				<div class="express-list">
+				{volist name="express_list" id="vo" key='i'}
+
+				<a href="javascript:;" class="btn  btn-cancel" data-express-id="{$vo['express_id']}" data-express-name="{$vo['express_name']}">{$vo['express_name']}</a>
+
+				{/volist}
+				</div>
+
+
+
+			</span>
+		</div>
+		{/if}
+
+		<div class="po-say-div">
+			<input type="text" ng-model="comment" placeholder="有什么想对商家说的">
+		</div>
+		<div class="po-last-div">
+		    <div class="po-last-div-child">
+			    <div class="po-last-grand-child">
+			        <p>合计:<span> ¥{{total_price | number:2}}</span></p>
+				    <div  style="width:50%;height:100%;float:left;text-align:center;padding:5px 10px">
+				    	<span ng-click="cart()" style="line-height:40px;width:100%;background-color:#008dff;height:100%;color:#fff;display:inline-block">加入购物车</span>
+				    </div>
+				    <div style="width:50%;height:100%;float:left;text-align:center;padding:5px 10px">
+				    	<span  ng-click="imm()" style="line-height:40px;width:100%;background-color:#ff8f09;height:100%;color:#fff;display:inline-block;" >立即购买</span>
+				   </div>
+			   </div>
+		   </div >
+		</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['image-resize','back-filter']);
+		app.controller("myctrl",['$scope', function($scope){
+			$scope.goods_number = "{$goods_number}";
+			$scope.express = "免邮";
+			$scope.goods = {$goods | json_encode};
+			$scope.address = {$address | json_encode};
+            angular.element('.express-list a').each(function(index){
+                $this = $(this);
+                var express_id =  $this.attr("data-express-id");
+                var express_name =  $this.attr("data-express-name");
+                var s_express_id = pinet.getCookie("s_express_id");
+                if(s_express_id==express_id){
+
+                    $this.addClass("btn-primary");
+                }else{
+                    if(index==0 && s_express_id==""){
+//                        $this.addClass("btn-primary");
+//                        pinet.setCookie("s_express_id",express_id);
+//                        pinet.setCookie("s_express_name",express_name);
+					}
+				}
+                if ($(this).hasClass("btn-primary")){
+					pinet.setCookie("s_express_id",express_id);
+                    pinet.setCookie("s_express_name",express_name);
+				}
+			})
+			if($scope.address){
+				$scope.address_id = $scope.address.address_id;
+			}
+			
+			
+			$scope.option_name = $scope.goods.option_name ? $scope.goods.option_name : '默认';
+			
+			if($scope.goods.express_fee > 0){
+				$scope.express = "¥"  + $scope.goods.express_fee ;
+			}
+			$scope.total_price = $scope.goods.price * $scope.goods.quantity + $scope.goods.express_fee * 1;
+			
+			$scope.address_edit = function(){
+				location.href="{:U('address/detaile_getalladdress')}";
+			}
+			
+			$scope.cart = function(){
+				if(!$scope.address_id){
+					pinet.toast("请选择地址");
+					return ;
+				}
+//				if(pinet.getCookie("s_express_id")==""){
+//                    pinet.toast("请选择快递");
+//                    return ;
+//				}
+				var data = {
+						goods_id : "{:I('goods_id')}",
+						option_id : "{$option_id}",
+						quantity : "{:I('quantity')}",
+						address_id : $scope.address_id,
+                    	comment : $scope.comment ? $scope.comment : '',
+                    	express_id : pinet.getCookie("s_express_id"),
+                        express : pinet.getCookie("s_express_name"),
+						access_token : pinet.getCookie("access_token")
+					};
+				
+				layer.open({type:2});
+				pinet.post("order/generate",data, function(data){
+					layer.closeAll();
+					pinet.alert("添加成功");
+					$scope.goods_number = $scope.goods_number * 1 + "{:I('quantity')}" * 1;
+					$scope.$apply();
+				});
+			}
+			
+			$scope.imm = function(){
+				if(!$scope.address_id){
+					pinet.toast("请选择地址");
+					return ;
+				}
+//                if(pinet.getCookie("s_express_id")==""){
+//                    pinet.toast("请选择快递");
+//                    return ;
+//                }
+				var data = {
+						goods_id : "{:I('goods_id')}",
+						option_id : "{$option_id}",
+						quantity : "{:I('quantity')}",
+						address_id : $scope.address_id,
+						comment : $scope.comment ? $scope.comment : '',
+						express_id : pinet.getCookie("s_express_id"),
+						express : pinet.getCookie("s_express_name"),
+						access_token : pinet.getCookie("access_token")
+					};
+				
+				layer.open({type:2});
+				pinet.post("order/generate",data, function(data){
+
+					layer.closeAll();
+					location.href = "{:U('order/pay_bal')}?orders=" + data.content.order_sn.join(",");
+				});
+			}
+			
+			$scope.jump_cart = function(){
+				location.href = "{:U('user/cart')}";
+			}
+            angular.element('.express-list a').bind('click',function(){
+                angular.element('.express-list a').removeClass("btn-primary");
+                angular.element('.express-list a').addClass("btn-cancel");
+                $(this).addClass("btn-primary");
+                var express_id = $(this).attr("data-express-id");
+                var express_name = $(this).attr("data-express-name");
+                pinet.setCookie("s_express_id",express_id);
+                pinet.setCookie("s_express_name",express_name);
+			})
+		}]);
+		
+	</script>
+	
+</body>
+</html>

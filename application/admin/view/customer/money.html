@@ -1,0 +1,56 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('customer/index')}">会员列表</a></li>
+			<li><a href="{:U('customer/add')}">添加会员</a></li>
+			<li class="active"><a href="{:U('customer/money', array('id'=> $id))}" >资金详情</a></li>
+		</ul>
+		<table>
+		</table>
+
+		<table class="table  table-bordered">
+			<tbody>
+				<tr>
+					<td width="150">充值总额</td>
+					<td >{$total}元</td>
+				</tr>
+				<tr>
+					<td width="150">总消费金额</td>
+					<td >{$resume}元</td>
+				</tr>
+				<tr>
+					<td width="150">消费明细</td>
+					<td >
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th width="50%">商品名</th>
+									<th width="50%">消费金额</th>
+								</tr>
+							</thead>
+							<tbody>
+								{volist name="ops" id="vo"}
+									<tr>
+										<td><a href="{:U('goods/edit', array('goods_id'=> $vo.goods_id))}">{$vo.goods_name}</a></td>
+										<td>{$vo.count}元</td>
+									</tr>
+								{/volist}
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+
+</body>
+</html>

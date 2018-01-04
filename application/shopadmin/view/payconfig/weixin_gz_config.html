@@ -1,0 +1,85 @@
+{include file="header" /} 
+</head>
+<body ng-controller="goods">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('payconfig/weixin_app_config')}">APP支付参数</a></li>
+			<li class="active"><a href="{:U('payconfig/weixin_gz_config')}">公众号支付参数</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">开启</label>
+					<div class="controls">
+						<input type="radio" {if condition="$settings.is_open eq 0"}checked{/if} name="is_open" value="0" >关闭
+						<input type="radio" {if condition="$settings.is_open eq 1"}checked{/if} name="is_open" value="1">开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">APPID</label>
+					<div class="controls">
+						<input type="text" name="appid" value="{$settings.appid}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">APPSECRET</label>
+					<div class="controls">
+						<input type="text" name="app_secret" value="{$settings.app_secret}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">商户号</label>
+					<div class="controls">
+						<input type="text" name="mch_id" value="{$settings.mch_id}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">商户秘钥</label>
+					<div class="controls">
+						<input type="text" name="api_key" value="{$settings.api_key}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">p12证书</label>
+					<div class="controls">
+						{if condition="$settings.is_set_client_p12"}<label>已上传</label>{/if}
+						<input type="file" name="client_p12" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">证书pem格式</label>
+					<div class="controls">
+						{if condition="$settings.is_set_client_pem"}<label>已上传</label>{/if}
+						<input type="file" name="client_pem" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">证书秘钥pem格式</label>
+					<div class="controls">
+						{if condition="$settings.is_set_client_key"}<label>已上传</label>{/if}
+						<input type="file" name="client_key" />
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">ca证书</label>
+					<div class="controls">
+						{if condition="$settings.is_set_root_ca"}<label>已上传</label>{/if}
+						<input type="file" name="root_ca" />
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

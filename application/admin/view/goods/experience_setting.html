@@ -1,0 +1,60 @@
+{include file="header" /}
+</head>
+<body>
+<div class="wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('goods/experience')}">商品列表</a></li>
+		<li><a href="{:U('goods/edit',['goods_type' => 4])}">添加商品</a></li>
+		<li  class="active"><a href="{:U('goods/experience_setting')}">体验产品设置</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form" >
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label">可体验总数：</label>
+				<div class="controls">
+					<input type="text" name="max_count" value="{$settings.max_count}" style="outline:none"> 0为不限制
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">体验有效类型：</label>
+				<div class="controls">
+					<label class="radio-inline">
+						<input type="radio" ng-model="type" name="type" {if condition="$settings.type eq 1"}checked{/if} value="1"> 按天：<input type="text" name="effective_days" value="{$settings.effective_days}" style="outline:none"> 0为不限制</label>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"></label>
+				<div class="controls">
+					<label class="radio-inline">
+						<input type="radio" ng-model="type" name="type"  {if condition="$settings.type eq 2"}checked{/if} value="2"> 按时间范围：
+						<input type="text" name="start_time" id="start_time" value="{$settings.start_time | date="Y-m-d H:i:s",###}" style="outline:none"> ~
+						<input type="text" name="end_time" id="end_time" value="{$settings.end_time | date="Y-m-d H:i:s",###}" style="outline:none"> </label>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">体验状态：</label>
+				<div class="controls">
+					<label class="radio-inline">
+						<input type="radio" ng-model="type" name="is_open" id="is_open" {if condition="$settings.is_open eq 0"}checked{/if} value="0" > <span style="margin-left: 5px; vertical-align: middle;">关闭</span>
+					</label>
+					<label class="radio-inline">
+						<input type="radio" ng-model="type" name="is_open" id="is_open" {if condition="$settings.is_open eq 1"}checked{/if} value="1"> <span style="margin-left: 5px; vertical-align: middle;">开启</span>
+					</label>
+				</div>    
+			</div>			
+
+		</fieldset>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary js-ajax-submit">确定</button>
+			<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+		</div>
+	</form>
+</div>
+<script>
+    $(function() {
+        $( "#start_time" ).datetimepicker();
+        $( "#end_time").datetimepicker();
+    });
+</script>
+</body>
+</html>

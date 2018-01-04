@@ -1,0 +1,31 @@
+<script>
+if(is_ready == 0 && is_weixin()){
+	wx.ready(function(){
+		wx.onMenuShareTimeline({
+		    title: '{$app_title}', // 分享标题
+		    desc : '{$app_desc}',
+		    link: '{$app_url}', // 分享链接
+		    imgUrl: '{$app_image}', // 分享图标
+		    success: function () { 
+		    },
+		    cancel: function () { 
+		    }
+		});
+		wx.onMenuShareAppMessage({
+		    title: '{$app_title}', // 分享标题
+		    desc : '{$app_desc}',
+		    link: '{$app_url}', // 分享链接
+		    imgUrl: '{$app_image}', // 分享图标
+		    success: function () { 
+		    },
+		    cancel: function () { 
+		    }
+		});
+	});
+}
+
+
+	
+		
+	
+</script>

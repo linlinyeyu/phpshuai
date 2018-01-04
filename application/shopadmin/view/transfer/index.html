@@ -1,0 +1,40 @@
+{include file="header"}
+</head>
+<body>
+	<form enctype="multipart/form-data" method="post" action="{:U('transfer/transfer_customer')}">
+		会员文件
+		<input type="file" name="files" />
+		<input type="submit" value="提交">
+	</form>
+	
+	<form enctype="multipart/form-data" method="post" action="{:U('transfer/transfer_fans')}">
+		会员粉丝文件（用于获取关注状态）
+		<input type="file" name="files" />
+		<input type="submit" value="提交">
+	</form>
+	
+	<form enctype="multipart/form-data" method="post" action="{:U('transfer/transfer_cate')}">
+		导入商品分类表
+		<input type="file" name="files" />
+		<input type="submit" value="提交">
+	</form>
+	
+	<form enctype="multipart/form-data" method="post" action="{:U('transfer/transfer_goods')}">
+		导入商品表
+		<input type="file" name="files" />
+		<input type="submit" value="提交">
+	</form>
+	
+	<form enctype="multipart/form-data" method="post" action="{:U('transfer/transfer_order')}">
+		导入订单表
+		<input type="file" name="files" />
+		<input type="submit" value="提交">
+	</form>
+	
+	<form enctype="multipart/form-data" method="post" action="{:U('transfer/transfer_order_goods')}">
+		导入订单商品表
+		<input type="file" name="files" />
+		<input type="submit" value="提交">
+	</form>
+
+</body>

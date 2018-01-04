@@ -1,0 +1,59 @@
+{include file="header" /} 
+<style>
+.home_info li em {
+	float: left;
+	width: 200px;
+	font-style: normal;
+}
+li {
+	list-style: none;
+	margin-right:300px;
+}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<div id="home_toptip"></div>
+		<h4 class="well">店铺信息</h4>
+		<div class="home_info" style="text-align:center;">
+			<ul style="display:inline-block;margin:0 auto;">
+					<li><em>店铺id</em> <span>{$shop.seller_id}</span></li>
+					<li><em>店铺名称</em> <span>{$shop.shop_name}</span></li>
+					<li><em>店铺类型</em> <span>{if condition="$shop.type eq 1"}普通店铺{elseif condition="$shop.type eq 2"}旗舰店{elseif condition="$shop.type eq 3"}自营{else}未设置{/if}</span></li>
+					<li><em>有效期至</em> <span>{:get_color_date($shop.over_time)}</span></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="wrap">
+		<div id="home_toptip"></div>
+		<h4 class="well">待处理订单</h4>
+		<div class="home_info" style="text-align:center;">
+			<ul style="display:inline-block;margin:0 auto;">
+					<li><em><a href="{:U('orders/lists',['state' => 2])}">待发货订单</a></em> <span>{$order.receive_order}</span></li>
+					<li><em><a href="{:U('orders/refund_list',['state' => 1])}">退款退货订单</a></em> <span>{$order.return_order}</span></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="wrap">
+		<div id="home_toptip"></div>
+		<h4 class="well">最新公告</h4>
+		<div class="home_info" style="text-align:center;">
+			<ul style="list-style:none;margin-top:30px;">
+			{if condition="count($updates) gt 0"}
+			{volist name="updates" id="vo"}
+			<li>
+				<div style='height:40px;'>
+				<span style="color:#2dea40;">{if condition="$vo.type eq 1"}更新{elseif condition="$vo.type eq 2"}上线{/if}</span>
+				<a href="{:U('RecentUpdates/detail',array('update_id' => $vo.update_id))}" style="margin-left:10px;">{$vo.title}</a>
+				</div>
+			</li>
+			{/volist}
+			{/if}
+			</ul>
+		</div>
+		<div class="pagination">{$page}</div>
+	</div>
+</body>
+</html>

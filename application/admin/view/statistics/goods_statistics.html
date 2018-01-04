@@ -1,0 +1,134 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.table-tr td{
+	vertical-align: middle;
+	text-align: center;
+}
+.table th{
+	text-align:center;
+}
+a:hover{text-decoration:none;}
+.ui-datepicker{width:214px;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="" >商品销售排行</a></li>
+		</ul>
+		<form name="form" method="get" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">统计日期：</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+						<input type="submit" class="btn btn-primary"  onClick="click_second()" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+			</fieldset>	  
+		</form>
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td colspan="7" >
+						<div id="goods" style="width:1700px;height:550px;"></div>					
+					</td>	
+				</tr>
+
+			<tbody>
+		</table>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__/js/highcharts.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/exporting.js"></script>
+	<script>
+
+        function click_first(){
+            document.form.action="{:U('Statistics/goods_statistics')}";
+            document.form.submit();
+        }
+        function click_second(){
+            document.form.action="{:U('Statistics/goods_excel')}";
+            document.form.submit();
+        }
+
+	$(function() {
+		$( "#min_date" ).datetimepicker();
+		$( "#max_date").datetimepicker();
+		
+		$('#goods').highcharts({
+			chart: {
+	            type: 'bar'
+	        },
+	        title: {
+	            text: '平台十大热销商品'
+	        },
+	        subtitle: {
+	            text: '数据来源: 后台数据库'
+	        },
+	        xAxis: {
+	            categories: {$goods.xAxis | json_encode},
+	            title: {
+	                text: null
+	            }
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: '单位(件)',
+	                align: 'high'
+	            },
+	            labels: {
+	                overflow: 'justify'
+	            }
+	        },
+	        tooltip: {
+	            valueSuffix: ' 件'
+	        },
+	        plotOptions: {
+	            bar: {
+	                dataLabels: {
+	                    enabled: true,
+	                    allowOverlap: true
+	                }
+	            }
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'top',
+	            x: -40,
+	            y: 100,
+	            floating: true,
+	            borderWidth: 1,
+	            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+	            shadow: true
+	        },
+	        credits: {
+	            enabled: false
+	        },
+	        series: [{
+	        	name:'销量',
+	        	data:trans({$goods.yAxis | json_encode})
+	        }]
+		});
+	});
+	function trans(arr){
+		for(var i=0;i<arr.length;i++){
+			arr[i]-= 0;
+		}
+		return arr;
+	}
+	</script>
+</body>
+</html>

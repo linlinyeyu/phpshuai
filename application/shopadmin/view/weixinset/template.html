@@ -1,0 +1,143 @@
+{include file="header" /} 
+<style>
+	.controls input[type="text"]{
+		width:300px;
+	}
+</style>
+</head>
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="ctrl">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('weixinset/template')}">模板消息</a></li>
+		</ul>
+		<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">请将公众平台模板消息所在行业选择为： IT科技/互联网|电子商务</p>
+		<form method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">是否开启微信通知</label>
+					<div class="controls">
+						<label class="radio-inline">
+							<input type="radio" name="template[is_open]" value="0" ng-model="template.is_open" /><span>关闭</span>
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="template[is_open]" value="1" ng-model="template.is_open"  /><span>开启</span>
+						</label>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">注册成功通知 </label>
+					<div class="controls">
+						<input type="text" name="template[register]" ng-model="template.register"  >
+						<div class="help-block">公众平台模板消息编号: OPENTM202024061</div>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">订单提交成功通知</label>
+					<div class="controls">
+						<input type="text" name="template[submit]" ng-model="template.submit"  >
+						<div class="help-block">公众平台模板消息编号: OPENTM200746866</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">订单取消通知</label>
+					<div class="controls">
+						<input type="text" name="template[cancel]" ng-model="template.cancel"  >
+						<div class="help-block">公众平台模板消息编号: TM00850</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">订单支付成功通知</label>
+					<div class="controls">
+						<input type="text" name="template[pay]" ng-model="template.pay"  >
+						<div class="help-block">公众平台模板消息编号: OPENTM204987032</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">订单发货通知</label>
+					<div class="controls">
+						<input type="text" name="template[send]" ng-model="template.send"  >
+						<div class="help-block">公众平台模板消息编号: OPENTM202243318</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">订单确认收货通知</label>
+					<div class="controls">
+						<input type="text" name="template[finish]" ng-model="template.finish"  >
+						<div class="help-block">公众平台模板消息编号: OPENTM202314085</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">退款申请通知</label>
+					<div class="controls">
+						<input type="text" name="template[refund]" ng-model="template.refund"  >
+						<div class="help-block">公众平台模板消息编号: TM00431</div>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">退款申请成功通知</label>
+					<div class="controls">
+						<input type="text" name="template[refund2]" ng-model="template.refund2"  >
+						<div class="help-block">公众平台模板消息编号: OPENTM401747701</div>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">退款申请驳回通知</label>
+					<div class="controls">
+						<input type="text" name="template[refund3]" ng-model="template.refund3"  >
+						<div class="help-block">公众平台模板消息编号: TM00432</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">会员升级通知(任务处理通知)</label>
+					<div class="controls">
+						<input type="text" name="template[upgrade]" ng-model="template.upgrade"  >
+						<div class="help-block">请搜索“任务处理通知”公众平台模板消息编号: OPENTM200605630</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">充值成功通知</label>
+					<div class="controls">
+						<input type="text" name="template[recharge_ok]" ng-model="template.recharge_ok"  >
+						<div class="help-block">公众平台模板消息编号: TM00977</div>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">提现提交通知</label>
+					<div class="controls">
+						<input type="text" name="template[withdraw]" ng-model="template.withdraw"  >
+						<div class="help-block">公众平台模板消息编号: TM00979</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">提现成功通知</label>
+					<div class="controls">
+						<input type="text" name="template[withdraw_ok]" ng-model="template.withdraw_ok"  >
+						<div class="help-block">公众平台模板消息编号: TM00980</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">提现失败通知</label>
+					<div class="controls">
+						<input type="text" name="template[withdraw_fail]" ng-model="template.withdraw_fail"  >
+						<div class="help-block">公众平台模板消息编号: TM00981</div>
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+</body>
+<script>
+	var app = angular.module('myapp',[]);
+	app.controller("ctrl", ["$scope", function($scope){
+		$scope.template = {$templates | json_encode};
+	}]);
+</script>
+</html>

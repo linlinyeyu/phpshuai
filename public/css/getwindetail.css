@@ -1,0 +1,77 @@
+.windetail-top {
+  background-color: #D93A56;
+  border-radius: 5px;
+  margin: 15px 10px;
+  line-height: 20px;
+  padding: 10px;
+}
+.windetail-top-one {
+  color: #fff;
+  font-size: 14px;
+}
+.windetail-top-two {
+  color: #fff;
+  font-size: 12px;
+  padding-top: 10px;
+}
+.windetail-middle {
+  width: 100%;
+  background-color: #fff;
+}
+.windetail-middle-a,
+.windetail-middle-b {
+  display: block;
+  padding: 10px 10px 10px 10px;
+  border-bottom: 1px solid #E7E7E7;
+  line-height: 20px;
+  overflow: hidden;
+}
+.windetail-middle-aone,
+.windetail-middle-bone {
+  font-size: 14px;
+  color: #000;
+}
+.windetail-middle-atwo,
+.windetail-middle-btwo {
+  font-size: 12px;
+  color: #979797;
+}
+.windetail-last {
+  width: 100%;
+  margin: 15px 0;
+  background-color: #ffffff;
+  line-height: 20px;
+}
+.windetail-last-wrapper {
+  padding: 10px 0 20px 10px;
+}
+.windetail-last-one {
+  font-size: 14px;
+}
+.windetail-last-two {
+  font-size: 16px;
+  text-align: center;
+}
+.windetail-li {
+  padding: 10px;
+  font-size: 12px;
+  border-bottom: 1px solid #dcdcdc;
+}
+.windetail-red {
+  color: #d93a56;
+}
+.windetail-name {
+  margin-left: 10px;
+}
+.windetail-small {
+  font-size: 12px;
+}
+.windetail-detail {
+  display: inline-block;
+  font-size: 12px;
+  background: #d93a56;
+  padding: 2px 5px;
+  float: right;
+  color: #ffffff;
+  border-radius: 5px;
+}

@@ -1,0 +1,128 @@
+{include file="header" /}
+<style>
+	td{
+		vertical-align: middle !important;
+	}
+	th{
+		text-align:center;
+	}
+</style>
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>#ui-datepicker-div{width:212px;}</style>
+
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('coupon/register_coupon')}">注册红包</a></li>
+			<li class="active"><a href="{:U('coupon/pay_coupon')}">充值红包</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" ng-controller="coupon" name="form1" ng-cloak >
+			<fieldset>
+				<div class="small-title">单次充值返现<span class="small-btn" ng-click="add_pay()">增加一行</span><span class="tips">当一次充值有多个红包满足时，取金额最大的一个红包进行发放</span></div>
+				<table style="width:90%; margin:0 auto"  class="table table-hover">
+					<thead>
+						<tr>
+							<th width="15%">红包名</th>
+							<th width="15%">充值金额</th>
+							<th width="15%">红包金额</th>
+							<th width="15%">使用条件</th>
+							<th width="30%">过期时间</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="c in coupons.pay_coupon">
+							<td><input type="text" ng-model="c.coupon_name" /></td>
+							<td><input type="text" ng-model="c.take_condition"/></td>
+							<td><input type="text" ng-model="c.coupon_money"/></td>
+							<td><input type="text" ng-model="c.coupon_limit"/></td>
+							
+							<td>
+								<div>
+									<input type="radio" style="margin: 0;"  value="0" ng-model="c.validate_type" />获取优惠券日
+									<input type="radio" style="margin: 0;"  value="1" ng-model="c.validate_type"/>固定日期
+								</div>
+								<div style="margin-top:10px">
+									<div ng-show="c.validate_type == 0" ><input type="text" days ng-model="c.date_expire" />默认单位：10天</div>  
+									<div ng-show="c.validate_type == 1"><input type="text" datepicker ng-model="c.validate_time" /> 如2016-05-07</div>
+								</div>
+							</td>
+							<td><a class="btn" ng-click="del_pay($index)">删除</a></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="small-title">累计充值红包<span class="small-btn" ng-click="add_inc()">增加一行</span><span class="tips">当用户累计充值达到某一金额时发放红包，所有红包可同时发放</span></div>
+				<table style="width:90%; margin:0 auto"  class="table table-hover">
+					<thead>
+						<tr>
+							<th width="15%">红包名</th>
+							<th width="15%">充值金额</th>
+							<th width="15%">红包金额</th>
+							<th width="15%">使用条件</th>
+							<th width="30%">过期时间</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="c in coupons.inc_coupon">
+							<td><input type="text" ng-model="c.coupon_name" /></td>
+							<td><input type="text" ng-model="c.take_condition"/></td>
+							<td><input type="text" ng-model="c.coupon_money"/></td>
+							<td><input type="text" ng-model="c.coupon_limit"/></td>
+							<td>
+								<div>
+									<input type="radio" style="margin: 0;"  value="0" ng-model="c.validate_type" />获取优惠券日
+									<input type="radio" style="margin: 0;"  value="1" ng-model="c.validate_type"/>固定日期
+								</div>
+								<div style="margin-top:10px">
+									<div ng-show="c.validate_type == 0" ><input type="text" days ng-model="c.date_expire" />默认单位：10天</div>  
+									<div ng-show="c.validate_type == 1"><input type="text" datepicker ng-model="c.validate_time" /> 如2016-05-07</div>
+								</div>
+							</td>
+							<td><a class="btn" ng-click="del_inc($index)">删除</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="data" value="{{coupons | json}}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/angular.js"></script>
+	<script src="__PUBLIC__/js/plugins/datepicker.js"></script>
+	<script>
+	var app = angular.module('myapp',['datepicker']);
+	app.filter();
+	app.controller('coupon',function($scope){
+		$scope.coupons = {'pay_coupon' : {$pay_coupon | json_encode} , 'inc_coupon' : {$inc_coupon | json_encode}};
+		
+		$scope.add_pay = function(){
+			var data = {'coupon_id' : 0, 'validate_type' : 0 , 'type' : 1, 'date_expire' : 10 * 24 * 60 * 60 };
+			$scope.coupons.pay_coupon.push(data);
+		}
+		$scope.del_pay = function(index){
+			$.dialog({content:'确认删除吗',cancel:false, ok:function(){
+				$scope.coupons.pay_coupon.splice(index, 1);
+				$scope.$apply();
+			}});
+		}
+		
+		$scope.add_inc = function(){
+			var data = {'coupon_id' : 0, 'validate_type' : 0 , 'type' : 7, 'date_expire' : 10 * 24 * 60 * 60 };
+			$scope.coupons.inc_coupon.push(data);
+		}
+		$scope.del_inc = function(index){
+			$.dialog({content:'确认删除吗',cancel:false, ok:function(){
+				$scope.coupons.inc_coupon.splice(index, 1);
+				$scope.$apply();
+			}});
+		}
+		
+	});
+	</script>
+</body>
+</html>

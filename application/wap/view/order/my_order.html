@@ -1,0 +1,132 @@
+{include file="header"}
+</head>
+<body >
+	<div class="header" >
+    	<div class="wrapper">
+    		<span class="back" on-back-render-filters></span>
+	     	<span class="title" style="color:#333">我的订单</span>
+	    </div>
+	</div>
+	<div ng-controller="ctrl" ng-cloak class="container top-container">
+		<div class="my-order-search-div">
+			<div class="my-order-search">
+				<div class="my-order-input">
+					<input ng-model="key" type="text" placeholder="输入姓名或手机号查找订单">
+				</div>
+			</div>
+			<a ng-click="search()">搜索</a>
+		</div>
+		<div class="nav-container">
+			<div class="nav-wrapper nav-whole-line bordered-middle ">
+				<div class="nav-pills nav-col-5" ng-click="change_status(1)" ng-class="{true:'active'}[status == 1]">
+					<a class="nav-text">全部</a>
+				</div>
+				<div class="nav-pills nav-col-5 " ng-click="change_status(2)" ng-class="{true:'active'}[status == 2]">
+					<a class="nav-text">待发货</a>
+				</div >
+				<div class="nav-pills nav-col-5 " ng-click="change_status(3)" ng-class="{true:'active'}[status == 3]">
+					<a class="nav-text">待收货</a>
+				</div>
+				<div class="nav-pills nav-col-5" ng-click="change_status(4)" ng-class="{true:'active'}[status == 4]">
+					<a class="nav-text">退款</a>
+				</div>
+				<div class="nav-pills nav-col-5 " ng-click="change_status(5)" ng-class="{true:'active'}[status == 5]">
+					<a class="nav-text">已完成</a>
+				</div>
+			</div>
+		</div>
+		<ul instance="ins" infinite url="order/GetOrders" bind="orders" need_token ="1" ng-show="orders.length > 0" >
+			<li ng-repeat="o in orders">
+				<div class="my-order-detail-div" >
+					<div class="my-order-seckill" ng-show="o.goods_type == 2 && o.order_state == 1">
+						<p ng-if=" o.date_end > 0">秒杀商品剩余时间:<span>{{o.date_end | date_count_down:"dd天hh小时mm分ss秒"}}</span></p>
+						<p ng-if=" o.date_end <= 0">活动已结束</p>
+					</div>
+					<div class="my-order-goods-state">
+						<p class="my-order-one-p">订单号:<span>{{o.order_sn}}</span><span>{{o.state}}</span></p>
+						<p class="my-order-two-p">收件人:<span>{{o.address_name}}</span><span>{{o.address_phone}}</span></p>
+					</div>
+					<div ng-click="detail($index)" class="od-goods-div" style="margin-top:0px">
+						<div ng-repeat="g in o.goods" class="od-goods-two-child">
+							<div class="od-goods-info">
+								<img goods="1" image-resize width="80px"  ng-src="{{g.image}}">
+								<p class="od-goods-detail-onep">{{g.name}}</p>
+								<p class="od-goods-detail-twop">规格:<span>{{g.option_name}}</span></p>
+								<p class="od-goods-detail-three">¥{{g.price}}</p>
+								<span>×{{g.quantity}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="my-order-money-div">
+						<div>
+							<span>共 {{o.goods_count}} 件商品，运费 {{o.express_amount}}元</span>
+						</div>
+						<div>
+							<span>订单金额</span>
+							<span>¥{{o.order_amount}}</span>
+						</div>
+					</div>
+					<div class="my-order-buy-cancel" ng-show="o.order_state == 1">
+						<a ng-click="cancel( $index,o.order_sn)">取消</a>
+						<a ng-click="pay(o.order_sn)">去付款</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+		
+		<div class="dt-gad-no-record" ng-if="ins.busy !=  true && orders.length == 0">
+			<img src="__PUBLIC__/wap/image/classify34.png"  />
+			<span>亲，您暂无订单</span>
+		</div>
+	</div>
+	 <script>		
+	 var app = angular.module("myapp",["back-filter","image-resize","lazy-load",'date-filter']);
+		app.controller('ctrl',["$scope", "$interval", function($scope, $interval) {
+			$scope.status = 1;
+   			$scope.key = "{:I('key')}";
+			$scope.pay = function(order_sn){
+				location.href = "{:U('order/pay_bal')}?orders=" + order_sn;
+			}
+   			$interval(function(){
+   				if(!$scope.orders){
+   					return;
+   				}
+   				for(var i = 0; i < $scope.orders.length ; i++){
+   					if($scope.orders[i].date_end){
+   						$scope.orders[i].date_end --;
+   					}
+   				}
+   			},1000);
+   			
+   			$scope.change_status = function(status){
+   				$scope.status = status;
+   				$scope.ins.data = "state=" + status + "&key=" + $scope.key;
+   				$scope.ins.reset();
+   			}
+   			
+   			$scope.search = function(){
+   				$scope.change_status($scope.status);
+   			}
+   			
+   			$scope.cancel = function(index, order_sn){
+   				pinet.confirm("您确认要取消订单吗？", function(){
+   					pinet.post("order/cancel", {'orders' : order_sn, access_token :pinet.getCookie("access_token")},
+   	   						function(data){
+   	   					pinet.toast(data.message);
+   	   					if(data.errcode == 0){
+   	   						$scope.orders.splice(index, 1);
+   	   					}
+   	   				});
+   				});
+   			}
+   			$scope.detail = function(index){
+   				var order_sn = $scope.orders[index].order_sn;
+   				location.href = "{:U('order/order_detail')}?order_sn=" + order_sn ;
+   			}
+	     }]);
+   			
+			   	  	
+			   	  	
+	   </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('homeaction/catindex')}">首页分类列表</a></li>
+			<li class="active"><a href="{:U('homeaction/cattoedit')}">添加首页分类</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:U('homeaction/editcategory')}" method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">分类类别</label>
+					<div class="controls">
+						<select name="category_id">
+							<option value="0">请选择分类</option>
+							{volist name="categories" id="vo"}
+							<option value="{$vo['category_id']}" {if condition="$vo['category_id'] eq $category['category_id']"} selected{/if}>{$vo.name}</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+		        <table class="table table-hover table-striped table-bordered wst-form">
+		           <tr>
+		           	<th width="150" align="right">首页活动图标</th>
+		           	<td>
+		           		<uploadimg image-url="{$category.img}" width="600" height="40" image-name="image"></uploadimg>
+		           	</td>
+		           </tr>
+		           
+		           <tr>
+		             <th align='right'>是否开启<font color='red'>*</font>：</th>
+		             <td>
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$category['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$category['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		             </td>
+		           </tr>
+		        </table>
+		        <input type="hidden" value="{$category['home_category_id']}" name="home_category_id"/>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+				<a class="btn" href="{:U('homeaction/catindex')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp", ['uploadimg']);
+	</script>
+	<script type="text/javascript">
+	</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{include file="header" /}
+</head>
+<body ng-app="myapp">
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('coupon/new_user')}">新用户设置</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form" >
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">金额：</label>
+                <div class="controls">
+                    <input type="text" name="amount" value="{$new_user.amount}" style="outline:none">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">使用条件：</label>
+                <div class="controls">
+                    <input type="text" name="limit" value="{$new_user.limit}" style="outline:none">
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary js-ajax-submit">确定</button>
+            <a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script>
+    var app = angular.module("myapp", ['uploadimg']);
+</script>
+</body>
+</html>

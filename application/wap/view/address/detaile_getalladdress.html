@@ -1,0 +1,59 @@
+{include file="header"}
+</head>
+<body ng-app="myapp" >
+	<div class="header">
+    	<div class="wrapper">
+    		<span class="back" on-back-render-filters></span>
+	     	<span class="title">选择收货地址</span>
+	     	<a class="dt-gad-right" href="{:U('address/getalladdress')}" style="font-size:14px">管理</a>
+	    </div>
+	</div>
+	
+	<div class="container top-container" ng-controller="goodsctrl" ng-cloak>
+		<div>
+			<ul class="dt-gad-content" ng-show="address.length > 0">
+				<li ng-click="select($index)" ng-repeat="a in address" class="dt-gad-li-top">
+					<div class="dt-gad-name-phone">
+						<span class="dt-gad-name-left">{{a.name}}</span>
+						<span class="dt-gad-name-right">{{a.phone}}</span>
+					</div>
+					<div class="dt-gad-default">
+						<span class="dt-gad-default-one">
+							<span ng-if="a.status == 1">[默认地址]</span>
+							{{a.province}}{{a.city}}{{a.district}}{{a.address}}
+						</span>
+					</div>
+				</li>
+			</ul>
+			<div class="dt-gad-no-record" ng-if="address.length == 0">
+				<img src="__PUBLIC__/wap/image/classify34.png"  />
+				<span>亲，您暂无地址记录</span>
+			</div>
+		</div>
+		
+		<div class="footer">
+		    <a href="{:U('address/addaddress')}" class="footer-btn footer-full-btn footer-primary">
+		    	+ 添加收货地址
+		    </a>
+		</div>
+		
+	</div>
+	<script src="__PUBLIC__/wap/js/LArea.js"></script>
+	<script src="__PUBLIC__/wap/js/LAreaData.js?165"></script>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+		app.controller('goodsctrl',["$scope", function($scope) {
+			$scope.address = {$address | json_encode};
+			$scope.select = function(index){
+				var quantity = pinet.getCookie("s_quantity");
+				var goods_id = pinet.getCookie("s_goods_id");
+				var option_id = pinet.getCookie("s_option_id");
+				location.href="{:U('order/place_order')}?quantity=" + quantity + "&goods_id=" 
+						+ goods_id + "&option_id=" + option_id 
+						+ "&address_id=" + $scope.address[index].address_id;
+			}
+		}]);
+	  
+</script>
+</body>
+</html>

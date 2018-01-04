@@ -1,0 +1,35 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/start_page')}">启动页配置</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">开启</label>
+					<div class="controls">
+						<input type="radio" {if condition="$settings.is_open eq 0"}checked{/if} name="is_open" value="0" >关闭
+						<input type="radio" {if condition="$settings.is_open eq 1"}checked{/if} name="is_open" value="1">开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">启动页</label>
+					<div class="controls">
+						<uploadimg cate="start" image-name="start_page" width="580" height="900" image-url="{$settings.start_page}"></uploadimg>
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+	<script>
+	var app = angular.module("myapp",['uploadimg']);
+	</script>
+</body>
+</html>

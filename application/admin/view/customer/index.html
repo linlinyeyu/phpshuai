@@ -1,0 +1,208 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('customer/index')}">会员列表</a></li>
+			<li><a href="{:U('customer/add')}">添加会员</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" name="form">
+				<div class="control-group">
+					<label class="control-label">手机号:</label>
+					<div class="controls">
+						<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">会员名:</label>
+					<div class="controls">
+						<input type="text" name="name" value="{:I('name')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">性别:</label>
+					<div class="controls">
+					<select name="sex">
+						<option value="0">全部</option>
+						<option {if condition="I('sex') eq '男'"}selected{/if} value="男">男</option>
+						<option {if condition="I('sex') eq '女'"}selected{/if} value="女">女</option>
+					</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">年龄:</label>
+					<div class="controls">
+						<input type="text" name="min_age" style="width:100px;float:left" value="{:I('min_age')}">
+						<label style="float:left;">-</label>
+						<input type="text" name="max_age" style="width:100px;float:left" value="{:I('max_age')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">积分:</label>
+					<div class="controls">
+						<input type="text" name="min_integration" style="width:100px;float:left" value="{:I('min_integration')}">
+						<label style="float:left;">-</label>
+						<input type="text" name="max_integration" style="width:100px;float:left" value="{:I('max_integration')}">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">总消费额度:</label>
+					<div class="controls">
+						<input type="text" name="min_done_money" style="width:100px;float:left" value="{:I('min_done_money')}">
+						<label style="float:left;">-</label>
+						<input type="text" name="max_done_money" style="width:100px;float:left" value="{:I('max_done_money')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">创建日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I("min_date")}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I("max_date")}" >
+					</div>	
+				</div>
+					 	
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+						<input type="submit" class="btn btn-primary" onClick="click_third();" style="margin-left:30px;width: 100px;height: 30px;float: left;text-align: center;" value="冻结金额" />
+						<input type="submit" class="btn btn-primary"  onClick="click_second()" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+		</form>
+		<form class="js-ajax-form" method="post" enctype="multipart/form-data" action="{:U('customer/insertExcel')}">
+			<div class="control-group" style="margin-left: 30px;">
+				<button type="submit" class="btn btn-primary">上传文件</button>
+				<input type="file" name="files" />
+			</div>
+		</form>
+
+		<form method="post" class="js-ajax-form">
+			<div style="clear:both;" class="panel panel-default">
+				<div class="panel-heading">共计{$count}个会员</div>
+				<div class="panel-body">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>昵称</th>
+							<th>真实姓名</th>
+							<th>年龄</th>
+							<th>手机号码</th>
+							<th>总消费额</th>
+							<th>总订单数</th>
+							<th>积分</th>
+							<th>购物积分</th>
+							<th>鸿府积分</th>
+							<th>状态</th>
+							<th>创建日期</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="users" id="vo"}
+						<tr>
+							<td align="center">{$vo.customer_id}</td>
+							<td><img style="width:30px;height:30px;" src="{$vo.avater}">{$vo['nickname']?$vo['nickname']:L('NOT_FILLED')}</td>
+							<td>{$vo.realname}</td>
+							<td>{$vo.age}</td>
+							<td>{$vo.phone}</td>
+							<td><a href="{:U('customer/accountDetail',array('id' => $vo['customer_id']))}">￥{$vo.done_money}</a></td>
+							<td><a href="{:U('orders/lists',array('uuid'=>$vo['uuid']))}">{$vo.done_count}</a></td>
+							<td><a href="{:U('customer/inteDetail',array('id' => $vo['customer_id']))}">{$vo.integration}</a></td>
+							<td><a href="{:U('customer/coinDetail',array('id' => $vo['customer_id']))}">{$vo.shopping_coin}</a></td>
+							<td><a href="{:U('customer/hongfuDetail',array('id' => $vo['customer_id']))}">{$vo.hongfu}</a></td>
+							<td>{if condition="$vo.active eq 1"}可用{elseif condition="$vo.active eq 0"}已拉黑{/if}</td>
+							<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+							<td align="center">
+								<a href="{:U('customer/detail',array('id'=>$vo['customer_id']))}">查看</a> 
+								| <a href="{:U('orders/lists',array('uuid'=>$vo['uuid']))}">查看订单</a> 
+								{if condition='$vo.active eq 1'}
+								| <a href="{:U('customer/disable',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn" data-msg="{:L('BLOCK_USER_CONFIRM_MESSAGE')}">{:L('BLOCK_USER')}</a>
+								{else}
+								| <a href="{:U('customer/able',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn" data-msg="{:L('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:L('ACTIVATE_USER')}</a>
+								{/if}
+								| <a href="{:U('customer/delete_customer',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn">删除</a>
+								| <a href="{:U('customer/reset_passwd',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn">重置密码</a>
+								{if condition="$vo.is_frozen eq 1"}
+								| <a href="{:U('customer/unfrozen',array('id' => $vo['customer_id']))}" class="js-ajax-dialog-btn">解除冻结金额</a>
+								{else}
+									| <a href="{:U('customer/frozen',array('id' => $vo['customer_id']))}" class="js-ajax-dialog-btn">冻结金额</a>
+								{/if}
+							</td>
+						</tr>
+						{/volist}		
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+	<script>
+		function click_first(){
+			document.form.action="{:U('Customer/index')}";
+			document.form.submit();
+		}
+		function click_second(){
+			document.form.action="{:U('Customer/index_excel')}";
+			document.form.submit();
+		}
+		function click_third(){
+			document.form.action="{:U('Customer/frozen_all')}";
+			document.form.submit();
+		}
+		$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+			$( "#min_date_sale" ).datetimepicker();
+			$( "#max_date_sale").datetimepicker();
+		});
+
+		function send(id,name){
+			var dialog=art.dialog({
+				//id:"shake-deom",
+				title:'发送信息',
+				content:'<div style="margin:10px 0;">用户名称：'+name+' </div></br>发送信息：<textarea type="text" name="content"/>',
+				width:'400px',
+				height:'150px',
+				cancel:'取消',
+				cancel:true,
+				ok: function()
+				{
+					$.ajax({
+						url: "{:U('customer/send_my_message')}",
+						type : 'post',
+						dataType: 'json',
+						data: 'uuid='+id+'&title='+$("select[name=title]").val()+'&content='+$("textarea[name=content]").val(),
+						success: function(json){
+							alert(json.msg);
+							if(json.code == 1){
+								location.reload();
+							}
+
+						}
+					});
+				}
+			})
+		}
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,41 @@
+{include file="header" /}
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('advertisement/index')}">广告列表</a></li>
+        <li ><a href="{:U('advertisement/add')}">广告添加</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form" action="{:U('advertisement/index')}">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">ID</th>
+                <th>广告图片</th>
+                <th>广告链接</th>
+                <th>点击动作</th>
+
+                <th width="120">{:L('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="ads" id="vo"}
+            <tr>
+                <td>{$vo.ad_id}</td>
+                <td><img style="width: 100px;height: 50px;" src="{$vo.img}" target="_blank" /></td>
+                <td>{$vo.name}</td>
+                <td >{$vo.link}</td>
+
+                <td>
+                    <a href="{:U('Advertisement/add',array('id'=>$vo['ad_id']))}">{:L('EDIT')}</a>|
+                    <a href="{:U('Advertisement/del',array('id'=>$vo['ad_id']))}" class="js-ajax-delete">{:L('DELETE')}</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+
+        </table>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('coupon/register_coupon')}">注册红包</a></li>
+			<!-- <li ><a href="{:U('coupon/pay_coupon')}">充值红包</a></li> -->
+		</ul>
+		<form ng-controller="myCtrl" method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">是否开启</label>
+					<div class="controls">
+						<input type="radio" ng-model="coupon.is_open" value="0" /> 关闭
+						<input type="radio" ng-model="coupon.is_open" value="1"/> 开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">红包名</label>
+					<div class="controls">
+						<input ng-model="coupon.coupon_name" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">发送红包个数</label>
+					<div class="controls">
+						<input ng-model="coupon.time" />单位：个，如填5个，表示此红包按照使用间隔一共发放5个红包
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">红包金额</label>
+					<div class="controls">
+						<input ng-model="coupon.coupon_money"  />单位：元，如填5元，则表示此红包可抵用5元现金
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">使用条件</label>
+					<div class="controls">
+						<input ng-model="coupon.coupon_limit"  />单位：元，如填5元，即单次消费金额满5元可使用，0元则表示任何场景均可使用
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">使用间隔</label>
+					<div class="controls">
+						<input ng-model="coupon.interval" days />单位：天，如填2，表示每过2天才可使用此红包
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">红包期限</label>
+					<div class="controls">
+						<input  ng-model="coupon.expire" days />单位：天，如填3，表示领取红包后3天后无法使用
+					</div>
+				</div>
+				
+				
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" value="{{coupon |json}}" name="data">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/angular.js"></script>
+	<script src="__PUBLIC__/js/plugins/datepicker.js"></script>
+	<script>
+		var app = angular.module("myapp",['datepicker']);
+		app.controller("myCtrl", ["$scope", function($scope){
+			$scope.coupon = {$coupon | json_encode};
+		}])
+	</script>
+</body>
+</html>

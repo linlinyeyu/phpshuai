@@ -1,0 +1,54 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('user/info')}">{:L('ADMIN_USER_USERINFO')}</a></li>
+			<li><a href="{:U('user/password')}">{:L('ADMIN_SETTING_PASSWORD')}</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" method="post" action="{:U('user/info')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="input-user_nicename">{:L('NICENAME')}</label>
+					<div class="controls">
+						<input type="hidden" name="id" value="{$info.id}">
+						<input type="text" id="input-user_nicename" name="nickname" value="{$info.nickname}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="input-gender">{:L('GENDER')}</label>
+					<div class="controls">
+						<select name="sex" id="input-gender">
+							<option value="保密" {if condition="$info.sex eq '保密'"}selected{/if}>{:L('GENDER_SECRECY')}</option>
+							<option value="男" {if condition="$info.sex eq '男'"}selected{/if}>{:L('MALE')}</option>
+							<option value="女" {if condition="$info.sex eq '女'"}selected{/if}>{:L('FEMALE')}</option>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="input-birthday">{:L('BIRTHDAY')}</label>
+					<div class="controls">
+						<input class="js-date" type="text" id="input-birthday" placeholder="2013-01-04" name="birthday" value="{$info.birthday}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="input-user_url">{:L('WEBSITE')}</label>
+					<div class="controls">
+						<input type="text" id="input-user_url"  name="url" value="{$info.url}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="input-signature">{:L('SIGNATURE')}</label>
+					<div class="controls">
+						<textarea id="input-signature" placeholder="{:L('SIGNATURE')}" name="note">{$info.note}</textarea>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary js-ajax-submit">{:L('SAVE')}</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{include file="header" /}
+<style>
+.control-group{
+	float:left;
+}
+</style>
+</head>
+<body ng-app="myapp" ng-controller="myctrl" >
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="" >用户增长趋势</a></li>
+		</ul>
+		<form ng-cloak name="form" method="get" action="" class="form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">趋势:</label>
+					<div class="controls">
+						<select name="x"  ng-model="x" >
+							<option value="1">近7日用户增长趋势</option>
+							<option value="2">近30日用户增长趋势</option>
+							<option value="3" >其他日期</option>
+						</select>					
+					</div>
+				</div>
+				<div ng-show="x == 3">
+					<div class="control-group">
+						<label class="control-label">年份:</label>
+						<div class="controls">			
+							<select name="year" ng-model="year" class="form-control" >
+								<option value="0">请选择</option>
+								<option ng-repeat="y in yearArr" value="{{y}}">{{y}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">月份:</label>
+						<div class="controls">			
+							<select name="month" ng-model="month" class="form-control" >
+								<option value="0">请选择</option>
+								<option ng-repeat="m in monthArr" value="{{m}}">{{m}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+						<input type="submit" class="btn btn-primary"  onClick="click_second()" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+			</fieldset>	  
+		</form>
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td colspan="7" >
+						<div id="customer" style="width:1000px;height:350px;"></div>					
+					</td>	
+				</tr>
+
+			<tbody>
+		</table>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__/js/highcharts.js"></script> 
+ 	<script type="text/javascript" src="__PUBLIC__/js/exporting.js"></script>
+ 	<script>
+        function click_first(){
+            document.form.action="{:U('Statistics/customer_trend_stat')}";
+            document.form.submit();
+        }
+        function click_second(){
+            document.form.action="{:U('Statistics/customer_trend_excel')}";
+            document.form.submit();
+        }
+
+ 		var app=angular.module("myapp",[]);
+ 		app.controller("myctrl",function($scope){
+ 			$scope.x = "{:I('get.x')}";
+ 			if(!$scope.x){
+ 				$scope.x = "1";
+ 			}
+ 			
+ 		 	var year = new Date().getFullYear();
+ 		 	
+ 	        $scope.yearArr = [];
+ 		 	for(var i = 0 ; i < 10 ; i ++){
+ 	        	$scope.yearArr.push(year - i);
+ 	        }
+ 		 	
+ 	       $scope.year = "{:I('get.year')}";
+ 	       if(!$scope.year){
+ 	    	   $scope.year = "0";
+ 	       }
+ 	       
+ 	      $scope.month = "{:I('get.month')}";
+	       if(!$scope.month){
+	    	   $scope.month = "0";
+	       }
+ 	       
+ 	 	         
+ 	 	   $scope.monthArr =
+ 	 	            [
+ 	 	              	  "1",
+ 	 	              	  "2",
+ 	 	              	  "3",
+ 	 	              	  "4",
+ 	 	              	  "5",
+ 	 	           		  "6",
+ 	 	        		  "7",
+ 	 	       			  "8",
+ 	 	     			  "9",
+ 	 	    			  "10",
+ 	 	  				  "11",
+ 	 					  "12",
+ 	 	            ];
+			  
+ 		})
+ 	</script>
+ 	<script>
+ 	$(function () {
+ 	    $('#customer').highcharts({
+ 	        title: {
+ 	            text: '用户增长折线图',
+ 	            x: -20 //center
+ 	        },
+ 	       
+ 	        xAxis: {
+ 	            categories: {$customer.xAxis | json_encode}
+ 	        },
+ 	        yAxis: {
+ 	            title: {
+ 	                text: '个数'
+ 	            },
+ 	            plotLines: [{
+ 	                value: 0,
+ 	                width: 1,
+ 	                color: '#808080'
+ 	            }]
+ 	        },
+ 	        tooltip: {
+ 	            valueSuffix: '个'
+ 	        },
+ 	        legend: {
+ 	            layout: 'vertical',
+ 	            align: 'right',
+ 	            verticalAlign: 'bottom',
+ 	            borderWidth: 0
+ 	        },
+ 	        series: [{
+ 	            name: '用户增长',
+ 	            data: {$customer.yAxis | json_encode}
+ 	        }]
+ 	    });
+ 	});
+ 	 		
+ 	</script> 
+</body>
+</html>

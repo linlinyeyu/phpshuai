@@ -1,0 +1,106 @@
+{include file="header" /}
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('express/index')}">快递列表</a></li>
+        <li><a href="{:U('express/add')}">添加快递</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form" action="{:U('express/listorders')}">
+        <div class="table-actions">
+            <button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-subcheck="true">排序</button>
+
+        </div>
+
+
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="16"><label><input class="js-check-all" data-direction="x" data-checklist="js-check-x" type="checkbox"></label></th>
+                <th width="50">{:L('SORT')}</th>
+                <th>快递公司名</th>
+                <th>添加时间</th>
+                <th>公司网址</th>
+                <th width="80" class="text-center">下单选择</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="express" id="vo"}
+            <tr>
+                <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.express_id}"></td>
+                <td><input name='listorders[{$vo.express_id}]' class="input input-order mr5" type='text' size='3' value='{$vo.sort}'></td>
+
+                <td>{$vo.express_name}</td>
+                <td>{$vo.date_add | date="Y-m-d", ###}</td>
+                <td><a onclick="jump('{$vo.company_url}')">{$vo.company_url}</a></td>
+                <td class="text-center">
+                    <div class="dropdown">
+                        {if condition="$vo['add_order_show']==0 "}
+                        <button class="btn btn-danger dropdown-toggle wst-btn-dropdown" type="button"
+                                data-toggle="dropdown">
+                            隐藏
+                            <span class="caret"></span>
+                        </button>
+                        {else /}
+                        <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button"
+                                data-toggle="dropdown">
+                            显示
+                            <span class="caret"></span>
+                        </button>
+                        {/if}
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                       href="javascript:toggleIsShow(1,{$vo['express_id']})">显示</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                       href="javascript:toggleIsShow(0,{$vo['express_id']})">隐藏</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td><a href="{:U('express/add',array('id'=>$vo.express_id))}">编辑</a>
+                    <a class="js-ajax-dialog-btn" href="{:U('express/del',array('id'=>$vo.express_id))}">删除</a></td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script>
+    function toggleIsShow(value, id) {
+        $.ajax({
+            url: "{:U('express/is_add_order_show')}",
+            type: "POST",   //请求方式
+            dataType: 'json',
+            data: {id: id, value: value},
+            success: function (json) {
+                if (json.status == 1) {
+                    art.dialog({
+                        width: '300px',
+                        height: '100px',
+                        title: '信息提示',
+                        content: '操作成功',
+                        ok: function () {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    art.dialog({
+                        width: '300px',
+                        height: '100px',
+                        title: '信息提示',
+                        content: '操作失败',
+                        ok: function () {
+                        }
+                    });
+                }
+            }
+        })
+
+    }
+    function jump(url) {
+        parent.location.href = url;
+    }
+</script>
+</body>
+</html>

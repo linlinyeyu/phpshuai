@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>{:L('ADMIN_CENTER')}</title>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta name="robots" content="noindex,nofollow">
+		<link href="__PUBLIC__/assets/css/admin_login.css" rel="stylesheet" />
+		<link href="__PUBLIC__/js/artDialog/skins/default.css" rel="stylesheet" />
+		<style>
+			html{
+				background-color:#00549d;
+			}
+			#login_btn_wraper{
+				text-align: center;
+			}
+			#login_btn_wraper .tips_success{
+				color:#fff;
+			}
+			#login_btn_wraper .tips_error{
+				color:#DFC05D;
+			}
+			#login_btn_wraper button:focus{outline:none;}
+			.style1{
+				display: inline-block;
+				width:80px;
+				font-size: 12px;
+			}
+			.input{
+				height:25px;
+				width:250px;
+			}
+		</style>
+		<script>
+			if (window.parent !== window.self) {
+					document.write = '';
+					window.parent.location.href = window.self.location.href;
+					setTimeout(function () {
+							document.body.innerHTML = '';
+					}, 0);
+			}
+		</script>
+</head>
+<body  style="height:100%">
+    
+	  <div style="width:1000px; margin:0 auto;background-image:url(__PUBLIC__/images/bg1.jpg)">
+      	<div style="height:156px"></div>
+          <div style="height:461px" >
+          	<div style="width:600px; margin:0 auto; overflow:hidden;">
+                <div style="width:210px; float:left; text-align:center;padding-top:60px;" ><img src="__PUBLIC__/images/logo.png" width="130" height="150"/></div>
+                <div style="width:370px; float:right;" >
+                <form method="post" name="login" action="{:U('login/checkLogin')}" autoComplete="off" class="js-ajax-form">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="line-height:36px;">
+                  <tr>
+                    <td height="30" align="right">&nbsp;</td>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                  <tr >
+                    <td align="right" valign="middle" height="45"><span class="style1">用户名：</span></td>
+                    <td colspan="2" align=left><input class="input" id="js-admin-name" required name="username" type="text" placeholder="{:L('USERNAME_OR_EMAIL')}" title="{:L('USERNAME_OR_EMAIL')}" value="{$username}"/></td>
+                  </tr>
+                  <tr >
+                    <td valign="middle" height="45"  align="right" ><span class="style1">密&nbsp;&nbsp;&nbsp;码：</span></td>
+                    <td valign="middle" colspan="2" align=left><input class="input" id="admin_pwd" type="password" required name="password" placeholder="{:L('PASSWORD')}" title="{:L('PASSWORD')}" /></td>
+                  </tr>
+                  <tr>
+                    <td align="right" ><span class="style1">验证码：</span></td>
+                    <td ><input class="input" style="width:100px;" type="text" name="verify" placeholder="{:L('ENTER_VERIFY_CODE')}" /></td>
+                    <td style="padding-left:10px;">           
+                      {:sp_verifycode_img('length=4&font_size=18&width=180&height=35&use_noise=1&use_curve=0','style="cursor: pointer;" title="点击获取"')}
+                      </td>
+                  </tr>
+                  <tr>
+                    <td height="76" align="right" class="style1">&nbsp;</td>
+                    <td colspan="2"><button type="submit" name="submit" class="btn js-ajax-submit" data-loadingmsg="{:L('LOADING')}">{:L('LOGIN')}</button></td>
+                  </tr>
+                </table>
+            </form>
+            </div>
+            </div>
+            </div>
+</div>
+
+</body>
+
+
+
+<script>
+var GV = {
+	DIMAUB: "",
+	JS_ROOT: "__PUBLIC__/js/",//js版本号
+	TOKEN : ''	//token ajax全局
+};
+</script>
+<script src="__PUBLIC__/js/wind.js"></script>
+<script src="__PUBLIC__/js/jquery.js"></script>
+<script src="__PUBLIC__/js/admin.js"></script>
+</body>
+</html>

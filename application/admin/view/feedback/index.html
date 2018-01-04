@@ -1,0 +1,44 @@
+{include file="header" /} 
+
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('feedback/index')}">反馈列表</a></li>
+		</ul>
+		
+
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="10%">编号</th>
+						<th width="20%">昵称</th>
+						<th width="50%">内容</th>
+						<th width="20%">创建日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="lists" id="vo"}
+					<tr>
+						<td align="center">{$vo.feedback_id}</td>
+						<td><a href="{:U('customer/detail', ['id' => $vo.customer_id])}">{$vo['nickname']?$vo['nickname']:L('NOT_FILLED')}</a></td>
+						<td><pre>{$vo.content}</pre></td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+					</tr>
+					{/volist}		
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,72 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('MobileRecharge/index')}">面额列表</a></li>
+			<li><a href="{:U('MobileRecharge/edit')}">添加面额</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" action="{:U('MobileRecharge/index')}">
+				<div class="control-group">
+					<label class="control-label">类型</label>
+					<div class="controls">
+						<select name="type">
+							<option value="0">全部</option>
+							<option value="1" {if condition="I('type') eq 1"}selected{/if}>话费</option>
+							<option value="2" {if condition="I('type') eq 2"}selected{/if}>流量</option>
+						</select>
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>面额编号</th>
+						<th width="300">面额</th>
+						<th>实际金额</th>
+						<th>类型</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($fee) gt 0"}
+					{volist name="fee" id="vo"}
+					<tr>
+						<td>{$vo.mobile_recharge_fee_id}</td>
+						<td>{if condition="$vo.type eq 1"}{$vo.amount}{elseif condition="$vo.type eq 2"}{$vo.amount}M{/if}</td>
+						<td>{$vo.actual_fee}</td>
+						<td>{if condition="$vo.type eq 1"}话费{elseif condition="$vo.type eq 2"}流量{/if}</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('MobileRecharge/edit',['mobile_recharge_fee_id'=>$vo.mobile_recharge_fee_id])}">编辑</a> |
+							<a href="{:U('MobileRecharge/del', ['mobile_recharge_fee_id' => $vo.mobile_recharge_fee_id])}"class="js-ajax-dialog-btn">删除</a> | 
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<script>
+	var app = angular.module("myapp",["autocomplete"]);
+	$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	</script>
+</body>
+</html>

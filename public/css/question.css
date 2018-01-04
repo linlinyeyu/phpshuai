@@ -1,0 +1,19 @@
+.question > li {
+  border-bottom: 1px solid #e7e7e7;
+  font-size: 14px;
+}
+.question > li > span {
+  margin-left: 10px;
+  display: inline-block;
+  padding: 10px 0;
+}
+.li-content {
+  display: none;
+  background-color: #fffec6;
+  padding: 5px 0;
+}
+.li-content p {
+  margin-left: 10px;
+  font-size: 12px;
+  margin-bottom: 5px;
+}

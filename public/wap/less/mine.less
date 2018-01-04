@@ -1,0 +1,137 @@
+.mine-top-avater-div{
+    width:100%;
+    height:130px;
+    overflow:hidden;
+    background-image:url(../image/mine-background.png);
+    background-size:100% 100%;
+    >.mine-top-my-avater{
+        display:inline-block;
+        height:100%;
+        width:30%;
+        float:left;
+        >.mine-my-avater-img{
+            border-radius:50%;
+            float:left;
+            margin-top:25px;
+            margin-left:15px;
+        }
+    }
+    >.mine-top-my-info{
+        height:100%;
+        float:left;
+        width:35%;
+        overflow:hidden;
+        padding-left:10px;
+        >.mine-top-nickname-p{
+            color:@white;
+            font-size:14px;
+            line-height:22px;
+            margin-top:22px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        >.mine-top-info-p{
+            color:@white;
+            font-size:12px;
+            line-height:22px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+    }
+    >.mine-top-my-score{
+        width:35%;
+        float:left;
+        height:100%;
+        overflow:hidden;
+        >.mine-top-score-edit{
+        	display:block;
+        	border-radius: 12.5px 0 0 12.5px;
+        	background-color:#1065a8;
+            padding-top:3px;
+            background-size:100% 100%;
+            text-align:center;
+            width:100px;
+            float:right;
+            height:25px;
+            margin-top:20px;
+            >span{
+                color:@white;
+                font-size:12px;
+                margin-left:3px;
+            }
+            
+        }
+        >.mine-top-today-score{
+            float:right;
+            text-align:center;
+            width:100px;
+            >.mine-top-today-p{
+                color:@white;
+                margin-top:25px;
+                font-size:14px;
+            }
+            >.mine-top-today-number{
+                color:@white;
+                margin-top:3px;
+                font-size:22px
+            }
+        }
+    }
+}
+.mine-add-score-div{
+    height:80px;
+    background:@white;
+    overflow:hidden;
+    >.mine-add-score-item{
+    	width:100%;
+        height:100%;
+        display:inline-block;
+        overflow:hidden;
+        text-align:center;
+        >.mine-add-score-first{
+        	margin-top:15px;
+        	float:left;
+            width:50%;
+            text-align:center;
+            display:inline-block;
+            >.mine-add-score-p{
+                margin-top:6px;
+            }
+            >.mine-add-score-number{
+                color:@money;
+                margin-top:6px;
+                text-align:center;
+            }
+        }
+        >.mine-add-score-second{
+        	border-left:1px solid @border;
+            float:right;
+            width:50%;
+            display:inline-block;
+            >.mine-see-rank-span{
+            	line-height:80px;
+                color:@gray;
+                font-size:16px;
+                text-align:center;
+            }
+            >img{
+                width:8px;
+                float:left;
+                margin-top:17px;
+                margin-left:5px
+            }
+        }
+    }
+}
+.mine-item-left-img{
+    width:15px;
+    height:15px;
+    margin-top:6px;
+}
+.mine-item-right-img{
+    width:8px;
+    float:right;
+    margin-top:7px;
+}

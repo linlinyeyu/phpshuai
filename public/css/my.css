@@ -1,0 +1,147 @@
+body {
+  background: #f6f5f3;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+li {
+  list-style: none;
+}
+a,
+a:active,
+a:hover {
+  text-decoration: none;
+  color: #a5a5a5;
+}
+#header {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  background: url(images/head-goods/我的背景_01.jpg) no-repeat;
+  background-size: 100% 100%;
+  color: #ffffff;
+}
+#header .advice {
+  float: right;
+}
+#header .advice img {
+  width: 5.6vw;
+  margin: 3vw 4vw 0 0;
+}
+#header .logo {
+  margin: 5.8vw -10vw 2.6vw 0;
+  display: inline-block;
+  width: 21.3vw;
+  height: 21.3vw;
+  border-radius: 100%;
+  overflow: hidden;
+  border: 1px solid #ffffff;
+}
+#header .logo img {
+  width: 21.5vw;
+  height: 21.5vw;
+}
+#header .name {
+  font-size: 4vw;
+  margin-bottom: 1vw;
+}
+#header .id {
+  font-size: 3vw;
+  margin-bottom: 2vw;
+}
+#header span {
+  font-size: 4vw;
+}
+#header .recharge {
+  display: inline-block;
+  border-radius: 1vw;
+  font-size: 4vw;
+  text-align: center;
+  padding: 0.5vw 2vw;
+  background: #e52451;
+  color: #ffffff;
+  margin: 0 0 2vw 2vw;
+}
+#content a {
+  display: inline-block;
+  width: 100%;
+}
+#content .left {
+  margin-left: 4vw;
+}
+#content {
+  margin-bottom: 16vw;
+}
+#content li {
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 2vw 0;
+}
+#content .right {
+  float: right;
+  margin-right: 4vw;
+}
+#content ul {
+  margin-bottom: 2vw;
+  background: #ffffff;
+}
+#content img {
+  width: 5.3vw;
+  height: 5.3vw;
+  vertical-align: top ;
+}
+#content span {
+  display: inline-block;
+  margin-top: 0.5vw;
+  font-size: 4vw;
+  vertical-align: top ;
+  color: #7a7a7a;
+}
+.footer-bottom {
+  border-top: 1px solid #dcdcdc;
+  padding: 1.6vw 0;
+  background: #ffffff;
+  position: fixed;
+  bottom: 0px;
+  zoom: 1;
+  width: 100%;
+}
+.container img {
+  width: 6.6vw;
+  height: 6.6vw;
+}
+.container .active p {
+  color: #e72450;
+}
+.container {
+  margin-top: 0.8vw;
+}
+.container p {
+  font-size: 3.8vw;
+  margin: 0;
+}
+.container .row,
+.container {
+  width: 100%;
+  margin: 0px;
+}
+.container .row div {
+  text-align: center;
+}
+.sign {
+  margin-top: 2vw;
+  text-align: center;
+}
+.sign a {
+  color: #ffffff;
+  font-size: 5vw;
+  text-decoration: underline;
+}
+.tip {
+  font-size: 4vw;
+}
+.id_number {
+  font-size: 3vw;
+}

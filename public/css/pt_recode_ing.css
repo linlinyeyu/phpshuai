@@ -1,0 +1,136 @@
+.pt-ing-left {
+  float: left;
+  background-position: center;
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+  height: 80px;
+}
+.pt-ing-right {
+  float: right;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+.pt-ing-red {
+  color: #e72450;
+}
+.pt-ing-gray {
+  color: #979797;
+}
+.pt-ing-content {
+  display: inline-block;
+  width: 100%;
+}
+.pt-ing-goods li {
+  border-bottom: 1px solid #dcdcdc;
+  background: #ffffff;
+  padding: 0 0 0 0;
+}
+.pt-ing-goods li,
+.pt-ing-goods {
+  display: inline-block;
+  width: 100%;
+}
+.pt-ing-goods li a {
+  font-size: 12px;
+  color: #e72450;
+  text-decoration: underline;
+}
+.pt-ing-goods li .pt-ing-li-bottom a {
+  display: inline-block;
+  float: right;
+  color: #ffffff;
+  padding: 5px 10px;
+  background: #e72450;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+.pt-ing-goods li span {
+  display: inline-block;
+  margin-top: 5px;
+}
+.pt-ing-goods .pt-ing-top-p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.pt-ing-goods .pt-ing-small {
+  font-size: 12px;
+}
+.pt-ing-goods .pt-ing-left {
+  width: 30%;
+  height: 80px;
+}
+.pt-ing-goods .pt-ing-right {
+  width: 66%;
+}
+#pt-ing-bj {
+  display: inline-block;
+  font-size: 14px;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 40%;
+  margin-left: -20%;
+  text-align: center;
+}
+#pt-ing-bj img {
+  width: 90%;
+  margin-left: 10%;
+  margin-bottom: 10px;
+}
+#pt-ing-bj a {
+  display: inline-block;
+  margin-top: 5px;
+  text-align: center;
+  padding: 5px 10px;
+  background: #e72450;
+  color: #ffffff;
+  border-radius: 5px;
+}
+.pt-ing-goods li .pt-ing-li-bottom {
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.pt-ing-goods li .pt-ing-li-bottom a {
+  margin-top: 5px;
+  vertical-align: top;
+}
+.pt-ing-goods li .pt-ing-li-bottom div {
+  display: inline-block;
+}
+.pt-ing-goods li .pt-ing-li-bottom .pt-ing-formbody {
+  width: 40%;
+  height: 12px;
+  margin-top: 10px;
+}
+.pt-ing-goods .pt-ing-goods li .pt-ing-li-bottom span {
+  display: inline-block;
+  margin-left: 4vw;
+  line-height: 4vw;
+}
+.pt-ing-goods li .pt-ing-li-bottom .pt-ing-right-span {
+  margin-left: 0;
+  font-size: 12px;
+}
+.pt-ing-goods li .pt-ing-li-bottom .pt-ing-first {
+  margin-left: 4vw;
+}
+.pt-ing-goods .pt-ing-span-right {
+  float: right;
+  margin-right: 4vw;
+}
+#pt-ing-disk_a {
+  background: #e72450;
+  height: 100%;
+  width: 50%;
+}
+.pt-ing-progress {
+  margin-left: 10px;
+  font-size: 10px;
+  line-height: 27px;
+}
+.pt-ing-top-fill {
+  height: 45px;
+}

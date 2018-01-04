@@ -1,0 +1,57 @@
+{include file="header" /} 
+</head>
+<body ng-controller="goods">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('promotion/settings')}">分销设置</a></li>
+			<li ><a href="{:U('banner/add')}">分销人员列表</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">分销开启</label>
+					<div class="controls">
+						<input type="radio" {if condition="$is_open eq 0"}checked{/if} name="is_open" value="0" >关闭
+						<input type="radio" {if condition="$is_open eq 1"}checked{/if} name="is_open" value="1">开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">分销等级</label>
+					<div class="controls">
+						<select name="level">
+							<option value="2" {if condition="$level eq 2"}selected{/if}>二级</option>
+							<option value="3" {if condition="$level eq 3"}selected{/if}>三级</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">一级分销比例</label>
+					<div class="controls">
+						<input type="text" name="first" value="{$settings['1']}" >
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">二级分销比例</label>
+					<div class="controls">
+						<input type="text" name="second" value="{$settings['2']}" >
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">三级分销比例</label>
+					<div class="controls">
+						<input type="text" name="third" value="{$settings['3']}" >
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

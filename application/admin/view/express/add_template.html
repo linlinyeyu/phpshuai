@@ -1,0 +1,236 @@
+{include file="header"}
+<style>
+	.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}.ng-animate-start{border-spacing:1px 1px;-ms-zoom:1.0001;}.ng-animate-active{border-spacing:0px 0px;-ms-zoom:1;}
+	.express-input{
+		width:80px;
+	}
+	th{
+		background-color:#eee;
+		text-align:center;
+		height:40px;
+		vertical-align: middle;
+	}
+	a{
+		cursor:pointer;
+	}
+	
+	.express-td{
+		padding:10px;
+	}
+	td{
+		border:1px solid #ddd;
+	}
+	label{
+		display:inline-block;
+	}
+</style>
+</head>
+<body ng-app="myapp" ng-controller="myCtrl" >
+<div  ng-cloak  class="wrap js-check-wrap" >
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('express/index_template')}">模板列表</a></li>
+			<li class="active"><a href="{:U('express/add_template')}">添加模板</a></li>
+		</ul>
+		<form   method="post" class="form-horizontal js-ajax-form cmxform" action="" id="commentForm">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">模板名
+						<span class="form-required"style="color:red;">*</span>
+					</label>
+					<div class="controls">
+						<input type="text" value="{$template.name}" name="name" required>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">发货地
+						<span class="form-required"style="color:red;">*</span>
+					</label>
+					<div class="controls">
+						<select class="ng-cloak" ng-cloak ng-model="province_id" name="province_id" >
+							<option ng-repeat="p in province" value={{p.zone_id}}>{{p.name}}</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">默认运费
+						<span class="form-required"style="color:red;">*</span>
+					</label>
+					<div class="controls">
+						<input type="text" value="{$template.first_weight}" name="first_weight" class="express-input">kg内，
+						<input type="text" value="{$template.first}" name="first"class="express-input">元，每增加
+						<input type="text" value="{$template.additional_weight}"  name="additional_weight"class="express-input">kg，增加
+						<input type="text" value="{$template.additional}"  name="additional"class="express-input">元
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">额外设置
+						<span class="form-required"style="color:red;">*</span>
+					</label>
+					<div  class="controls">
+						<table  width="1000">
+					    	<tr>
+					    		<th width="50%">运送到</th>
+					    		<th width="10%">首重(kg)</th>
+					    		<th width="10%">首费(元)</th>
+					    		<th width="10%">续重(kg)</th>
+					    		<th width="10%">续费(元)</th>
+					    		<th width="10%">操作</th>
+					    	</tr>
+					    	<tr class="ng-cloak" ng-cloak  ng-repeat="e in express_list">
+					    		<td  style="overflow:hidden">
+					    			<div style="float:left;width:80%">
+						    			<span ng-show="!e.province_name">未选择区域</span>
+						    			<span ng-show="e.province_name">
+						    				<span>{{e.province_name}}</span>
+						    			</span>
+					    			</div>
+					    			<a ng-click="myClick($index)" style="display:block;float:right;">编辑</a>
+					    		</td>
+					    		<td class="express-td"><input class="express-input" type="text" ng-model="e.first_weight"></td>
+					    		<td class="express-td"><input class="express-input" type="text" ng-model="e.first"></td>
+					    		<td class="express-td"><input class="express-input" type="text" ng-model="e.additional_weight"></td>
+					    		<td class="express-td"><input class="express-input" type="text" ng-model="e.additional"></td>
+					    		<td style="text-align:center"><a  ng-click="del($index)">删除</a></td>
+					    	</tr>
+					    </table>
+					    <a ng-click="addline()" >为指定区域添加邮费</a>
+					    <input type="hidden" name="express" value="{{express_list | json}}" />
+					    <input type="hidden" name="id" value="{$template.template_id}" />
+					</div>
+				</div>
+				
+		    
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+				<a class="btn" href="index.html">返回</a>
+			</div>
+	<div style="display:none" >
+		<table id="myList" width="700px">
+			<tr  ng-repeat="a in area_group">
+				<td ><input ng-disabled = "a.disabled" type="checkbox" ng-model="a.checked" ng-click="checkAll($index)" /><label>{{a.name}}</label></td>
+				<td  ng-init="parent_index = $index">
+					<div style="display:inline-block" ng-repeat="p in a.lists">
+						<input ng-disabled ="p.disabled" type="checkbox" ng-model="p.checked" id="{{p.province_id}}" name="{{p.name}}"  ng-click="checkOne(parent_index, $index)" />
+						<label style="margin-right : 20px;">{{p.name}}</label>
+					</div>
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+		</fieldset>
+	</form>
+</div>
+	
+<script>
+var app = angular.module('myapp', []);
+app.controller('myCtrl',["$scope", "$compile", function($scope, $compile) {
+	$scope.province = {$province};
+	$scope.express_list = {$express_list};
+	$scope.province_id = "{$template.province_id}";
+    $scope.area_group = {$area};
+    $scope.in_array = function(str, arr, index){
+    	if(!arr){
+    		return [false, false];
+    	}
+    	for(var i = 0; i < arr.length ; i++){
+    		if(arr[i].id == str){
+    			return [true, arr[i].index != index];
+    		}
+    	}
+    	return [false,false];
+    }
+    $scope.myClick=function(index){
+    	var lists = [];
+    	for(var i = 0; i < $scope.express_list.length; i++){
+    		var province_lists = $scope.express_list[i].province_list.split(",");
+    		for(var j = 0; j < province_lists.length ; j++ ){
+    			lists.push({index: i, id: province_lists[j]});
+    		}
+    	}
+    	var express = $scope.express_list[index];
+    	for(var i = 0; i < $scope.area_group.length ; i++){
+    		var checked = true;
+    		var disabled = true;
+    		var province_lists = $scope.area_group[i].lists;
+    		for(var j = 0; j < province_lists.length ; j++){
+    			var res = $scope.in_array(province_lists[j].province_id, lists, index);
+    			province_lists[j].checked = res[0];
+    			province_lists[j].disabled = res[1];
+    			if(!province_lists[j].checked){
+    				checked = false;
+    			}
+    			if(!province_lists[j].disabled){
+    				disabled = false;
+    			}
+    		}
+    		$scope.area_group[i].checked = checked;
+    		$scope.area_group[i].disabled = disabled;
+    	}
+    	$.dialog({
+    		content : document.getElementById("myList"),
+    		width: '800px',
+    		height : '300px',
+    		ok : function(){
+    			var lists = [];
+    			var names = [];
+    			for(var i = 0; i < $scope.area_group.length ; i++){
+    	    		var province_lists = $scope.area_group[i].lists;
+    	    		for(var j = 0; j < province_lists.length ; j++){
+    	    			if(province_lists[j].checked && !province_lists[j].disabled){
+    	    				lists.push(province_lists[j].province_id);
+    	    				names.push(province_lists[j].name);
+    	    			}
+    	    		}
+    	    	}
+    			express.province_list = lists.join(",");
+    			express.province_name = names.join(",");
+    			$scope.$apply();
+    		},
+    		cancel : true
+    	});
+    	
+    }
+    $scope.addline = function(){
+    	 var express = {
+    	 	'province_list' : "",
+    	 	'province_name' : "",
+    	 	'first' : '0',
+    	 	'first_weight' : '0',
+    	 	'additional' : '0',
+    	 	'additional_weight' : '0'
+    	 }; 
+    	 $scope.express_list.push(express);
+    }
+    $scope.del = function(index){
+    	$scope.express_list.splice(index,1);
+    }
+
+    $scope.checkAll = function(index){
+    	var area_group = $scope.area_group[index];
+    	for(var i = 0; i < area_group.lists.length ; i++){
+    		if(!area_group.lists[i].disabled){
+    			area_group.lists[i].checked = area_group.checked;
+    		}
+    	}
+    }
+    $scope.checkOne = function(parent_index, index){
+    	var area_group = $scope.area_group[parent_index];
+    	var isAll = true;
+    	for(var i = 0; i < area_group.lists.length ; i++){
+    		if(!area_group.lists[i].checked){
+    			isAll = false;
+    			break;
+    		}
+    	}
+    	area_group.checked = isAll;
+    }
+
+    
+}]);
+</script>
+</body>
+</html>

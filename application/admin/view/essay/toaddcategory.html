@@ -1,0 +1,49 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('essay/category')}">{:L('ADMIN_ESSAY_CLASSIFY')}</a></li>
+			<li class="active"><a href="{:U('essay/toAddCategory')}">{:L('ADMIN_ESSAY_CLASSIFY_ADD')}</a></li>	
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post" action="{:U('essay/addCategory')}">
+			<fieldset>
+				<input type='hidden' name='id' value='{$info.id}'/>
+		        <input type='hidden' name='parentid' value='{$info.parentid}'/>
+		        <input type='hidden' name='level' value='{$info.level}'/>
+		        <input type='hidden' name='level' value='{$info.create_time}'/>
+		        <input type='hidden' name='level' value='{$info.update_time}'/>						
+				<div class="control-group">
+					<label class="control-label">栏目名称：</label>
+					<div class="controls">
+						<input type="text" name="name" value="{$info.name}" class="form-control wst-ipt" maxLength='25' />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">排序号：</label>
+					<div class="controls">
+						<input type='text' name='sort' class="form-control wst-ipt" value='{$info.sort}' style='width:80px' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+					</div>
+				</div>							
+				<div class="control-group">
+		            <label class="control-label">是否显示：</label>
+		            <div class="controls">
+		            	<label>
+		            		<input type='radio' id='isShow1' value='1' name='active' {if condition="$info['active'] ==1 "}checked{/if}/>显示
+		            	</label>
+		            	<label>
+		            		<input type='radio' id='isShow0' value='0' name='active' {if condition="$info['active'] ==0 "}checked{/if}/>隐藏
+		            	</label>
+		            </div>
+		        </div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('category/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

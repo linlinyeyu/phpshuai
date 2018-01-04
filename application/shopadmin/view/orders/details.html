@@ -1,0 +1,228 @@
+{include file="header" /} 
+</head>
+<style>
+	a:hover{text-decoration:none;}
+	.controls > span{
+		display:inline-block;
+		vertical-align:middle;
+		padding-top:5px;
+	}
+	.control-group{
+		overflow:hidden;
+		margin-bottom:10px !important;
+	}
+</style>
+<body>	
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('orders/lists')}">订单列表</a></li>
+			<li class="active"><a href="{:U('orders/details',array('number' => I('number')))}">订单详情</a></li>
+		</ul>			
+		<div class="panel panel-default">
+			<div class="panel-heading">订单信息</div>
+			<div class="panel-body">
+				<form  class="form-horizontal js-ajax-form" >
+					<fieldset>
+						<div style="float:right">
+							{if condition="$order.order_state eq 2"}
+							<a class="btn btn-primary" onclick="send({$order.id}, '{$order.address_name}', '{$order.phone}', '{$order.address}')">发货</a>
+							{/if}
+						</div>
+						<div class="control-group">
+							<label class="control-label">用户:</label>
+							<div class="controls">
+								<img src="{$order.avater}" style="width:40px ; height:40px" />
+								<span style="padding-left:10px;">{$order.nickname}</span>
+							</div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">订单号:</label>
+							<div class="controls"><span>{$order.order_sn}</span></div>	
+						</div>
+						<div class="control-group">
+							<label class="control-label">订单金额:</label>
+							<div class="controls">
+								<p style="padding-top:5px;">商品总金额：￥{$order.goods_amount}</p>
+								<p>运费金额：￥{$order.express_amount}</p>
+								{if condition="$order.coupon_amount neq 0"}
+								<p>优惠金额：￥{$order.coupon_amount}</p>
+								{/if}
+								{if condition="$order.max_integration neq 0"}
+								<p>积分：￥{$order.max_integration}</p>
+								{/if}
+								{if condition="$order.max_shopping_coin neq 0"}
+								<p>购物积分：￥{$order.max_shopping_coin}</p>
+								{/if}
+								<p>订单金额：￥{$order.order_amount}</p>
+								{if condition="$order.change_amount neq 0"}
+								<p>卖家改价：￥{$order.change_amount}</p>
+								{/if}
+								<p>支付金额：￥{$order.pay_amount}</p>
+							</div>	
+						</div>
+						{if condition="$order.express_name"}
+						<div class="control-group">
+							<label class="control-label">配送方式:</label>
+							<div class="controls"><span>{$order.express_name}</span></div>	
+						</div>
+						{/if}
+						<div class="control-group">
+							<label class="control-label">订单状态:</label>
+							<div class="controls"><span>{$order.state}</span></div>	
+						</div>
+						<div class="control-group">
+							<label class="control-label">下单日期:</label>
+							<div class="controls"><span>{$order.date_add | date='Y-m-d H:i:s', ###}</span></div>	
+						</div>
+						{if condition="$order.date_pay"}
+						<div class="control-group">
+							<label class="control-label">付款日期:</label>
+							<div class="controls"><span>{$order.date_pay | date='Y-m-d H:i:s', ###}</span></div>	
+						</div>
+						{/if}
+						{if condition="$order.express_name"}
+							<div class="control-group">
+								<label class="control-label">发货信息:</label>
+								<div class="controls">
+									<p style="padding-top:5px;">快递公司：{$order.express_name}</p>
+									<p>快递单号：{$order.express_sn}</p>
+									<p>发货日期：{$order.date_send | date="Y-m-d H:i:s", ###}</p>
+								</div>	
+							</div>
+						{/if}
+						{if condition="$order.date_finish"}
+						<div class="control-group">
+							<label class="control-label">完成日期:</label>
+							<div class="controls"><span>{$order.date_finish | date='Y-m-d H:i:s', ###}</span></div>	
+						</div>
+						{/if}
+
+						{if condition="$order.comment neq ''"}
+						<div class="control-group">
+							<label class="control-label">留言:</label>
+							<div class="controls"><span style="color: red">{$order.comment}</span></div>
+						</div>
+						{/if}
+						
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		{if condition="$order.order_state gt 1"}
+		<div class="panel panel-default">
+			<div class="panel-heading">发货信息</div>
+			<div class="panel-body">
+				<form  class="form-horizontal js-ajax-form" >
+					<fieldset>
+						<div class="control-group">
+							<label class="control-label">姓名:</label>
+							<div class="controls">
+								<span >{$order.address_name}</span>
+							</div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">手机:</label>
+							<div class="controls"><span>{$order.phone}</span></div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">地址:</label>
+							<div class="controls"><span>{$order.address}</span></div>	
+						</div>
+						
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		{/if}
+		{if condition="$order.refund_state gt 0"}
+		<div class="panel panel-default">
+			<div class="panel-heading">退款申请</div>
+			<div class="panel-body">
+				<form  class="form-horizontal js-ajax-form" >
+					<fieldset>
+						<div class="control-group">
+							<label class="control-label">退款理由:</label>
+							<div class="controls">
+								<span >{$order.reason}</span>
+							</div>	
+						</div>
+						<div class="control-group">
+							<label class="control-label">退款金额:</label>
+							<div class="controls"><span>￥{$order.price}</span></div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">退款备注:</label>
+							<div class="controls"><span>{$order.remark}</span></div>	
+						</div>
+						<div class="control-group">
+							<label class="control-label">申请日期:</label>
+							<div class="controls"><span>{$order.date_refund | date="Y-m-d H:i:s", ###}</span></div>	
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		{/if}
+		<div class="panel panel-default">
+			<div class="panel-heading">商品信息</div>
+			<div class="panel-body">
+				<table class="table ">
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>商品规格</th>
+							<th>商品金额</th>
+							<th>购买数量</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="order_goods" id="g"}
+						<tr>
+							<td><a href="{:U('goods/edit', array('goods_id' => $g['goods_id']))}">{$g.name}</a></td>
+							<td>{$g.option_name}</td>
+							<td>{$g.price}</td>
+							<td>{$g.quantity}</td>
+						</tr>
+						{/volist}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+	<script>
+	function send(id,name,phone,address){
+		var dialog=art.dialog({
+			id:"shake-deom",
+			title:'发货提示',
+			content:'<div>收件人：'+name+'/'+phone+'</div><div style="margin:10px 0;">地址信息：'+address+' </div>快递名：<select name="carrier" >{volist name="express" id="vo"}<option value="{$vo.express_id}">{$vo.express_name}</option>{/volist}</select></br>运单号：<input type="text" name="shipping"/>',
+			width:'400px',
+			height:'150px',
+			cancel:'取消',
+			cancel:true,
+			ok: function()
+			{
+               	$.ajax({
+               	  url: "{:U('orders/send_carrier')}",
+               	  type : 'post',
+				  dataType: 'json',
+				  data: 'id='+id+'&carrier='+$("select[name=carrier]").val()+'&shipping='+$("input[name=shipping]").val(),
+				  success: function(json){
+				  	alert(json.msg);
+				  	if(json.code == 1){
+				  		location.reload();
+				  	}
+				  	
+				  }
+               	}); 
+			}
+		})
+	}
+	</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{include file="header"}
+</head>
+<body >
+	<div class="header" >
+    	<div class="wrapper">
+    		<span class="back" on-back-render-filters></span>
+	     	<span class="title">领取专区</span>
+	    </div>
+	</div>
+	<div ng-cloak  class="container top-container seckill-first-div" infinite url="goods/getGoods" data="type=3" bind="goods">
+		<div ng-repeat="g in goods" class="seckill-child-div"><!-- repeat这个div -->
+ 			<a href="{:U('goods/goodsinfo')}?goods_id={{g.goods_id}}">
+				<img activity="1" class="seckill-image-div" ng-src="{{g.banner}}" image-resize ratio="0.5" >
+ 		    	<div style="float:left;color:#333;margin-left:10px;margin-top:5px;padding-top:10px;padding-bottom:15px">
+ 		   			<span>{{g.name}}</span> 
+ 		   		</div>
+	 		   <div style="float:right;background:#008dff;padding:5px 15px 10px 15px;border-radius:5px;margin-top:8px;margin-right:10px">
+	 		    	<a href="{:U('goods/goodsinfo')}?goods_id={{g.goods_id}}" style="width:80px;text-align:center;color:white;font-size:12px">立即领取</a>
+	 		    </div>
+ 			</a>
+		</div>
+		
+		<div class="dt-gad-no-record" ng-if="ins.busy !=  true && goods.length == 0">
+				<img src="__PUBLIC__/wap/image/classify34.png"  />
+				<span>亲，暂无可领取商品</span>
+			</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter', 'image-resize', 'lazy-load']);
+	</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+a:hover{text-decoration:none;}
+.ui-datepicker{width:214px;}
+</style>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="index.html">管理员日志</a></li>
+			<li class="active"><a href="user.html">用户日志</a></li>
+		</ul>
+		<form method="get" class="js-ajax-form form-horizontal" action="">
+			<fieldset>
+				<div class="control-group">
+						<label class="control-label">昵称:</label>
+						<div class="controls">
+							<input type="text" name="name" value="{:I('name')}">
+						</div>	
+					</div>
+					<div class="control-group">
+						<label class="control-label">用户编号:</label>
+						<div class="controls">
+							<input type="text" name="uuid" value="{:I('uuid')}">
+						</div>	
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">用户手机:</label>
+						<div class="controls">
+							<input type="text" name="phone" value="{:I('phone')}">
+						</div>	
+					</div>
+			
+				<div class="control-group">
+						<label class="control-label">创建日期:</label>
+						<div class="controls">
+							<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+							<label style="float:left;">-</label>
+							<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+						</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;"/>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>用户ID</th>
+						<th>用户操作</th>
+						<th>日期</th>
+						<th>IP</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="lists" id="list"}
+					<tr>
+						<td>{$list.customer_id}</td>
+						<td>{$list.comment}</td>
+						<td>{:get_color_date($list.date_add)}</td>
+						<td>{$list.ip}</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</form>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script>
+	$(function() {
+		$( "#min_date" ).datetimepicker();
+		$( "#max_date").datetimepicker();
+	});
+	</script>
+</body>
+</html>

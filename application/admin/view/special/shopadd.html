@@ -1,0 +1,67 @@
+{include file="header" /} 
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('special/shop',['special_id' => $special_id])}">优选店铺列表</a></li>
+			<li class="active"><a href="{:U('special/shopAdd',['special_id' => $special_id])}">添加优选店铺</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form" action="{:U('special/shopAdd')}" method="post">
+			<fieldset>				
+				<div class="control-group">
+					<label class="control-label">店铺名称</label>
+					<div class="controls">
+						<input yzl-autocomplete label-key="shop_name" value="{$shop.shop_name}" url="/admin/seller/searchShop" value-key="seller_id" callback="shop_callback" {if condition="$shop.shop_name neq ''"}readonly="true"{/if}/>
+						<input type="hidden" name="seller_id" {if condition="$shop.seller_id neq ''"}ng-init="seller_id={$shop.seller_id}"{/if}value="{{seller_id}}"/>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">优选图片</label>
+					<div class="controls">
+						<uploadimg cate="banner" image-url="{$shop.image}" width="750" height="460"></uploadimg>
+					</div>
+				</div>
+
+				
+				<div class="control-group">
+		        <label class="control-label">是否开启：</label>
+		        <div class="controls">
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$shop['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$shop['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		          </div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">排序</label>
+					<div class="controls">
+						<input type="text" name="sort" value="{$shop.sort}"/>
+					</div>
+				</div>
+				<input type="hidden" name="special_id" value="{$special_id}" />
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="intergral_shop_id" value="{$shop.intergral_shop_id}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+				<a class="btn" href="{:U('special/shop',['special_id' => $special_id])}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+		
+		app.controller("myctrl",function($scope){
+			$scope.shop_callback = function(item){
+				$scope.seller_id = item.id;
+				$scope.goods_id = null;
+				$scope.$apply();
+			}
+		});
+	</script>
+</body>
+</html>

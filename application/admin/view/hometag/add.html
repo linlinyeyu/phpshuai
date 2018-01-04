@@ -1,0 +1,84 @@
+{include file="header" /} 
+<script type="text/javascript">
+var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+</script>
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('hometag/index')}">标签列表</a></li>
+			<li class="active"><a href="{:U('hometag/add')}">添加标签</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">标签名称</label>
+					<div class="controls">
+						<input value="{$tag.name}" type="text" name="name" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">标签类型</label>
+					<div class="controls">
+						<label>
+			             <input type='radio' id='isShow1' value='1' name='is_app' {if condition="$tag['is_app'] == '1' "}checked{/if}/>App标签
+			             </label>
+			             <label>
+			             <input type='radio' id='isShow0' value='0' name='is_app' {if condition="$tag['is_app'] == '0' "}checked{/if}/>网页标签
+			             </label>
+					</div>
+				</div>
+				
+				<div class="control-group" id="position">
+					<label class="control-label">App标签位置</label>
+					<div class="controls">
+						<label>
+			             <input type='radio' id='position1' value='1' name='position' {if condition="$tag['position'] ==1 "}checked{/if}/>轮播下小标签
+			             </label>
+			             <label>
+			             <input type='radio' id='position2' value='2' name='position' {if condition="$tag['position'] ==2 "}checked{/if}/>大标签
+			             </label>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">标签图标</label>
+					<div class="controls">
+						<uploadimg cate="tags" image-url="{$tag.icon}" image-name="icon" width="100" height="100"></uploadimg>
+						<span>正方形建议尺寸:100*100 长方形建议尺寸:345*450</span>
+					</div>
+				</div>
+				{include file="action"}
+				
+				<div class="control-group">
+					<label class="control-label">排序</label>
+					<div class="controls">
+						<input value="{$tag.sort}" type="text" name="sort"/>
+					</div>
+				</div>
+				
+				
+			</fieldset>
+			<div class="form-actions">
+			<input type="hidden" name="id" value="{:I('get.id')}">
+			
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			if({$tag['is_app']} === 0){
+				$("#position").hide();
+			}
+		});
+		$("#isShow1").bind("click",function(event){
+			$("#position").show();});
+		$("#isShow0").bind("click",function(evevt){
+			$("#position").hide();});
+	</script>
+</body>
+</html>

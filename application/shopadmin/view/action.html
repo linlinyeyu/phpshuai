@@ -1,0 +1,93 @@
+		<div ng-controller="action">
+			<div class="control-group">
+				<label class="control-label">点击事件</label>
+				<div class="controls">
+					<select name="action_id" ng-model="action_id">
+						<option value="1">无动作</option>
+						<option value="2">跳转网页</option>
+						<option value="3">分销详情</option>
+						<option value="4">商品详情</option>
+						<option value="5">秒杀专场</option>
+						<option value="6">领取专场</option>
+						<option value="10">视频链接</option>
+						<option value="11">电话链接</option>
+						<option value="12">资讯列表</option>
+						<option value="13">资讯详情</option>
+						<option value="14">体验专场</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group" ng-show="action_id == 2">
+				<label class="control-label">跳转地址</label>
+				<div class="controls">
+					<input type="text" name="url" ng-model="params.url" />
+					<span class="form-required">*</span>
+				</div>
+			</div>
+			
+			<div class="control-group" ng-show="action_id == 2">
+				<label class="control-label">网页标题</label>
+				<div class="controls">
+					<input type="text" name="title" ng-model="params.title" />
+					<span class="form-required">*</span>
+				</div>
+			</div>
+			
+			
+			<div class="control-group" ng-show="action_id == 4">
+				<label class="control-label">商品</label>
+				<div class="controls">
+					<select ng-model="params.goods_id">
+						<option value="0">请选择</option>
+						<option ng-repeat="g in goods" value="{{g.goods_id}}" >{{g.name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group" ng-show="action_id == 10">
+				<label class="control-label">视频链接</label>
+				<div class="controls">
+					<input type="text" placeholder="请输入视频的链接" name="video" ng-model="params.video" />
+				</div>
+			</div>
+			
+			<div class="control-group" ng-show="action_id == 11">
+				<label class="control-label">拨打电话</label>
+				<div class="controls">
+					<input type="text" placeholder="请输入需要拨打的电话" name="tel" ng-model="params.tel" />
+				</div>
+			</div>
+			
+			<div class="control-group" ng-show="action_id == 13">
+				<label class="control-label">资讯详情</label>
+				<div class="controls">
+					<select ng-model="params.essay_id">
+						<option value="0">请选择</option>
+						<option ng-repeat="e in essay" value="{{e.id}}" >{{e.title}}({{e.date_add * 1000 | date:'yyyy-MM-dd' }})</option>
+					</select>
+				</div>
+			</div>
+			
+			<input type="hidden" name="params" value="{{params | json}}">
+			</div>
+			<script>
+			app.controller("action",function($scope){
+				$scope.action_id = "{$action_id}";
+				$scope.params = {$params | json_encode};
+				$scope.goods = {$goods | json_encode};
+				$scope.essay = {$essay | json_encode};
+				if(!$scope.params || $scope.params.length == 0){
+					$scope.params = {goods_id : "0", "essay_id" : "0"};
+				}
+				
+				$scope.i = 0;
+				$scope.$watch("action_id", function(){
+					if($scope.i > 0){
+						$scope.params = {goods_id : "0", "essay_id" : "0"};
+					}
+					$scope.i ++;
+				})
+				
+				
+				
+			});
+			</script>

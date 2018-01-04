@@ -1,0 +1,53 @@
+{include file="header" /} 
+<link href="__PUBLIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('setting/recent_updates')}">最新发布</a></li>
+			<li class="active"><a href="{:U('setting/recent_updates_edit')}">发布公告</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">公告标题</label>
+					<div class="controls">
+						<input type="text" name="title" value="{$updates.title}"/>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">公告类型</label>
+					<div class="controls">
+						<input type="radio" name="type" value="1" {if condition="$updates.type eq 1"}checked{/if}/>更新
+						<input type="radio" name="type" value="2" {if condition="$updates.type eq 2"}checked{{/if}/>上线
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">公告内容</label>
+					<div class="controls">
+						<div>
+	    					<script type="text/plain" id="myEditor" style="width:1000px;height:240px;">
+								{$updates.content |html_entity_decode=###}
+							</script>
+						</div>
+					</div>
+				</div>
+				
+				<input type="hidden" name="update_id" value="{$updates.update_id}"/>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+    <script src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+    <script src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+    	var um = UM.getEditor('myEditor',{
+    		
+    	});
+    </script>
+</body>
+</html>

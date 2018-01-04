@@ -1,0 +1,122 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('special/index',['special_id' => $special_id])}">专题列表</a></li>
+			<li><a href="{:U('special/add',['special_id' => $special_id])}">添加专题图片</a></li>
+			{if condition="!in_array($special_id,[1,5,6,7,8,11,12,13])"}
+			<li><a href="{:U('special/goods',['special_id' => $special_id])}">专题商品列表</a></li>
+			<li><a href="{:U('special/goodsAdd',['special_id' => $special_id])}">添加专题商品</a></li>
+			{/if}
+			{if condition="$special_id eq 1"}
+			<li><a href="{:U('goods/buynow',['special_id' => $special_id])}">专题商品列表</a></li>
+			<li><a href="{:U('goods/specialedit',['special_id' => $special_id])}">添加专题商品</a></li>
+			{/if}
+			{if condition="$special_id eq 8"}
+			<li><a href="{:U('homeaction/newindex',['special_id' => $special_id])}">专题商品列表</a></li>
+			<li><a href="{:U('homeaction/newtoedit',['special_id' => $special_id])}">添加专题商品</a></li>
+			{/if}
+			{if condition="$special_id eq 5"}
+			<li><a href="{:U('special/shop',['special_id' => $special_id])}">优选店铺</a></li>
+			<li><a href="{:U('special/shopAdd',['special_id' => $special_id])}">添加优选店铺</a></li>
+			{/if}
+			{if condition="$special_id eq 7"}
+			<li><a href="{:U('special/baicheng',['special_id' => $special_id])}">百城店铺列表</a></li>
+			<li><a href="{:U('special/baichengArea',['special_id' => $special_id])}">区域地区馆</a></li>
+			{/if}
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:U('special/listorders')}">
+			<div class="table-actions">
+				<a style="float:right" class="btn btn-warning" href="{:U('special/add',['special_id' => $special_id])}">添加图片</a>
+			</div>
+			<table style="margin-top:10px;" class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">{:L('SORT')}</th>
+						<th width="50">ID</th>
+						<th>图片名称</th>
+						<th width="90">点击事件</th>
+						<th>点击关键词</th>
+						<th>专题图片</th>
+						<th>状态</th>
+						<th width="120">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="activity" id="vo"}
+					<tr>
+						<td>{$vo.sort}</td>
+						<td>{$vo.special_images_id}</td>
+						<td>{$vo.name}</td>
+						<td >{$vo.action_name}</td>
+						<td>{$vo.content}</td>
+						<td><img style="width: 100px;height: 50px;" src="{$vo.image}" target="_blank" /></td>
+						<td>
+				               <div class="dropdown">
+				               {if condition="$vo['status']==1 "}
+				                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+									     开启
+									  <span class="caret"></span>
+								   </button>
+				               {else /}
+				                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+									     关闭
+									  <span class="caret"></span>
+								   </button>
+				               {/if}
+				                   <ul class="dropdown-menu" role="menu">
+									  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['special_images_id']},{$special_id})">开启</a></li>
+									  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['special_images_id']},{$special_id})">关闭</a></li>
+								   </ul>
+				               </div>
+				               </td>
+						<td>
+							<a href="{:U('special/add',array('special_images_id'=>$vo['special_images_id'],'special_id' => $special_id))}">{:L('EDIT')}</a>|
+							<a href="{:U('special/del',array('special_images_id'=>$vo['special_images_id'],'special_id' => $special_id))}" class="js-ajax-delete">{:L('DELETE')}</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+	function toggleIsShow(t,v,special_id){
+		$.ajax({
+			url: "{:U('special/is_active')}",
+			type: "POST",   //请求方式
+			dataType: 'json',
+			data: {id:v,active:t,special_id:special_id},
+			success: function(json)
+			{
+				if(json.status==1){
+					art.dialog({
+						width: '300px',
+						height:'100px',
+						title: '信息提示',
+						content: '操作成功',
+						ok: function () {
+							location.reload();
+						}
+					});
+				}else{
+					art.dialog({
+						width: '300px',
+						height:'100px',
+						title: '信息提示',
+						content: '操作失败',
+						ok: function () {
+						}
+					});
+				}
+			}
+		})
+
+		}
+
+	</script>
+</body>
+</html>

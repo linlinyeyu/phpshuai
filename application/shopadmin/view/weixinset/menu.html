@@ -1,0 +1,168 @@
+{include file="header" /} 
+<style>
+	.designer a{
+		border-left: 1px #DDD solid;
+	    margin-left: 10px;
+	    padding-left: 10px;
+	    color: #333;
+	}
+	.radio-inline {
+	    width: 30%;
+	    padding: 5px 0 5px 20px;
+	    margin-left: 0 !important;
+	}
+</style>
+</head>
+<body ng-app="myapp">
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('weixinset/settings')}">微信参数</a></li>
+			<!-- <li ><a href="{:U('weixinset/web_settings')}">网页版微信参数</a></li> -->
+			<li class="active"><a href="{:U('weixinset/menu')}">微信菜单</a></li>
+		</ul>
+		<form ng-controller="ctrl" method="post" class="form-horizontal js-ajax-form" >
+			<div class="panel panel-default " >
+				<div class="panel-heading">菜单编辑器</div>
+				<div class="table-responsive panel-body" >
+					<table class="table table-hover">
+						<tbody class="designer" ui-sortable="sortableOptions" ng-model="menus">
+						<tr class="hover"  ng-repeat="menu in menus">
+							<td style="border-top:none;">
+								<div class="parentmenu">
+									<input type="hidden" data-role="parent" data-hash="{{menu.$$hashKey}}"/>
+									<input type="text" class="form-control" style="display:inline-block;width:300px;" ng-model="menu.title">
+									<a href="javascript:;" title="拖动调整此菜单位置" style="border-left:0;"><i class="fa fa-arrows"></i></a>
+									<a href="javascript:;" ng-show="menu.subMenus.length == 0" ng-click="setAction(menu);" title="设置此菜单动作"><i class="fa fa-pencil"></i> 设置此菜单动作</a>
+									<a href="javascript:;" ng-click="deleteMenu($index)" title="删除此菜单"><i class="fa fa-remove"></i> 删除此菜单</a>
+									<a href="javascript:;" ng-click="addSubMenu($index);" title="添加子菜单"><i class="fa fa-plus"></i> 添加子菜单</a>
+								</div>
+								<div class="designer sonmenu" ui-sortable="sortableOptions" ng-model="menu.subMenus">
+									<div ng-repeat="sub in menu.subMenus" style="margin-top:20px;padding-left:80px;background:url('./resource/images/bg_repno.gif') no-repeat -245px -545px;">
+										<input type="hidden" data-role="sub" data-hash="{{sub.$$hashKey}}" />
+										<input type="text" class="form-control" style="display:inline-block;width:220px;" ng-model="sub.title">
+										<a href="javascript:;" title="拖动调整此菜单位置" style="border-left:0;"><i class="fa fa-arrows"></i></a>
+										<a href="javascript:;" ng-click="setAction(sub);" title="设置此菜单动作"><i class="fa fa-pencil"></i> 设置此菜单动作</a>
+										<a href="javascript:;" ng-click="deleteMenu($parent.$index, $index);" title="删除此菜单"><i class="fa fa-remove"></i> 删除此菜单</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="panel-footer" >
+						<a  ng-click="addMenu()">添加菜单</a>
+					</div>
+					<input type="hidden" name="menu" value="{{menus | json}}">
+			</div>
+			
+			<div style="display:none">
+		<div id="model">
+			<label class="radio-inline">
+				<input type="radio" ng-model="activeMenu.type" value="url"> 链接
+			</label>
+			<label class="radio-inline">
+				<input type="radio"  ng-model="activeMenu.type" value="click"> 触发关键字
+			</label>
+			<label class="radio-inline">
+				<input type="radio"  ng-model="activeMenu.type" value="scancode_push"> 扫码
+			</label>
+			<label class="radio-inline">
+				<input type="radio" ng-model="activeMenu.type" value="scancode_waitmsg"> 扫码（等待信息）
+			</label>
+			<label class="radio-inline">
+				<input type="radio" ng-model="activeMenu.type" value="pic_sysphoto"> 系统拍照发图
+			</label>
+			<label class="radio-inline">
+				<input type="radio" ng-model="activeMenu.type" value="pic_photo_or_album"> 拍照或者相册发图
+			</label>
+			<label class="radio-inline">
+				<input type="radio" ng-model="activeMenu.type" value="pic_weixin"> 微信相册发图
+			</label>
+			<label class="radio-inline">
+				<input type="radio" ng-model="activeMenu.type" value="location_select"> 地理位置
+			</label>
+			<div ng-show="activeMenu.type == 'url';">
+				<hr />
+				<div class="input-group">
+					<input class="form-control" style="width:100%;" id="ipt-url" type="text" placeholder="请输入链接" ng-model="activeMenu.url" />
+				</div>
+				<span class="help-block">指定点击此菜单时要跳转的链接（注：链接需加http://）</span>
+			</div>
+			<div ng-show="activeMenu.type != 'url';" style="position:relative">
+				<hr />
+				<div class="input-group">
+					<input class="form-control" style="width:100%;" placeholder="请输入关键字，可为空" id="ipt-forward" type="text" ng-model="activeMenu.forward"/>
+				</div>
+				<div id="key-result" style="width:100%;position:absolute;top:55px;left:0px;display:none;z-index:10000">
+				  <ul class="dropdown-menu" style="display:block;width:88%;"></ul>
+				</div>
+				<span class="help-block">指定点击此菜单时要执行的操作, 你可以在这里输入关键字, 那么点击这个菜单时就就相当于发送这个内容至系统</span>
+			</div>
+		</div>
+	</div>
+			
+			<button type="submit" class="btn btn-primary js-ajax-submit">提交</button>
+		</form>
+		
+		
+	</div>
+	
+	
+</body>
+<script>
+	var app = angular.module("myapp",['ui.sortable']);
+	app.controller("ctrl", ['$scope', function($scope){
+		$scope.menus = {$menu | json_encode};
+		
+		$scope.addMenu = function(){
+			if($scope.menus.length >= 3) {
+				return;
+			}
+			$scope.menus.push({
+				title: '',
+				type: 'url',
+				url: '',
+				forward: '',
+				subMenus: []
+			});
+		}
+		
+		$scope.deleteMenu = function(index, sub_index){
+			if(sub_index == undefined){
+				$scope.menus.splice(index,1);
+			}else{
+				$scope.menus[index].subMenus.splice(sub_index,1);
+			}
+		}
+		
+		$scope.addSubMenu = function(index){
+			if($scope.menus[index].subMenus.length >= 5){
+				return;
+			}
+			$scope.menus[index].subMenus.push({
+				title: '',
+				type: 'url',
+				url: '',
+				forward: ''
+			});
+		}
+		
+		$scope.setAction = function(menu){
+			$scope.activeMenu = menu;
+			if(!$scope.activeMenu.url) {
+				$scope.activeMenu.url = 'http://';
+			}
+			$.dialog({
+				content : document.getElementById('model'),
+				width: '800px',
+	    		height : '300px',
+				ok: function(){
+				},
+				cancel:true
+			});
+		}
+	}]);
+</script>
+</html>

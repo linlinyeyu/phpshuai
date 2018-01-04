@@ -1,0 +1,81 @@
+{include file="header"}
+</head>
+<body>
+	<div class="wrap" >
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="">商品销售排行列表</a></li>
+		</ul>
+		<form method="get" name="form" action="" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">筛选日期:</label>
+						<div class="controls">
+							<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+							<label style="float:left;">-</label>
+							
+							<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+							
+							</div>
+							<div class="controls">
+					<input type="submit" class="btn btn-primary" onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;margin-left:20px"/>
+						</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+					<button type="submit" class="btn btn-primary" onClick="click_second('excel')" style="width:150px;height:30px;float:left;text-align:center;">导出总excel</button>
+					<button type="submit" class="btn btn-primary" onClick="click_second('sale_excel')" style="width:150px;height:30px;float:left;text-align:center;margin-left:20px">导出已售出excel</button>
+					<button type="submit" class="btn btn-primary" onClick="click_second('pre_excel')" style="width:150px;height:30px;float:left;text-align:center;margin-left:20px">导出预售excel</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<table class="table table-hover table-bordered">
+			<tbody>		
+				<tr>
+					<th>商品名</th>
+					<th>销售数量</th>
+					<th>总销售金额</th>
+				</tr>
+					{volist name="lists" id="vo"}
+					<tr>
+					<td>{$vo.mini_name}</td>
+					<td>{$vo.count}</td>
+					<td>{$vo.sum1}</td>
+					</tr>
+				{/volist}
+			</tbody>
+		</table>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script type="text/javascript">
+		function click_first(){
+			document.form.action="{:U('Statistics/more')}";
+			document.form.submit();
+		}
+		function click_second(name){
+			if(name == "excel"){
+				document.form.action="{:U('Statistics/excel')}";
+			}else if(name == "pre_excel"){
+				document.form.action="{:U('Statistics/pre_excel')}";
+			}else if(name == "sale_excel"){
+				document.form.action="{:U('Statistics/sale_excel')}";
+			}
+			document.form.submit();
+		}
+		$(function() {
+			$( "#min_date" ).datepicker();
+			$( "#min_date" ).change(function() {
+				$( "#min_date" ).datepicker( "option", "showAnim","slideDown" );
+			});
+
+			$( "#max_date").datepicker();
+			$( "#max_date").change(function() {
+				$("#max_date").datepicker( "option", "showAnim","slideDown" );
+			});
+			$.datepicker.regional['zh-CN'] = datepickeroptions;  
+			$.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
+
+		});
+	</script>
+</body>
+</html>

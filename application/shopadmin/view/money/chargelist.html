@@ -1,0 +1,135 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('money/chargelist')}">充值列表</a></li>
+		</ul>
+		<form method="get" name="form" class="form-horizontal" >
+			 
+				<div class="control-group">
+					<label class="control-label">用户昵称：</label>
+					<div class="controls">
+						<input type="text" name="name" value="{$name}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">支付类型:</label>
+					<div class="controls">
+						<select name="type">
+							<option value="0" {if condition="$type eq '0' "} selected {/if}>全部</option>
+							<option value="1" {if condition="$type eq '1' "} selected {/if}>支付宝</option>
+							<option value="2" {if condition="$type eq '2' "} selected {/if}>微信</option>
+							<option value="3" {if condition="$type eq '3' "} selected {/if}>微信公众号</option>
+							<option value="4" {if condition="$type eq '4' "} selected {/if}>支付宝网页</option>
+						</select>
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">创建日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{$min_date}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{$max_date}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">支付流水号:</label>
+					<div class="controls">
+						<input type="text" name="trade_no" value="{$trade_no}">
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">支付订单号:</label>
+					<div class="controls">
+						<input type="text" name="pay_order" value="{$pay_order}">
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">手机号:</label>
+					<div class="controls">
+						<input type="text" name="phone_number" value="{$phone_number}">
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" onclick="search()"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" onclick="excel()"  style="width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+		</form>
+
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="14%">用户昵称</th>
+						<th width="14%">手机号</th>
+						<th width="14%">支付类型</th>
+						<th width="16%">总计金额</th>
+						<th width="14%">支付订单号</th>
+						<th width="14%">支付流水号</th>
+						<th width="14%">支付时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="finances" id="vo"}
+					<tr>
+						<td align="center"><a href="{:U('customer/detail', array('id' => $vo.customer_id))}"> {$vo.nickname} </a></td>
+						<td>{$vo.phone_number}</td>
+						<td>{$vo.source}</td>
+						<td>{$vo.amount}</td>
+						<td><a href="{:U('orders/details', ['number' => $vo.order_number])}">{$vo.order_number}</a></td>
+						<td>{$vo.trade_no}</td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+					</tr>
+					{/volist}		
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script>
+		$(function() {
+			$( "#min_date" ).datepicker();
+			$( "#min_date" ).change(function() {
+				$( "#min_date" ).datepicker( "option", "showAnim","slideDown" );
+			});
+
+			$( "#max_date").datepicker();
+			$( "#max_date").change(function() {
+				$("#max_date").datepicker( "option", "showAnim","slideDown" );
+			});
+			$.datepicker.regional['zh-CN'] = datepickeroptions;  
+			$.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
+
+		});
+	</script>
+	<script src="__PUBLIC__/js/jquery-ui/jquery-ui.min.js"></script>
+	<script>
+		function seach(){
+			document.form.action="{:U('money/chargelist')}";
+			document.form.submit();
+		}
+		
+		function excel(){
+			document.form.action="{:U('money/excel')}";
+			document.form.submit();
+		}
+	</script>
+</body>
+</html>

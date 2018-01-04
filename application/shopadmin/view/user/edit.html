@@ -1,0 +1,56 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('user/index')}">{:L('ADMIN_USER_INDEX')}</a></li>
+			<li class="active"><a href="{:U('user/add')}">{:L('ADMIN_USER_ADD')}</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="{:U('user/edit')}">
+			<fieldset>
+				<input type="hidden" name="user_id" value="{$info.id}">
+				<div class="control-group">
+					<label class="control-label">{:L('USERNAME')}</label>
+					<div class="controls">
+						<input type="text" name="username" value="{$info.username}"><span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('PASSWORD')}</label>
+					<div class="controls">
+						<input type="password" name="password" value=""><span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('STATUS')}</label>
+					<div class="controls">
+						<select name="status">
+							<option value="1" {if condition="$info['status'] eq '1'"}selected{/if}>{:L('ACTIVATE_USER')}</option>
+							<option value="0" {if condition="$info['status'] eq '0'"}selected{/if}>{:L('UACTIVATE_USER')}</option>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('REMARK')}</label>
+					<div class="controls">
+						<input type="text" name="remark" value="{$info.remark}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('ROLE')}</label>
+					<div class="controls">
+						{volist name="roles" id="vo"}
+						<label class="radio inline"><input value="{$vo.id}" type="radio" name="role[]" {if condition="$info['role'] eq $vo['id']"}checked{/if}>{$vo.name}</label>
+						{/volist}
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

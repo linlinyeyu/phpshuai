@@ -1,0 +1,105 @@
+.receipt-msg-left {
+  float: left;
+  background-repeat: no-repeat;
+  background-size: auto 90%;
+  background-position: center;
+  height: 80px;
+}
+.receipt-msg-right {
+  float: right;
+  margin-right: 10px;
+}
+.receipt-msg-red {
+  color: #e72450;
+}
+.receipt-msg-gray {
+  color: #979797;
+}
+.receipt-msg-goods li {
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 10px;
+  background: #ffffff;
+  padding: 5px 0 5px 0;
+}
+.receipt-msg-goods li,
+.receipt-msg-goods {
+  display: inline-block;
+  width: 100%;
+}
+.receipt-msg-goods li img {
+  width: 30vw;
+}
+.receipt-msg-goods li {
+  font-size: 5vw;
+}
+.receipt-msg-goods li span {
+  display: inline-block;
+  margin-top: 5px;
+}
+.receipt-msg-goods .receipt-msg-top-p {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+.receipt-msg-goods .receipt-msg-small {
+  font-size: 14px;
+}
+.receipt-msg-goods .receipt-msg-div-top {
+  padding: 10px 0;
+}
+.receipt-msg-goods .receipt-msg-div-top .receipt-msg-left {
+  width: 30%;
+  margin: 0px;
+}
+.receipt-msg-goods .receipt-msg-div-top .receipt-msg-right {
+  width: 66%;
+}
+.receipt-msg-bottom a {
+  display: inline-block;
+  width: 100%;
+}
+.receipt-msg-bottom p {
+  font-size: 14px;
+  margin: 5px 0 0 10px;
+  display: block;
+}
+.receipt-msg-bottom .receipt-msg-margin {
+  margin: 0 5vw 0 10px;
+}
+.receipt-msg-bottom .receipt-msg-div-left {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  overflow: hidden;
+}
+.receipt-msg-state {
+  padding: 10px;
+  background: #ffffff;
+  margin-bottom: 14vw;
+}
+.receipt-msg-state li {
+  margin: 5px 0 5px 25px;
+  list-style: disc;
+}
+.receipt-msg-state li span {
+  font-size: 12px;
+}
+.receipt-msg-state .receipt-msg-zt {
+  font-size: 14px;
+}
+.receipt-msg-footer {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  background: #ffffff;
+  position: fixed;
+  bottom: 0px;
+  padding: 10px 0;
+}
+.receipt-msg-footer a {
+  font-size: 14px;
+  display: inline-block;
+  background: #e72450;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}

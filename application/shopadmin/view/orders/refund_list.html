@@ -1,0 +1,213 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+	.control-group{
+		float:left;
+	}
+	.table-tr td{
+		vertical-align: middle;
+		text-align: center;
+	}
+	.table th{
+		text-align:center;
+	}
+	a:hover{text-decoration:none;}
+	.ui-datepicker{width:214px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+	<ul class="nav nav-tabs">
+		<li {if condition="$state eq 0"} class="active" {/if}><a href="{:U('orders/refund_list')}">全部退款({$count})</a></li>
+		{volist name="states" id="s"}
+		<li  {if condition="$state == $s.id"} class="active" {/if}><a href="{:U('orders/refund_list', ['state' => $s.id])}">{$s.name}({$s.count})</a></li>
+		{/volist}
+	</ul>
+	<form name="form" method="get" class="js-ajax-form form-horizontal" enctype="multipart/form-data">
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label">退款日期:</label>
+				<div class="controls">
+					<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+					<label style="float:left;">-</label>
+					<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">退款编号:</label>
+				<div class="controls">
+					<input type="text" name="order_number" value="{:I('get.order_number')}">
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">昵称:</label>
+				<div class="controls">
+					<input type="text" name="customer_name" value="{:I('get.customer_name')}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">用户手机:</label>
+				<div class="controls">
+					<input type="text" name="phone" value="{:I('get.phone')}">
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-primary" value="搜索" onClick="form.action = '{:U('orders/batch_carrier')}';form.method='get'" style="width:100px;height:30px;float:left;text-align:center;"/>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-primary" value="导出支付宝退款订单" onClick="form.action = '{:U('orders/batch_alipay_refund')}';form.method='get'" style="width:150px;height:30px;float:left;text-align:center;"/>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+	<form method="post" class="js-ajax-form">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="400px;">商品</th>
+				<th >买家</th>
+				<th width="150">价格</th>
+				<th>运货单</th>
+				<th>自提点</th>
+				<th>状态</th>
+				<th>退款原因</th>
+				<th>订单操作</th>
+			</tr>
+			</thead>
+			<tbody class="table-tbody">
+			{volist name="lists" id="list"}
+			<tr >
+				<td colspan="8" style="border-bottom:1px solid #ccc;background:#efefef;">
+					<b>退款编号：</b><span>{$list.refund_sn}</span>
+					<b>退款时间：</b><span>{:get_color_date($list.date_add)}</span>
+				</td>
+			</tr>
+			{volist name="list.goods" id="g" key="i"}
+			<tr class="table-tr">
+				<td style="vertical-align: middle;">
+
+					<img src="{$img_url}{$g.image}" width="50" height="50">
+					<span style=" width:200px; display:inline-block;overflow: hidden;white-space: nowrap;">{$g.goods_name}</span>
+					<div style="margin-left:30px; display:inline-block;width: 100px;">
+						价格：{$g.price}
+						<br/>
+						数量：{$g.quantity}
+					</div>
+				</td>
+				{if condition="$i eq 1"}
+				<td rowspan="{$list.goods | count}" style="text-align: center;">
+					<a href="{:U('customer/detail',['id' => $list.customer_id])}" title="点击进入会员详情" >{$list.nickname}</a>
+					<br/>
+					{$list.address_name}
+					<br/>
+					{$list.phone}
+				</td>
+				<td rowspan="{$list.goods | count}" style="text-align: left;">
+					<div style="display:inline-block;width: 100px;">退款金额：</div>{$list.price}
+					<br/>
+					<div style="display:inline-block;width: 100px;">订单金额：</div>{$list.order_amount}
+				</td>
+				<td rowspan="{$list.goods | count}">
+					{if condition="$list.refund_state gt 2"}
+					<div style="display:inline-block;width: 100px;">物流公司：</div>{$list.express}
+					<br/>
+					<div style="display:inline-block;width: 100px;">物流单号：</div>{$list.express_sn}
+					{else/}
+					无
+					{/if}
+				</td>
+				<td rowspan="{$list.goods | count}">
+					{if condition="$list.type eq 4"}
+					<div style="display:inline-block;width: 100px;"></div>{$list.offaddress}
+					{else}
+					无
+					{/if}
+				</td>
+				<td rowspan="{$list.goods | count}">
+					{$list.state}
+					<br/>
+					<a href="{:U('orders/details',['number'=>$list.order_sn])}" >查看详情</a>
+				</td>
+				<td rowspan="{$list.goods | count}">
+					{$list.reason}
+					<br/>
+					{$list.content}
+				</td>
+				{if condition="$list.refund_state eq 1"}
+				<td rowspan="{$list.goods | count}">
+					<a style="cursor:pointer;" onclick="refund({$list.order_return_id},3)">通过</a>
+					<a style="cursor:pointer;" onclick="refund({$list.order_return_id},2)">不通过</a>
+				</td>
+				{elseif condition="$list.refund_state eq 4"}
+				<td rowspan="{$list.goods | count}">
+					<a onclick="refund({$list.order_return_id},5)">确认</a>
+				</td>
+				{else /}
+				<td rowspan="{$list.goods | count}">
+					无
+				</td>
+				{/if}
+				{/if}
+			</tr>
+			{/volist}
+			{/volist}
+			</tbody>
+		</table>
+	</form>
+	<div class="pagination">{$page}</div>
+</div>
+</script>
+<script>
+$(function() {
+    $( "#min_date" ).datetimepicker();
+    $( "#max_date").datetimepicker();
+});
+
+
+function refund(id,state){
+    var content = "是否确认收到退货";
+    if (state == 3) {
+        content = '处理方式：<input type="text" name="reply"/>';
+    }
+    if(state == 2){
+        content = '处理方式：<input type="text" name="reply"/>';
+        content +='</br>备注信息：<input type="text" name="reply_remark"/>'
+    }
+
+    art.dialog({
+        id:"shake-deom",
+        title:'退款记录',
+        content:content,
+        width:'400px',
+        height:'150px',
+        cancel:'取消',
+        cancel:true,
+        ok: function()
+        {
+            $.ajax({
+                url: "{:U('orders/refund')}",
+                type : 'post',
+                dataType: 'json',
+                data: 'id='+id+'&reply='+$("input[name=reply]").val()+'&reply_remark='+$("input[name=reply_remark]").val() + "&state=" + state,
+                success: function(json){
+                    alert(json.msg);
+                    if(json.code == 1){
+                        location.reload();
+                    }
+
+                }
+            });
+        }
+    })
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+.cp-right {
+  float: right;
+  margin-right: 5px;
+}
+.cp-topsmall {
+  font-size: 14px;
+  line-height: 22px;
+}
+.cp-form div {
+  padding: 10px;
+  background: #ffffff;
+  border-bottom: 1px solid #dcdcdc;
+}
+.cp-form div img {
+  width: 20px;
+}
+.cp-form div .a {
+  display: inline-block;
+  padding: 5px 10px;
+  color: #e72450;
+  border: 1px solid #e72450;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.cp-form input {
+  border: none;
+  outline: none;
+  display: inline-block;
+  font-size: 14px;
+  vertical-align: top;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+  background: #ffffff;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  background: #ffffff;
+}

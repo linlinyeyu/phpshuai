@@ -1,0 +1,65 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('category/index')}">分类列表</a></li>
+			<li class="active"><a href="{:U('category/toedit')}">添加分类</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:U('category/edit')}" method="post">
+			<fieldset>
+		        <input type='hidden' name='category_id' value='{$info.category_id}'/>
+		        <input type='hidden' name='pid' value='{$info.pid}'/>
+		        <input type='hidden' name='level' value='{$info.level}'/>
+		        <table class="table table-hover table-striped table-bordered wst-form">
+		           <tr>
+		             <th width='150' align='right'>商品分类名称<font color='red'>*</font>：</th>
+		             <td><input type='text' name='name' class="form-control wst-ipt" value='{$info.name}' maxLength='25'/></td>
+		           </tr>
+		           {if condition= "$info.level eq '3' || $info.level eq '1'"}
+		           <tr>
+		           	<th width="150" align="right">分类图标</th>
+		           	<td>
+		           		<uploadimg image-url="{$info.icon}" width="375" height="375" image-name="icon"></uploadimg>
+		           	</td>
+		           </tr>
+		           {/if}
+		           {if condition= "$info.level eq '1'"}
+		           <tr>
+		           	<th width="150" align="right">选中图标</th>
+		           	<td>
+		           		<uploadimg image-url="{$info.selected_icon}" width="375" fileid="selected_icon" height="375" image-name="selected_icon"></uploadimg>
+		           	</td>
+		           </tr>
+		           {/if}
+		           
+		           <tr>
+		             <th align='right'>是否显示<font color='red'>*</font>：</th>
+		             <td>
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='active' {if condition="$info['active'] ==1 "}checked{/if}/>显示
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='active' {if condition="$info['active'] ==0 "}checked{/if}/>隐藏
+		             </label>
+		             </td>
+		           </tr>
+		           <tr>
+		             <th align='right'>排序号：</th>
+		             <td><input type='text' name='sort' class="form-control wst-ipt" value='{$info.sort}' style='width:80px' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/></td>
+		           </tr>
+		        </table>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('category/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp", ['uploadimg']);
+	</script>
+	<script type="text/javascript">
+	</script>
+</body>
+</html>

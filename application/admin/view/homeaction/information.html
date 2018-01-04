@@ -1,0 +1,29 @@
+{include file="header" /}
+<link href="__PUBLIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+</head>
+<body ng-app="myapp">
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('homeaction/information')}">优惠资讯</a></li>
+        <li><a href="{:U('homeaction/information_index')}">优惠资讯列表</a></li>
+        <li><a href="{:U('homeaction/information_add')}">添加优惠资讯</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">资讯主图</label>
+                <div class="controls">
+                    <uploadimg cate="activity" image-url="{$information.image}"  width="750" height="460"></uploadimg>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="hidden" name="id" value="{$id}">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+    </script>
+</body>
+</html>

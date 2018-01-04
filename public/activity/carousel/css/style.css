@@ -1,0 +1,124 @@
+
+.banner{display:block;width:85%;margin-left:auto;margin-right:auto;margin-bottom: 30px;padding-top:10%}
+
+.banner .turnplate{display:block;width:100%;position:relative;}
+.banner .turnplate canvas.item{width:100%;}
+.banner .turnplate img.pointer{position:absolute;width:31.5%;height:42.5%;left:34.6%;top:23%;}
+
+.carousel-info{
+	background:#99c671;
+	width:90%;
+	margin-left:5%;
+	border-radius:10px;
+	font-size: 16px;
+}
+.carousel-info a.rule-title{
+	top:-2px;
+	font-size:18px;
+	height:38px;
+	padding:5px 0;
+	color:#caffea;
+	margin:0 10px;
+	display:block;
+}
+.carousel-info .rule-container{
+	margin:0 10px;
+	padding:5px; 
+	border-radius:3px;
+	line-height:23px;
+	color:#caffea;
+}
+.carousel-info .winner-container{
+	margin:20px 10px;
+	background:#fff3c9;
+	border-radius:3px;
+}
+.winner-container .winner-title{
+	background:#fff3c9;
+	height:60px;
+	text-align:center;
+}
+.winner-container .winner-title img{
+	height:60px;
+	padding-top:15px;
+	padding-bottom:5px;
+}
+.winner-container .winnerlist{
+	background:#f1f1f1;
+	padding:5px 0;
+}
+.winner-container .winner-bottom{
+	background:#fff3c9;
+	height:20px;
+}
+.rule-container span{
+	margin:7px;
+	display:block;
+	color:#caffea;
+}
+.avator-container {
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 5px;
+}
+.list-item .avator-container{
+    width: 10vw;
+    height: 10vw;
+}
+.winner-show{
+	margin: 15px;
+}
+.winner-show .avator-container{
+    padding-left: 15px;
+    height: 15vw;
+	float:left;
+	width:20%;
+}
+.winner-show .winner-show-text{
+	width:76%;
+	padding-right:10px;
+	float:left;
+}
+.winner-show .winner-show-text .imagelist .image-container{
+	height:100px;
+	width:29%;
+	margin:1%;
+	display:inline-block;
+}
+.winner-show:after{
+	content: "."; display: block; height: 0; clear: both; visibility: hidden;
+}  
+.winner-show{
+    zoom:1;
+}
+.avator-container img{
+	width:100%;
+}
+.image-container img{
+	width:100%;
+}
+.image-container {
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 5px;
+}
+.list-item{
+	padding:10px;
+	list-style:none;
+	padding-left:10%;
+}
+.list-item:nth-child(2n+1){
+	background:#f1f1f1;
+}
+.list-item:nth-child(2n){
+	background:#ffffff;
+}
+.list-item span{
+	height:10vw;
+	line-height:10vw;
+	display:inline-block;
+	overflow:hidden;
+}

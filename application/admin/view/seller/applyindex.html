@@ -1,0 +1,168 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+a{
+	cursor:pointer;
+}
+</style>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<form method="get" class="form-horizontal" action="{:U('seller/applyIndex')}">
+				<div class="control-group">
+					<label class="control-label">申请日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">申请状态</label>
+					<div class="controls">
+						<select name="state">
+							<option value="-1" {if condition="I('state') eq -1"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('state') eq 1"}selected{/if}>待审核</option>
+							<option value="2" {if condition="I('state') eq 2"}selected{/if}>已通过</option>
+							<option value="3" {if condition="I('state') eq 3"}selected{/if}>已拒绝</option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">店铺名:</label>
+						<div class="controls">
+							<input yzl-autocomplete label-key="shop_name" url="/admin/seller/searchApplyShop" value-key="check_id" callback="shop_callback" />
+							<input type="hidden" name="check_id" value="{{check_id}}"/>
+						</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">申请人</label>
+						<div class="controls">
+							<input type="text" name="realname" value="{:I('realname')}"/>
+						</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>申请id</th>
+						<th width="150">店铺名称</th>
+						<th>公司名称</th>
+						<th>所在地</th>
+						<th>营业执照</th>
+						<th>身份证</th>
+						<th>联系人姓名</th>
+						<th>联系电话</th>
+						<th>申请人</th>
+						<th>审核状态</th>
+						<th>反馈时间</th>
+						<th>反馈信息</th>
+						<th>申请日期</th>
+						<th>保证金</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($shop) gt 0"}
+					{volist name="shop" id="vo"}
+					<tr>
+						<td>{$vo.check_id}</td>
+						<td>{$vo.shop_name}</td>
+						<td>{$vo.company_name}</td>
+						<td>{$vo.province_name}{$vo.city_name}{$vo.district_name}{$vo.address}</td>
+						<td><img style="wdith:40px;height:40px;" src="{:C('img_url')}{$vo.licence}" /></td>
+						<td>
+							<img style="width:40px;height:40px;" src="{:C('img_url')}{$vo.card_f}"/>
+							<img style="width:40px;height:40px;" src="{:C('img_url')}{$vo.card_b}"/>
+						</td>
+						<td>{$vo.contact_people_name}</td>
+						<td>{$vo.phone}</td>
+						<td>{$vo.realname}</td>
+						<td>{if condition="$vo.state eq 1"}待审核{elseif condition="$vo.state eq 2"}已通过{else}已拒绝{/if}</td>
+						<td>{:get_color_date($vo.reply_date)}</td>
+						<td>{$vo.reply_content}</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>{if condition="$vo.is_pay eq 1"}未缴{elseif condition="$vo.is_pay eq 2"}{$vo.cash_deposit}{/if}</td>
+						<td>
+							{if condition="$vo.state eq 1"}
+							<a onclick="check({$vo.check_id},2)">通过</a> |
+							<a onclick="check({$vo.check_id},3)">拒绝</a> |
+							{/if}
+							{if condition="$vo.state eq 2"}
+							{if condition="$vo.is_pay eq 1"}
+							<a href="{:U('seller/bail',array('id'=>$vo['check_id']))}" class="js-ajax-dialog-btn">保证金通过</a>
+							{/if}
+							{/if}
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp",["autocomplete"]);
+		app.controller("myctrl",function($scope){
+			$scope.shop_callback = function(item){
+				$scope.check_id = item.id;
+				$scope.$apply();
+			}
+		});
+		
+		
+		function check(id,state){
+			var content = '设置过期时间:<input type="text" name="over_time" id="over_time">';
+			
+			if(state == 3){
+				content += '</br>反馈信息：<input type="text" name="reply_remark"/>';
+			}
+			
+			art.dialog({
+				id:"shake-deom",
+				title:'确认信息',
+				content:content,
+				width:'400px',
+				height:'150px',
+				cancel:'取消',
+				cancel:true,
+				ok: function()
+				{
+	               	$.ajax({
+	               	  url: "{:U('seller/check')}",
+	               	  type : 'post',
+					  dataType: 'json',
+					  data: 'id=' + id + '&reply_content=' + $("input[name=reply_remark]").val() + "&state=" + state+"&over_time="+$("input[name=over_time]").val(),
+					  success: function(json){
+					  	alert(json.msg);
+					  	if(json.code == 1){
+					  		location.reload();
+					  	}
+					  	
+					  }
+	               	}); 
+				}
+			});
+			$( "#over_time").datetimepicker();
+		}
+		
+	$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	</script>
+</body>
+</html>

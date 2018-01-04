@@ -1,0 +1,51 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/websys')}">系统设置</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form">
+			<fieldset>
+
+				<div class="control-group">
+					<label class="control-label">站点名称</label>
+					<div class="controls">
+						<input type="text" name="webtitle" value="{$webtitle}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">站点默认关键字</label>
+					<div class="controls">
+						<input type="text" name="keywords" value="{$keywords}">
+					</div>					
+				</div>				
+				<div class="control-group">
+					<label class="control-label">站点描述</label>
+					<div class="controls">
+						<input type="text" name="description" value="{$description}">
+					</div>					
+				</div>				
+				<div class="control-group">
+					<label class="control-label">站点版权信息</label>
+					<div class="controls">
+						<input type="text" name="copyright" value="{$copyright}">
+					</div>					
+				</div>				
+				<div class="control-group">
+					<label class="control-label">站点备案号</label>
+					<div class="controls">
+						<input type="text" name="record" value="{$record}">
+					</div>					
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('UPDATE')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

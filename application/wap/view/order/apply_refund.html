@@ -1,0 +1,159 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">申请退款</span>
+			    </div>
+	</div>
+	<div class="container main-container"  ng-controller="ctrl" ng-cloak>
+		<div class="ar-service-phone">
+			<div class="ar-service-left">
+				<p>请拨打客服电话索要验证码</p>
+				<p>客服热线：<span class="ar-service-phone-number">{{service_phone}}</span></p>
+			</div>
+			<a href="tel:{{service_phone}}" class="ar-service-btn">
+				立即拨打
+			</a>
+		</div>
+		
+		<div class="ar-first-div">
+			<div class="ar-refund-code">
+				<div>退款验证码</div>
+				<div><input type="tel" placeholder="请输入退款验证码" ng-model="code"></div>
+			</div>
+			<div class="ar-first-reason">
+				<div>退款原因</div>
+				<div><select ng-model="reason">
+					<option value="0">请选择退款原因</option>
+					<option value="{{r.content}}" ng-repeat="r in reasons">{{r.content}}</option>
+				</select></div>
+				
+			</div>
+			<div class="ar-refund-money">
+				<div>退款金额</div>
+				<div><input type="number" placeholder="最多可退款{{order.order_amount}}元" ng-model="money"></div>
+				
+			</div>
+			<div class="ar-beizhu">
+				<div>备注信息</div>
+				<div><input type="text" placeholder="请填写备注信息" ng-model="remark"></div>
+				
+			</div>
+		</div>
+		<div class="ar-second-div">
+			<div class="od-goods-div">
+				<div class="od-goods-child">
+					<p>商品详情</p>
+				</div>
+				<div class="od-goods-div" style="margin-top:0px">
+					<div ng-repeat="g in order.goods" class="od-goods-two-child">
+						<div class="od-goods-info">
+							<img image-resize width="80px"  ng-src="{{g.image}}" goods="1">
+							<p class="od-goods-detail-onep">{{g.name}}</p>
+							<p class="od-goods-detail-twop">规格:<span>{{g.option_name}}</span></p>
+							<p class="od-goods-detail-three">¥{{g.price}}</p>
+							<span>×{{g.quantity}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ar-order-detail">
+				<div class="ar-order-detail-first">
+					<span>下单时间:</span>
+					<span class="ar-right-span">{{order.date_add * 1000 | date: 'yyyy-MM-dd HH:mm'}}</span>
+				</div>
+				<div class="ar-order-detail-other" ng-if="order.express_id > 0">
+					<span>配送方式:</span>
+					<span class="ar-right-span">{{order.express_name}}</span>
+				</div>
+				<div class="ar-order-detail-other">
+					<span>支付方式:</span>
+					<span class="ar-right-span">{{order.pay_name}}</span>
+				</div>
+				<div class="ar-order-detail-other">
+					<span>优惠券:</span>
+					<span class="ar-right-span">无</span>
+				</div>
+				<div class="ar-order-detail-other" ng-if="order.comment.length > 0">
+					<span>买家留言:</span>
+					<span class="ar-right-span">{{order.comment}}</span>
+				</div>
+			</div>
+			<div class="ar-real-buy">
+				<span>实际消费:</span>
+				<span class="ar-real-money">¥{{order.order_amount}}</span>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="footer-btn footer-full-btn footer-primary" ng-click="submit()">提交</div>
+		</div>
+		<div class="modal ng-hide" ng-show="modalActive">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-close" ng-click="back();"></div>
+					<div class="modal-body" style="text-align:center;padding:50px 30px;height:162px">
+						<div>
+							<p>已经提交退款申请</p>
+							<p style="margin-top:10px">请尽快联系卖家，等待卖家处理</p>
+							<p style="margin-top:10px">处理结果请及时查看订单详情</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	 <script>		
+	 	var app = angular.module("myapp",['back-filter','image-resize']);
+   	  	app.controller('ctrl',["$scope",function($scope){
+   	  		$scope.service_phone = "{$service_phone}";
+   	  		$scope.order = {$order | json_encode};
+   	  		$scope.reasons = {$reason | json_encode};
+   	  		
+   	  		$scope.reason = "0";
+   	  		
+   	  		$scope.submit = function() {
+   	  			if($scope.reason == 0) {
+   	  				pinet.toast("请选择退款原因");
+   	  				return;
+   	  			}
+   	  			if($scope.money > $scope.order.order_amount){
+   	  				pinet.toast("退款金额不能大于订单金额");
+   	  				return;
+   	  			}
+   	  			if(!$scope.money || $scope.money < 0){
+   	  				pinet.toast("退款金额有误");
+   	  				return;
+   	  			}
+   	  			
+   	  			if(!$scope.code){
+   	  				pinet.toast("请输入验证码");
+   	  				return;
+   	  			}
+   	  			
+   	  			var remark = $scope.remark ? $scope.remark : "";
+   	  			
+   	  			layer.open({type:2});
+   				pinet.post("order/refund", {'order_sn' : $scope.order.order_sn,'code' : $scope.code, access_token : pinet.getCookie("access_token"), 'reason' : $scope.reason, 'money' : $scope.money, 'remark' : remark},
+   						function(data){
+   					layer.closeAll();
+   					pinet.toast(data.message);
+   					if(data.errcode == 0){
+   						$scope.modalActive = true;
+   						$scope.$apply();
+   					}
+   					
+   				});
+   				
+   				$scope.back = function(){
+   					location.href="{:U('order/order_detail')}?order_sn=" + $scope.order.order_sn; 
+   				}
+   	  		
+   	  		}
+   	  	}]);
+			   	  	
+			   	  	
+	   </script>
+</body>
+</html>

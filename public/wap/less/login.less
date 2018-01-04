@@ -1,0 +1,98 @@
+.login-logo-div{
+    height:180px;
+    background:@body-color;
+    text-align:center;
+    >img{
+        width:80px;
+        height:80px;
+        margin-top:50px;
+    }
+    >p{
+        font-family:microsoft yahei;
+        margin-top:10px
+    }
+}
+.login-weixin-div{
+    background:@white;
+    padding:22px 22px 0 22px;
+    >.login-weixin-p{
+        font-size:14px
+    }
+    >div{
+        text-align:center;
+        padding-bottom:30px;
+        border-bottom:1px solid @border;
+        >img{
+            width:65px;
+            height:65px;
+            margin-top:20px
+        }
+        >p{
+            font-size:12px;
+            margin-top:15px;
+            color:@word
+        }
+    }
+}
+.login-number-div{
+    padding:22px;
+    >.login-number-word-p{
+        font-size:14px
+    }
+    >.login-number-child-div{
+        text-align:center;
+        padding-bottom:30px;
+        >.login-phone-code-div{
+            height:100px;
+            border:1px solid @border;
+            margin-top:15px;
+            padding:15px;
+            >.login-phone-div{
+                height:35px;
+                >input{
+                	display:inline-block;
+                    margin:0;
+                    outline:none;
+                    border:none;
+                    width:100%;
+                    border-bottom:1px solid @border;
+                    padding-bottom:15px;
+                }
+            }
+            >.login-code-div{
+                height:35px;
+                >input{
+                    float:left;
+                    outline:none;
+                    border:none;
+                    width:50%;
+                    padding-top:15px;
+                }
+                >a{
+                    float:right;
+                    border:1px solid @border;
+                    background:#f8f8f8;
+                    padding:10px;
+                    font-size:12px;
+                    margin-top:7px
+                }
+            }
+        }
+    }
+    >.login-bottom{
+        height:40px;
+        text-align:center;
+        width:100%;
+        display:block;
+        font-size:14px;
+        padding-top:13px;
+        &.negative{
+        	color:#d4d4d4;
+        	background:#eee;
+        }
+        &.active{
+        	background:@primary-color;
+        	color:@white;
+        }
+    }
+}

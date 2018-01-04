@@ -1,0 +1,337 @@
+{include file="header" /}
+</head>
+<body ng-app="myapp" ng-controller="myctrl" >
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="" >数据报表</a></li>
+		</ul>
+		<div class="control-group">
+			
+		</div>
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<th>今日销售额</th>
+					<th>今日充值额度</th>
+					<th>今日运营成本</th>
+					<th>今日销售最多的商品</th>
+					<th>总销售额</th>
+					<th>总充值额度</th>
+					<th>总运营成本</th>
+					<th>操作</th>
+				</tr>
+				<tr>
+					<td>{$total_return}</td>
+                    <td>{$total_recharge}</td>
+                    <td>{$robot_amount}</td>
+                    <td>{$most_goods }</td>
+                    <td>{$item_total}</td>
+                    <td>{$recharge_total}</td>
+                    <td>{$robot_total}</td>
+                    <td><a href="{:U('Statistics/more')}">查看更多</a></td>     
+				</tr>
+				<tr>
+					<td style="line-height:360px;">
+					<select ng-change="change_first(x)" ng-model="x" >
+						<option value="1">近7日充值金额图</option>
+						<option value="2">近30日充值金额图</option>
+						<option value="3">近1年充值金额图</option>
+					</select>
+					
+					</td>
+					<td colspan="7" ng-show="show_first">
+						<div id="recharge_week" style="width:800px;height:350px;"></div>					
+					</td>
+					<td colspan="7" ng-show="show_second">
+						<div id="recharge_month" style="width:800px;height:350px;"></div>					
+					</td>			
+					<td colspan="7" ng-show="show_third">
+						<div id="recharge_year" style="width:800px;height:350px;"></div>					
+					</td>
+					
+				</tr>
+				<tr>
+					<td style="line-height:360px;">
+					<select ng-change="change_second(y)" ng-model="y">
+						<option value="4">近7日销售总额图</option>
+						<option value="5">近30日销售总额图</option>
+						<option value="6">近1年销售总额图</option>
+					</select></td>
+					<td colspan="7" ng-show="show_fourth">
+						<div id="income_week" style="width:800px;height:350px;"></div>
+					</td>
+					<td colspan="7" ng-show="show_fifth">
+						<div id="income_month" style="width:800px;height:350px;"></div>
+					</td>
+					<td colspan="7" ng-show="show_sixth">
+						<div id="income_year" style="width:800px;height:350px;"></div>
+					</td>
+					<td></td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+    <script src="__PUBLIC__/js/common.js"></script>
+    <script src="__PUBLIC__/js/angular.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/highcharts.js"></script> 
+ 	<script type="text/javascript" src="__PUBLIC__/js/exporting.js"></script>
+ 	<script>
+ 		var app=angular.module("myapp",[]);
+ 		app.controller("myctrl",function($scope){
+ 			$scope.x='1';
+ 			$scope.show_first=1;
+ 			$scope.show_second=0;
+ 			$scope.show_third=0;
+ 			$scope.y='4';
+ 			$scope.show_fourth=1;
+ 			$scope.show_fifth=0;
+ 			$scope.show_sixth=0;
+ 			$scope.change_first=function(x){
+ 				if(x==1){
+ 					$scope.show_first=1;
+ 					$scope.show_second=0;
+ 		 			$scope.show_third=0;
+ 				}else if(x==2){		
+ 					$scope.show_first=0;
+ 					$scope.show_second=1;
+ 		 			$scope.show_third=0;
+ 				}else if(x==3){				
+ 					$scope.show_first=0;
+ 					$scope.show_second=0;
+ 		 			$scope.show_third=1;
+ 				}
+ 			}
+ 			$scope.change_second=function(y){
+ 				if(y==4){
+ 					$scope.show_fourth=1;
+ 					$scope.show_fifth=0;
+ 		 			$scope.show_sixth=0;
+ 				}else if(y==5){		
+ 					$scope.show_fourth=0;
+ 					$scope.show_fifth=1;
+ 		 			$scope.show_sixth=0;
+ 				}else if(y==6){				
+ 					$scope.show_fourth=0;
+ 					$scope.show_fifth=0;
+ 		 			$scope.show_sixth=1;
+ 				}
+ 			}
+ 			$scope.click=function(){
+ 				location.href="{:U('Statistics/excel_recharge',array('day'=>365))}";			
+ 			}
+ 		})
+ 	</script>
+ 	<script>
+ 	$(function () {
+ 	    $('#recharge_month').highcharts({
+ 	        title: {
+ 	            text: '近30日充值金额折线图',
+ 	            x: -20 //center
+ 	        },
+ 	       
+ 	        xAxis: {
+ 	            categories: {$days30_recharge.xAxis | json_encode}
+ 	        },
+ 	        yAxis: {
+ 	            title: {
+ 	                text: '元'
+ 	            },
+ 	            plotLines: [{
+ 	                value: 0,
+ 	                width: 1,
+ 	                color: '#808080'
+ 	            }]
+ 	        },
+ 	        tooltip: {
+ 	            valueSuffix: '元'
+ 	        },
+ 	        legend: {
+ 	            layout: 'vertical',
+ 	            align: 'right',
+ 	            verticalAlign: 'bottom',
+ 	            borderWidth: 0
+ 	        },
+ 	        series: [{
+ 	            name: '充值金额',
+ 	            data: {$days30_recharge.yAxis | json_encode}
+ 	        }]
+ 	    });
+ 	});
+ 	$(function () {
+ 	    $('#recharge_week').highcharts({
+ 	        title: {
+ 	            text: '近7日充值金额折线图',
+ 	            x: -20 //center
+ 	        },
+ 	       
+ 	        xAxis: {
+ 	            categories: {$days7_recharge.xAxis | json_encode}
+ 	        },
+ 	        yAxis: {
+ 	            title: {
+ 	                text: '元'
+ 	            },
+ 	            plotLines: [{
+ 	                value: 0,
+ 	                width: 1,
+ 	                color: '#808080'
+ 	            }]
+ 	        },
+ 	        tooltip: {
+ 	            valueSuffix: '元'
+ 	        },
+ 	        legend: {
+ 	            layout: 'vertical',
+ 	            align: 'right',
+ 	            verticalAlign: 'bottom',
+ 	            borderWidth: 0
+ 	        },
+ 	        series: [{
+ 	            name: '充值金额',
+ 	            data: {$days7_recharge.yAxis | json_encode}
+ 	        }]
+ 	    });
+ 	});
+ 	 		$(function () {
+ 	    $('#recharge_year').highcharts({
+ 	        title: {
+ 	            text: '近1年充值金额折线图',
+ 	            x: -20 //center
+ 	        },
+ 	       
+ 	        xAxis: {
+ 	            categories: {$month12_recharge.xAxis | json_encode}
+ 	        },
+ 	        yAxis: {
+ 	            title: {
+ 	                text: '元'
+ 	            },
+ 	            plotLines: [{
+ 	                value: 0,
+ 	                width: 1,
+ 	                color: '#808080'
+ 	            }]
+ 	        },
+ 	        tooltip: {
+ 	            valueSuffix: '元'
+ 	        },
+ 	        legend: {
+ 	            layout: 'vertical',
+ 	            align: 'right',
+ 	            verticalAlign: 'bottom',
+ 	            borderWidth: 0
+ 	        },
+ 	        series: [{
+ 	            name: '充值金额',
+ 	            data: {$month12_recharge.yAxis | json_encode}
+ 	        }]
+ 	    });
+ 	});
+ 	 		$(function () {
+ 	 	 	    $('#income_week').highcharts({
+ 	 	 	        title: {
+ 	 	 	            text: '近7日销售总额折线图',
+ 	 	 	            x: -20 //center
+ 	 	 	        },
+ 	 	 	       
+ 	 	 	        xAxis: {
+ 	 	 	            categories: {$days7_income.xAxis | json_encode}
+ 	 	 	        },
+ 	 	 	        yAxis: {
+ 	 	 	            title: {
+ 	 	 	                text: '元'
+ 	 	 	            },
+ 	 	 	            plotLines: [{
+ 	 	 	                value: 0,
+ 	 	 	                width: 1,
+ 	 	 	                color: '#808080'
+ 	 	 	            }]
+ 	 	 	        },
+ 	 	 	        tooltip: {
+ 	 	 	            valueSuffix: '元'
+ 	 	 	        },
+ 	 	 	        legend: {
+ 	 	 	            layout: 'vertical',
+ 	 	 	            align: 'right',
+ 	 	 	            verticalAlign: 'bottom',
+ 	 	 	            borderWidth: 0
+ 	 	 	        },
+ 	 	 	        series: [{
+ 	 	 	            name: '销售总额',
+ 	 	 	            data: {$days7_income.yAxis | json_encode}
+ 	 	 	        }]
+ 	 	 	    });
+ 	 	 	});
+ 	 		$(function () {
+ 	 	 	    $('#income_month').highcharts({
+ 	 	 	        title: {
+ 	 	 	            text: '近30日销售总额折线图',
+ 	 	 	            x: -20 //center
+ 	 	 	        },
+ 	 	 	       
+ 	 	 	        xAxis: {
+ 	 	 	            categories: {$days30_income.xAxis | json_encode}
+ 	 	 	        },
+ 	 	 	        yAxis: {
+ 	 	 	            title: {
+ 	 	 	                text: '元'
+ 	 	 	            },
+ 	 	 	            plotLines: [{
+ 	 	 	                value: 0,
+ 	 	 	                width: 1,
+ 	 	 	                color: '#808080'
+ 	 	 	            }]
+ 	 	 	        },
+ 	 	 	        tooltip: {
+ 	 	 	            valueSuffix: '元'
+ 	 	 	        },
+ 	 	 	        legend: {
+ 	 	 	            layout: 'vertical',
+ 	 	 	            align: 'right',
+ 	 	 	            verticalAlign: 'bottom',
+ 	 	 	            borderWidth: 0
+ 	 	 	        },
+ 	 	 	        series: [{
+ 	 	 	            name: '销售总额',
+ 	 	 	            data: {$days30_income.yAxis | json_encode}
+ 	 	 	        }]
+ 	 	 	    });
+ 	 	 	});
+ 	 		$(function () {
+ 	 	 	    $('#income_year').highcharts({
+ 	 	 	        title: {
+ 	 	 	            text: '近1年销售总额折线图',
+ 	 	 	            x: -20 //center
+ 	 	 	        },
+ 	 	 	       
+ 	 	 	        xAxis: {
+ 	 	 	            categories: {$month12_income.xAxis | json_encode}
+ 	 	 	        },
+ 	 	 	        yAxis: {
+ 	 	 	            title: {
+ 	 	 	                text: '元'
+ 	 	 	            },
+ 	 	 	            plotLines: [{
+ 	 	 	                value: 0,
+ 	 	 	                width: 1,
+ 	 	 	                color: '#808080'
+ 	 	 	            }]
+ 	 	 	        },
+ 	 	 	        tooltip: {
+ 	 	 	            valueSuffix: '元'
+ 	 	 	        },
+ 	 	 	        legend: {
+ 	 	 	            layout: 'vertical',
+ 	 	 	            align: 'right',
+ 	 	 	            verticalAlign: 'bottom',
+ 	 	 	            borderWidth: 0
+ 	 	 	        },
+ 	 	 	        series: [{
+ 	 	 	            name: '销售总额',
+ 	 	 	            data: {$month12_income.yAxis | json_encode}
+ 	 	 	        }]
+ 	 	 	    });
+ 	 	 	});
+ 	</script> 
+</body>
+</html>

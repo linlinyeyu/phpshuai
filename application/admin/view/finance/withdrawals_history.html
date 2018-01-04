@@ -1,0 +1,122 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+	.control-group{
+		float:left;
+	}
+	.table-tr td{
+		vertical-align: middle;
+		text-align: center;
+	}
+	.table th{
+		text-align:center;
+	}
+	a:hover{text-decoration:none;}
+	.ui-datepicker{width:214px;}
+</style>
+</head>
+
+<body ng-app="myapp">
+	<form method="get" name="form" class="form-horizontal">
+		<div class="control-group">
+					<label class="control-label">订单日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="search()" style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+						<input type="submit" class="btn btn-primary"  onClick="exportExcel()" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+				<input type="hidden" name="customer_id" value="{$customer_id}"/>
+				<input type="hidden" name="shop_name" value="{$shop_name}"/>
+				<input type="hidden" name="phone" value="{$phone}"/>
+	</form>
+	<div class="wrap" ng-controller="myctrl">
+		<div class="control-group"  style="margin-left:100px;">
+			<label class="control-label" style="font-weight:bold;">店铺名:</label>
+				<div class="controls">
+					<span>{$shop_name}</span>
+				</div>
+		</div>
+		<div class="control-group" style="margin-left:50px;">
+			<label class="control_label" style="font-weight:bold;">电话:</label>
+			<div class="controls">
+					<span>{$phone}</span>
+			</div>
+		</div>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>商品</th>
+						<th>订单金额</th>
+						<th>结算佣金</th>
+						<th>结算状态</th>
+					</tr>
+				</thead>
+				<tbody class="table-tbody">
+					{if condition="count($withdrawals) gt 0"}
+					{volist name="withdrawals" id="list"}
+					<tr >
+						<td colspan="8" style="border-bottom:1px solid #ccc;background:#efefef;">
+							<b>订单编号：</b><span>{$list.order_sn}</span>
+							<b>下单时间：</b><span>{:get_color_date($list.date_add)}</span>
+						</td>
+					</tr>
+					{volist name="list.goods" id="g" key="i"}
+					<tr class="table-tr">
+						<td style="vertical-align: middle;">
+							<span style=" width:200px; display:inline-block;overflow: hidden;white-space: nowrap;">{$g.goods_name}</span>
+							<div style="margin-left:30px; display:inline-block;width: 100px;">
+								价格：{$g.price}
+								<br/>
+								数量：{$g.quantity}
+							</div>
+						</td>
+						{if condition="$i eq 1"}
+						<td rowspan="{$list.goods | count}">
+							{$list.order_amount}
+						</td>
+						<td rowspan="{$list.goods | count}">
+							{$list.commission_amount}
+						</td>
+						<td rowspan="{$list.goods | count}">
+							{if condition="$list.state eq 1"}
+							<span style="color: red">可提现</span>
+							{elseif condition="$list.state eq 2"/}
+							<span style="color: black">申请中</span>
+							{elseif condition="$list.state eq 3"/}
+							<span style="color: black">已提现</span>
+							{elseif condition="$list.state eq 4"/}
+							<span style="color: black">已完成</span>
+							{/if}
+						</td>
+						{/if}
+					</tr>
+					{/volist}
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+		</form>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",["autocomplete"]);
+		function search(){
+			document.form.action="{:U('finance/withdrawals_history')}";
+			document.form.submit();
+		}
+		
+		function exportExcel(){
+			document.form.action="{:U('finance/withdrawals_excel')}";
+			document.form.submit();
+		}
+	</script>
+</body>
+</html>

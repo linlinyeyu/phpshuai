@@ -1,0 +1,350 @@
+body {
+  font-family: "微软雅黑";
+  background-color: #f4f4f4;
+}
+#header {
+  background-color: #FFFFFF;
+}
+#body {
+  margin: 0 auto;
+  background-color: #f6f4f3;
+}
+#footer {
+  clear: both;
+  background-color: #f6f4f3;
+}
+.body-title {
+  margin: 0 auto;
+}
+.body-title img {
+  width: 30px;
+  height: 30px;
+  margin-left: 6vw;
+}
+.body-title h1 {
+  margin: 0 15%;
+}
+.body-title .active {
+  border-bottom: 3px solid #e72450;
+}
+.body-title span {
+  line-height: 30px;
+  float: left;
+}
+.aui-bar-tab img {
+  width: 30px;
+  height: 30px;
+}
+.body-title li {
+  display: inline-block;
+}
+.box {
+  width: 24%;
+  float: left;
+  margin: 0 auto;
+  border: 1px solid #e7e7e7;
+  background-color: #FFFFFF;
+  padding-bottom: 10px;
+}
+.goods_info {
+  margin-top: 10px;
+}
+.box img {
+  margin-top: 20px;
+  width: 90%;
+  height: 200px;
+}
+.search {
+  padding-left: 6%;
+  width: 100%;
+  height: 50px;
+  background-color: #e72450;
+}
+.search input {
+  width: 89%;
+  margin-top: 10px;
+  height: 30px;
+}
+.search img {
+  height: 30px;
+  width: 30px;
+}
+.header-bar img {
+  display: block;
+  float: left;
+}
+.header-bar a {
+  margin-top: 1vw;
+  margin-left: 3vw;
+}
+.goods_bg {
+  height: 45vw;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.main_image {
+  width: 100vw;
+  height: 22vh;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+.main_image ul {
+  width: 9999px;
+  height: 22vh;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.main_image li {
+  float: left;
+  width: 100%;
+  height: 22vh;
+}
+.main_image li span {
+  display: block;
+  width: 100%;
+  height: 22vh;
+}
+.main_image li a {
+  display: block;
+  width: 100%;
+  height: 22vh;
+}
+.main_image li img {
+  display: block;
+  height: 22vh;
+  margin: 0 auto;
+}
+div.flicking_con {
+  width: 990px;
+  margin: 0 auto;
+}
+.main_visual {
+  position: relative;
+}
+div.flicking_con .flicking_inner {
+  position: absolute;
+  left: 50%;
+  bottom: 1.84vh;
+  margin-left: -60px;
+  z-index: 999;
+  width: 150px;
+}
+/* 121126 */
+div.flicking_con a {
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin: 0 10px;
+  padding: 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  display: block;
+  text-indent: -1000px;
+}
+div.flicking_con a.on {
+  background-position: 0 -21px;
+  background: #ff6773;
+}
+.head-bottom {
+  background-color: #FFFEC6;
+  text-align: center;
+}
+.body-content {
+  background-color: #FFF;
+  text-indent: 3vw;
+  line-height: 60px;
+  border: 1px solid #E7E7E7;
+}
+.body-content img {
+  float: right;
+  margin-top: 10px ;
+  margin-right: 20px;
+}
+.table {
+  width: 100%;
+}
+.table img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.item-detail a {
+  background-color: #E72450;
+  color: #FFF;
+  width: 35%;
+  height: 45px;
+  margin-left: 5%;
+  margin-top: 10px;
+  font-size: 22px;
+}
+.item-detail img {
+  height: 30px;
+  width: 30px;
+  float: right;
+  margin-right: 20px;
+  margin-top: 15px;
+}
+.join-member {
+  background-color: #FFF;
+}
+.user-share img {
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+  padding: 2%;
+}
+.user-id-image {
+  width: 10%;
+  border: 1px solid #000;
+  position: absolute;
+  top: -5.5%;
+  left: 2%;
+  z-index: 3;
+}
+.user-id {
+  text-indent: 13%;
+}
+.user-id span {
+  float: right;
+  margin-right: 2%;
+}
+.share-mes {
+  height: 3em;
+  padding: 0 1em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.share-goods-mes {
+  padding: 0 1em;
+  overflow: hidden;
+}
+.menbu {
+  width: 100%;
+  height: 200%;
+  position: absolute;
+  top: 0px;
+  opacity: 0.3;
+  background-color: #777;
+  z-index: 999;
+  left: 0px;
+  display: none;
+}
+.no-records {
+  background-color: #f4f4f4;
+  padding-top: 150px;
+  padding-left: 35%;
+  padding-bottom: 80px;
+}
+.no-records img {
+  width: 40vw;
+  display: block;
+}
+.no-records a {
+  display: block;
+  color: #fff;
+  background-color: #e72450;
+}
+.no-records p {
+  line-height: 40px;
+}
+.no-packet {
+  background-color: #f4f4f4;
+  margin: 0 auto;
+}
+.no-packet img {
+  padding-top: 30vw;
+  width: 40vw;
+  display: block;
+  margin: 0 auto;
+}
+.no-packet a {
+  width: 40vw;
+  text-align: center;
+  display: block;
+  color: #fff;
+  margin: 0 auto;
+  background-color: #e72450;
+}
+.no-packet p {
+  margin: 0 auto;
+  width: 40vw;
+  line-height: 40px;
+  text-align: center;
+}
+.pocket-cash-record {
+  clear: both;
+  background-color: #FFF;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  height: 40vw;
+}
+.pocket-cash-record img {
+  width: 25vw;
+  display: block;
+  margin: 2.5vw 2vw;
+}
+.pocket-cash-record h1 {
+  padding-left: 20px;
+  padding-top: 2vw;
+}
+.footer-bottom {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  border-top: 1px solid #dcdcdc;
+  background-color: #fff;
+  padding: 1.6vw 0;
+}
+.footer-bottom :after {
+  clear: both;
+}
+.footer-bottom > li {
+  width: 25%;
+  float: left;
+  height: 100%;
+}
+.footer-bottom > li > a {
+  color: #808080;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 6.6vw 6.6vw;
+  text-align: center;
+  padding-top: 7.0vw;
+  display: block;
+}
+.footer-bottom > li.active > a {
+  color: #e72450;
+}
+.home-bottom-icon > a {
+  background-image: url("../images/bottom/home.png");
+}
+.home-bottom-icon.active > a {
+  background-image: url("../images/bottom/home-active.png");
+}
+.publish-bottom-icon > a {
+  background-image: url("../images/bottom/publish.png");
+}
+.publish-bottom-icon.active > a {
+  background-image: url("../images/bottom/publish-active.png");
+}
+.cart-bottom-icon > a {
+  background-image: url("../images/bottom/cart.png");
+}
+.cart-bottom-icon.active > a {
+  background-image: url("../images/bottom/cart-active.png");
+}
+.my-bottom-icon > a {
+  background-image: url("../images/bottom/my.png");
+}
+.my-bottom-icon.active > a {
+  background-image: url("../images/bottom/my-active.png");
+}

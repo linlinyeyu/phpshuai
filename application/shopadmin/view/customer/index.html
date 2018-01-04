@@ -1,0 +1,184 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('customer/index')}">会员列表</a></li>
+			<li><a href="{:U('customer/add')}">添加会员</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" name="form">
+				<div class="control-group">
+					<label class="control-label">编号：</label>
+					<div class="controls">
+						<input type="text" name="uuid" value="{:I('uuid')}"/>
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">手机号:</label>
+					<div class="controls">
+						<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">等级:</label>
+					<div class="controls">
+						<select name="group_id">
+							<option value="0" {if condition='$group_id eq 0'}selected{/if}>请选择</option>
+							{volist name="group" id="vo"}
+							<option value="{$vo.group_id}" {if condition='$group_id eq $vo.group_id'}selected{/if}>{$vo.name}</option>
+							{/volist}
+						</select>
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">成为销售员时间:</label>
+					<div class="controls">
+						<input type="text" name="min_date_sale" id="min_date_sale" style="width:100px;float:left" value="{:I("min_date_sale")}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date_sale" id="max_date_sale" style="width:100px; float:left" value="{:I("max_date_sale")}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">昵称:</label>
+					<div class="controls">
+						<input type="text" name="name" value="{:I('name')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">创建日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I("min_date")}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I("max_date")}" >
+					</div>	
+				</div>
+					 	
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+						<button type="submit" class="btn btn-primary" onClick="click_second()" style="width:100px;height:30px;float:left;text-align:center;margin-left:20px">导出excel</button>
+						<span class="btn btn-primary" onClick="send('0','所有用户')" style="width:200px;height:30px;float:left;text-align:center;margin-left:20px;padding: 0;line-height: 28px;margin-top: -1px;display: none;">给所有用户发送信息</span>
+					</div>
+				</div>
+		</form>
+
+		<form method="post" class="js-ajax-form">
+			<div style="clear:both;" class="panel panel-default">
+				<div class="panel-heading">共计{$count}个会员</div>
+				<div class="panel-body">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>昵称</th>
+							<th>真实姓名</th>
+							<th>等级</th>
+							<th>上级</th>
+							<th>关注状态</th>
+							<th>佣金</th>
+							<th>已打款佣金</th>
+							<th>成交金额</th>
+							<th>订单数</th>
+							<th>成为销售员时间</th>
+							<th>创建日期</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="users" id="vo"}
+						<tr>
+							<td align="center">{$vo.uuid}</td>
+							<td><img style="width:30px;height:30px;" src="{$vo.avater}">{$vo['nickname']?$vo['nickname']:L('NOT_FILLED')}</td>
+							<td>{$vo.realname}</td>
+							<td>{$vo['group_name']}</td>
+							<td style="width:10%;text-align:center">
+								<img style="width:30px;height:30px" src="{$vo.pavater}" />
+								{if condition="$vo.agent_id eq 0"}<span style="margin-left:10px">总店</span>{else}<a style="margin-left:10px" href="{:U('customer/detail',array('id' => $vo['agent_id']))}">{$vo.pname? $vo.pname : '未命名'}</a>{/if}
+								<p>{$vo.pid}</p>
+							</td>
+							<td>{if condition="$vo.is_subscribe eq 1"}已关注{else}未关注{/if}</td>
+							<td >￥{$vo.commission}</td>
+							<td>￥{$vo.money}</td>
+							<td>￥{$vo.done_money}</td>
+							<td width="30px">{$vo.done_count}</td>
+							<td>{if condition="$vo.datesale eq null"}{else}{$vo.datesale | date='Y-m-d H:i:s', ###}{/if}</td>
+							<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+							<td align="center">
+								<a href="{:U('customer/detail',array('id'=>$vo['customer_id']))}">查看</a> 
+								| <a href="{:U('orders/lists',array('uuid'=>$vo['uuid']))}">查看订单</a> 
+								| <a href="{:U('extend/extend_people',array('customer_id'=>$vo['customer_id']))}">查看下级</a> 
+								{if condition='$vo.active eq 1'}
+								| <a href="{:U('customer/disable',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn" data-msg="{:L('BLOCK_USER_CONFIRM_MESSAGE')}">{:L('BLOCK_USER')}</a>
+								{else}
+								| <a href="{:U('customer/able',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn" data-msg="{:L('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:L('ACTIVATE_USER')}</a>
+								{/if}
+								| <a href="{:U('customer/delete_customer',array('id'=>$vo['customer_id']))}" class="js-ajax-dialog-btn">删除</a>
+								| <a onclick="send('{$vo.uuid}','{$vo['nickname']?$vo['nickname']:L('NOT_FILLED')}')">发送消息</a>
+							</td>
+						</tr>
+						{/volist}		
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+	<script>
+		function click_first(){
+			document.form.action="{:U('Customer/index')}";
+			document.form.submit();
+		}
+		function click_second(){
+			document.form.action="{:U('Customer/index_excel')}";
+			document.form.submit();
+		}
+		$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+			$( "#min_date_sale" ).datetimepicker();
+			$( "#max_date_sale").datetimepicker();
+		});
+
+		function send(id,name){
+			var dialog=art.dialog({
+				//id:"shake-deom",
+				title:'发送信息',
+				content:'<div style="margin:10px 0;">用户名称：'+name+' </div></br>发送信息：<textarea type="text" name="content"/>',
+				width:'400px',
+				height:'150px',
+				cancel:'取消',
+				cancel:true,
+				ok: function()
+				{
+					$.ajax({
+						url: "{:U('customer/send_my_message')}",
+						type : 'post',
+						dataType: 'json',
+						data: 'uuid='+id+'&title='+$("select[name=title]").val()+'&content='+$("textarea[name=content]").val(),
+						success: function(json){
+							alert(json.msg);
+							if(json.code == 1){
+								location.reload();
+							}
+
+						}
+					});
+				}
+			})
+		}
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh_CN" style="overflow: hidden;">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+<meta charset="utf-8">
+<!-- 新增 -->
+<meta name="keywords" content="{:L('ADMIN_KEYWORDS')}">
+<meta name="description" content="{:L('ADMIN_DESCRIPTION')}">
+
+<title>{:L('ADMIN_CENTER')}</title>
+
+<meta name="description" content="This is page-header (.page-header &gt; h1)">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="__PUBLIC__/js/artDialog/skins/default.css" rel="stylesheet" />
+<link href="__PUBLIC__/simpleboot/themes/bluesky/theme.min.css" rel="stylesheet">
+<link href="__PUBLIC__/simpleboot/css/simplebootadmin.css" rel="stylesheet">
+<link href="__PUBLIC__/simpleboot/font-awesome/4.4.0/css/font-awesome.min.css"  rel="stylesheet" type="text/css">
+<!--[if IE 7]>
+	<link rel="stylesheet" href="__PUBLIC__/simpleboot/font-awesome/4.4.0/css/font-awesome-ie7.min.css">
+<![endif]-->
+<link rel="stylesheet" href="__PUBLIC__/simpleboot/themes/bluesky/simplebootadminindex.min.css?">
+<!--[if lte IE 8]>
+	<link rel="stylesheet" href="__PUBLIC__/simpleboot/css/simplebootadminindex-ie.css?" />
+<![endif]-->
+<style>
+.navbar .nav_shortcuts .btn{margin-top: 5px;}
+.macro-component-tabitem{width:101px;}
+
+/*-----------------导航hack--------------------*/
+.nav-list>li.open{position: relative;}
+.nav-list>li.open .back {display: none;}
+.nav-list>li.open .normal {display: inline-block !important;}
+.nav-list>li.open a {padding-left: 7px;}
+.nav-list>li .submenu>li>a {background: #fff;}
+.nav-list>li .submenu>li a>[class*="fa-"]:first-child{left:20px;}
+.nav-list>li ul.submenu ul.submenu>li a>[class*="fa-"]:first-child{left:30px;}
+/*----------------导航hack--------------------*/
+.home_info li em {
+	float: left;
+	width: 120px;
+	font-style: normal;
+}
+li {
+	list-style: none;
+}
+</style>
+
+<script>
+//全局变量
+var GV = {
+	HOST:"{$_SERVER['HTTP_HOST']}",
+    DIMAUB: "",
+    JS_ROOT: "__PUBLIC__/js/",
+    TOKEN: "",
+    IMG_URL: '{$image_url}'
+};
+</script>
+
+{if condition="APP_DEBUG"}
+<style>
+#think_page_trace_open{left: 0 !important;
+right: initial !important;}			
+</style>
+{/if}
+
+</head>
+
+<body style="min-width:900px;" screen_capture_injected="true">
+	<div id="loading"><i class="loadingicon"></i><span>{:L('LOADING')}</span></div>
+
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a href="{:U('panel/index')}" class="brand"> <small> 
+				<img src="__PUBLIC__/assets/images/logo-18.png">
+						{$shop.shop_name}
+				</small>
+				</a>
+				<div class="pull-left nav_shortcuts" >
+					
+					<a class="btn btn-small btn-warning" href="/shopadmin/panel/index.html" title="{:L('WEBSITE_HOME_PAGE')}" target="_blank">
+						<i class="fa fa-home"></i>
+					</a>
+
+					<a class="btn btn-small btn-danger" href="javascript:openapp('{:U('cache/clean')}','index_clearcache','{:L('ADMIN_SETTING_CLEARCACHE')}');" title="{:L('ADMIN_SETTING_CLEARCACHE')}">
+						<i class="fa fa-trash-o"></i>
+					</a>
+					
+					<span id="refresh_wrapper" class="btn btn-small btn-primary" title="{:L('REFRESH_CURRENT_PAGE')}">
+						<i class="fa fa-refresh"></i>
+					</span>
+				</div>
+				<ul class="nav simplewind-nav pull-right">
+					<li class="light-blue">
+
+						<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+    						
+							<img class="nav-user-photo" width="30" height="30" src="__PUBLIC__/images/right.png" alt="{:session('shop_username')}">
+						
+							<span class="user-info">
+								{:L('WELCOME_USER')} {:session('shop_username')}
+							</span>
+							<i class="fa fa-caret-down"></i>
+						</a>
+						<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+							
+						
+								<li><a href="javascript:openapp('{:U('user/info')}','index_userinfo','{:L('ADMIN_USER_USERINFO')}');"><i class="fa fa-user"></i> {:L('ADMIN_USER_USERINFO')}</a></li>
+						
+							<li><a href="{:U('login/logout')}"><i class="fa fa-sign-out"></i> {:L('LOGOUT')}</a></li>
+						</ul>
+					</li>
+				</ul>
+
+				<a href="#" onclick="openStore({$seller_id})" id="demo" class="pull-right" style="display:block;line-height:45px; color:white;font-size:14px;padding-right:40px;">我的店铺</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="main-container container-fluid">
+
+		<div class="sidebar" id="sidebar">
+			<!-- <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+			</div> -->
+			<div id="nav_wraper">
+			<ul class="nav nav-list">
+                                <!-- 第一层 -->
+                                {volist name="menus" id="vo"}
+                                <li>
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="fa {$vo.remark} normal"></i>
+                                        <span class="menu-text normal">{$vo.title}</span>
+                                        <b class="arrow fa fa-angle-right normal"></b>
+                                        <i class="fa fa-reply back"></i>
+                                        <span class="menu-text back">返回</span>
+                                    </a>
+                                    <!-- 第二层 -->
+                                    {if condition="count($vo['second_menu']) gt '0'"}
+                                    <ul class="submenu">
+                                        {volist name="vo.second_menu" id="two"}
+                                        <li>
+                                            <a href="javascript:openapp('{$two.data}','{$two.id}','{$two.title}',true);" class="dropdown-toggle">
+                                                {if condition="count($two['three']) gt '0'"}
+                                                <i class="fa fa-caret-right"></i>
+                                                {else /}
+                                                <i class="fa fa-angle-double-right"></i>
+                                                {/if}
+                                                <span class="menu-text">{$two.title}</span>
+                                                <!-- 可以下拉 -->
+                                                {if condition="count($two['three']) gt '0'"}
+                                                <b class="arrow fa fa-angle-right"></b>
+                                                {/if}
+                                            </a>
+                                            <!-- 第三层 -->
+                                           
+                                          
+                                           {if condition="count($two['three']) gt '0'"}
+                                            <ul class="submenu">
+                                                {volist name="two.three" id="three"}
+                                                <li>
+                                                    <a href="javascript:openapp('{$three.data}','{$three.id}','{$three.title}',true);">&nbsp;
+                                                        <i class="fa fa-angle-double-right"></i>
+                                                        <span class="menu-text">{$three.title}    </span>
+                                                    </a>
+                                                </li>
+                                                {/volist}
+                                            </ul>
+                                            {/if}
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                    {/if}
+                                </li>
+                                {/volist}
+
+			</ul>
+			</div>
+			
+		</div>
+
+		<div class="main-content">
+			<div class="breadcrumbs" id="breadcrumbs">
+				<a id="task-pre" class="task-changebt">←</a>
+				<div id="task-content">
+				<ul class="macro-component-tab" id="task-content-inner">
+					<li class="macro-component-tabitem noclose" app-id="0" app-url="{:U('main/index')}" app-name="首页">
+						<span class="macro-tabs-item-text">{:L('HOME')}</span>
+					</li>
+				</ul>
+				<div style="clear:both;"></div>
+				</div>
+				<a id="task-next" class="task-changebt">→</a>
+			</div>
+
+			<div class="page-content" id="content" style="height:100%;">
+				<iframe src="{:U('Main/index')}" style="width:100%;height: 100%;" frameborder="0" id="appiframe-0" class="appiframe"></iframe>
+			</div>
+
+		</div>
+	</div>
+	<script src="__PUBLIC__/js/jquery.js"></script>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+	<script src="__PUBLIC__/simpleboot/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+	var ismenumin = $("#sidebar").hasClass("menu-min");
+	$(".nav-list").on( "click",function(event) {
+		var closest_a = $(event.target).closest("a");
+		if (!closest_a || closest_a.length == 0) {
+			return
+		}
+		if (!closest_a.hasClass("dropdown-toggle")) {
+			if (ismenumin && "click" == "tap" && closest_a.get(0).parentNode.parentNode == this) {
+				var closest_a_menu_text = closest_a.find(".menu-text").get(0);
+				if (event.target != closest_a_menu_text && !$.contains(closest_a_menu_text, event.target)) {
+					return false
+				}
+			}
+			return
+		}
+		var closest_a_next = closest_a.next().get(0);
+		if (!$(closest_a_next).is(":visible")) {
+			if(!closest_a_next.parentNode){
+				return;
+			}
+			var closest_ul = $(closest_a_next.parentNode).closest("ul");
+			if (ismenumin && closest_ul.hasClass("nav-list")) {
+				return
+			}
+			closest_ul.find("> .open > .submenu").each(function() {
+						if (this != closest_a_next && !$(this.parentNode).hasClass("active")) {
+							$(this).slideUp(150).parent().removeClass("open")
+						}
+			});
+		}
+		if (ismenumin && $(closest_a_next.parentNode.parentNode).hasClass("nav-list")) {
+			return false;
+		}
+		$(closest_a_next).slideToggle(150).parent().toggleClass("open");
+		return false;
+	});
+	$(function () {
+		//getTask();
+	});
+	function getTask(){
+
+	     $.ajax({
+	          url: "{:U('verify/getTask')}",
+	          type: "POST",   //请求方式
+	          dataType: 'json',
+	          success: function(json)
+	          {
+	          	if(json.status==0){
+		              art.dialog({
+		                  width: '300px',
+		                  height:'100px',
+		                  title: '会话提示',
+		                  content: json.msg,
+		                  ok: function () {
+		                       location.reload();
+		                  }
+		              });return;
+	          	}
+	              setTimeout("getTask();",10000);
+	         }
+	     });
+	}
+	function openStore(id) {
+	    var url =  "http://www.shuaibomall.net/module/storeDetail.html?seller_id="+id ;
+		window.open(url);
+    }
+	</script>
+	<script src="__PUBLIC__/assets/js/index.js"></script>
+</body>
+</html>

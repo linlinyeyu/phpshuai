@@ -1,0 +1,103 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('promotion/code_lists')}">推广列表</a></li>
+			<li><a href="{:U('promotion/income_setting')}">推广设置</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" action="" name="form">
+				<div class="control-group">
+					<label class="control-label">推广日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I("min_date")}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I("max_date")}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">推广码：</label>
+					<div class="controls">
+						<input type="text" name="pro_code" value="{:I("pro_code")}"/>
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+					<button type="submit" class="btn btn-primary" onClick="click_second()" style="width:100px;height:30px;float:left;text-align:center;margin-left:20px">导出excel</button>
+					</div>
+				</div>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>推广人</th>
+						<th>推广码</th>
+						<th>绑定人数</th>
+						<th>推广总金额</th>
+						<th>推广日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($list) gt 0"}
+					{volist name="list" id="vo"}
+					<tr>
+						<td><a href="{:U('customer/detail',['id'=>$vo.customer_id])}" title="点击进入会员详情">{$vo.nickname}({$vo.phone})</a></td>
+						<td>{$vo.code}</td>
+						<td>{$vo.total}</td>
+						<td>{$vo.sum_total}</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('promotion/detail',['code'=>$vo.code])}">查看</a>
+				
+						</td>
+					</tr>
+					{/volist}
+					{else /}
+					没有推广人
+					{/if}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+function click_first(){
+	document.form.action="{:U('Promotion/code_lists')}";
+	document.form.submit();
+}
+function click_second(){
+	document.form.action="{:U('Promotion/excel')}";
+	document.form.submit();
+}
+$(function() {
+	$( "#min_date" ).datepicker();
+	$( "#min_date" ).change(function() {
+		$( "#min_date" ).datepicker( "option", "showAnim","slideDown" );
+	});
+
+	$( "#max_date").datepicker();
+	$( "#max_date").change(function() {
+		$("#max_date").datepicker( "option", "showAnim","slideDown" );
+	});
+	$.datepicker.regional['zh-CN'] = datepickeroptions;  
+	$.datepicker.setDefaults($.datepicker.regional['zh-CN']); 
+
+});
+</script>
+</body>
+</html>

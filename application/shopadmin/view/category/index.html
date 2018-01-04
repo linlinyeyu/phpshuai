@@ -1,0 +1,211 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('category/index')}">分类列表</a></li>
+			<li><a href="{:U('category/toedit')}">添加分类</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:U('category/edit')}" method="post">
+			<fieldset>
+		        <table class="table table-hover table-striped table-bordered wst-list">
+		           <thead>
+		             <tr>
+		               <th>分类名称</th>
+		               <th width='80'>排序号</th>
+		               <th width='80'>是否显示</th>
+		               <th width='300'>操作</th>
+		             </tr>
+		           </thead>
+		           <tbody>
+		            {volist name="List" id="vo" key='i'}
+		             <tr id='tr_0_{$i}' class="tr_0" isLoad='1'>
+		               <td>
+		               <span class='glyphicon glyphicon-minus' onclick='javascript:loadChildTree(this,{$vo.seller_cat_id},"tr_0_{$i}")' style='margin-right:3px;cursor:pointer'></span>
+		               <input type='text' value='{$vo['cat_name']}' onchange='javascript:editName(this)' dataId="{$vo.seller_cat_id}" class='form-control wst-ipt'/>
+		               </td>
+		               <td>{$vo['sort_order']}</td>
+		               <td>
+		               <div class="dropdown">
+		               {if condition="$vo['is_show']==0 "}
+		                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+							     隐藏
+							  <span class="caret"></span>
+						   </button>
+		               {else /}
+		                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+							     显示
+							  <span class="caret"></span>
+						   </button>
+		               {/if}
+		                   <ul class="dropdown-menu" role="menu">
+							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['seller_cat_id']})">显示</a></li>
+							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['seller_cat_id']})">隐藏</a></li>
+						   </ul>
+		               </div>
+		               </td>
+		               <td>
+
+		               <a class="btn btn-default glyphicon glyphicon-plus" href="{:U('category/toEdit',array('pid'=>$vo['seller_cat_id'],'level'=>1))}">新增子分类</a>&nbsp;
+
+		        
+		               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('category/toEdit',array('id'=>$vo['seller_cat_id']))}">修改</a>&nbsp;
+
+		     
+		               <a class="js-ajax-delete btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['seller_cat_id']},0)">刪除</a>
+
+		               </td>
+		             </tr>
+		             {if condition="$vo['two']"}
+		                 {volist name="vo['two']" id="vo2" key='i2'}
+			             <tr id='tr_0_{$i}_{$i2}' class="tr_0_{$i}" isLoad='1'>
+			               <td>
+			               <span class='glyphicon glyphicon-minus' onclick='javascript:loadChildTree(this,{$vo2.seller_cat_id},"tr_0_{$i}_{$i2}")' style='margin-right:3px;margin-left:20px;cursor:pointer'></span>
+			               <input type='text' value='{$vo2['cat_name']}' onchange='javascript:editName(this)' dataId="{$vo2.seller_cat_id}" class='form-control wst-ipt'/>
+			               </td>
+			               <td>{$vo2['sort_order']}</td>
+			               <td>
+			               <div class="dropdown">
+			               {if condition="$vo2['is_show']==0 "}
+			                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+								     隐藏
+								  <span class="caret"></span>
+							   </button>
+			               {else /}
+			                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+								     显示
+								  <span class="caret"></span>
+							   </button>
+			               {/if}
+			                   <ul class="dropdown-menu" role="menu">
+								  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo2['seller_cat_id']})">显示</a></li>
+								  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo2['seller_cat_id']})">隐藏</a></li>
+							   </ul>
+			               </div>
+			               </td>
+			               <td>
+			  
+			               <a class="btn btn-default glyphicon glyphicon-plus" href="{:U('category/toEdit',array('pid'=>$vo2['seller_cat_id'],'level'=>2))}">新增子分类</a>&nbsp;
+			          
+			          
+			               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('category/toEdit',array('id'=>$vo2['seller_cat_id']))}">修改</a>&nbsp;
+			             
+			             
+			               <a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo2['seller_cat_id']},0)">刪除</a>
+			     
+			               </td>
+			             </tr>
+		                 {if condition="$vo2['three'] gt 0"}
+			                 {volist name="vo2['three']" id="vo3" key='i3'}
+				             <tr id='tr_0_{$i}_{$i2}_{$i3}' class="tr_0_{$i}_{$i2}" isLoad='1'>
+				               <td>
+				               <span class='glyphicon glyphicon-minus'  style='margin-right:3px;margin-left:40px;cursor:pointer'></span>
+				               <input type='text' value='{$vo3['cat_name']}' onchange='javascript:editName(this)' dataId="{$vo3.seller_cat_id}" class='form-control wst-ipt'/>
+				               </td>
+				               <td>{$vo3['sort_order']}</td>
+				               <td>
+				               <div class="dropdown">
+				               {if condition="$vo3['is_show']==0 "}
+				                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+									     隐藏
+									  <span class="caret"></span>
+								   </button>
+				               {else /}
+				                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+									     显示
+									  <span class="caret"></span>
+								   </button>
+				               {/if}
+				                   <ul class="dropdown-menu" role="menu">
+									  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo3['seller_cat_id']})">显示</a></li>
+									  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo3['seller_cat_id']})">隐藏</a></li>
+								   </ul>
+				               </div>
+				               </td>
+				               <td>
+				    
+				               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('category/toEdit',array('id'=>$vo3['seller_cat_id']))}">修改</a>&nbsp;
+				     
+				         
+				               <a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo3['seller_cat_id']},0)">刪除</a>
+				      
+				               </td>
+				             </tr>
+				             {/volist}
+			             {/if}
+			             {/volist}
+		             {/if}
+		             {/volist}
+		           </tbody>
+		        </table>
+			</fieldset>
+		</form>
+	</div>
+	<script type="text/javascript">
+		function toggleIsShow(t,v){
+			$.ajax({
+				url: "{:U('category/is_active')}",
+				type: "POST",   //请求方式
+				dataType: 'json',
+				data: {id:v,active:t},
+				success: function(json)
+				{
+					if(json.status==1){
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作成功',
+							ok: function () {
+								location.reload();
+							}
+						});
+					}else{
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作失败',
+							ok: function () {
+							}
+						});
+					}
+				}
+			})
+
+   		}
+		function del(id){
+			$.ajax({
+				url: "{:U('category/del')}",
+				type: "POST",   //请求方式
+				dataType: 'json',
+				data: {id:id},
+				success: function(json)
+				{
+					if(json.status==1){
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作成功',
+							ok: function () {
+								location.reload();
+							}
+						});
+					}else{
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作失败',
+							ok: function () {
+							}
+						});
+					}
+				}
+			})
+
+   		}
+	</script>
+</body>
+</html>

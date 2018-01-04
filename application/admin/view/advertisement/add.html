@@ -1,0 +1,55 @@
+{include file="header" /}
+<script type="text/javascript">
+    var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+</script>
+</head>
+
+<body ng-app="myapp">
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('advertisement/index')}">广告列表</a></li>
+        <li class="active"><a href="{:U('advertisement/add')}">广告添加</a></li>
+    </ul>
+    <form  class="form-horizontal js-ajax-form" action="{:U('advertisement/add')}" method="post">
+        <fieldset>
+            <input type="hidden" name="id">
+            <div class="control-group">
+                <label class="control-label">广告图片</label>
+                <div class="controls">
+                    <uploadimg cate="ad" image-url="{$ad.img}" width="1200" height="750"></uploadimg>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">广告链接</label>
+                <div class="controls">
+                    <input type="text" name="link" value="{$ad.link}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">位置</label>
+                <div class="controls">
+                    <select name="type">
+                        {volist name="$ad_types" id="vo"}
+                        <option value="{$vo.type_id}">{$vo.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">排序</label>
+                <div class="controls">
+                    <input type="text" name="sort" value="{$ad.sort}"/>
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="form-actions">
+            <input type="hidden" name="id" value="{:I('id')}" />
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

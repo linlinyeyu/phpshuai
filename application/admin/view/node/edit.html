@@ -1,0 +1,115 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('node/index')}">{:L('ADMIN_MENU_INDEX')}</a></li>
+			<li class="active"><a href="{:U('node/add')}">{:L('ADMIN_MENU_ADD')}</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="{:U('node/edit')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">{:L('NODE_ROOT')}:</label>
+					<div class="controls">
+						<select name="pid">
+							<option value="0">{:L('ROOT')}</option>
+							{$select_categorys}
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('MENU_NAME')}:</label>
+					<div class="controls">
+						<input type="text" name="title" value="{$info.title}">
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('MENU_TYPE')}:</label>
+					<div class="controls">
+						<select name="display">
+							<option value="1" {if condition="$info['display'] eq '1'"}selected{/if}>{:L('MENU_MAIN')}</option>
+							<option value="2" {if condition="$info['display'] eq '2'"}selected{/if}>{:L('MENU_CHILD')}</option>
+							<option value="0" {if condition="$info['display'] eq '0'"}selected{/if}>{:L('MENU_HIDE')}</option>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('NODE_TYPE')}:</label>
+					<div class="controls">
+						<select name="level">
+							<!--option value="1">应用级</option-->
+							<option value="2" {if condition="$info['level'] eq '2'"}selected{/if}>{:L('NODE_MODEL')}</option>
+							<option value="3" {if condition="$info['level'] eq '3'"}selected{/if}>{:L('NODE_FUNCTION')}</option>
+							<option value="0" {if condition="$info['level'] eq '0'"}selected{/if}>{:L('NODE_NO')}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">格式:</label>
+					<div class="controls">
+						<input type="text" name="action" id="action" value="{$info.action}">
+						<span class="form-required">*</span>
+						例:controller/function 
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">{:L('NODE_PARAM')}:</label>
+					<div class="controls">
+						<input type="text" name="param" value="{$info.param}">
+						例:id=3&amp;p=3
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">{:L('MENU_ICON')}:</label>
+					<div class="controls">
+						<input type="text" name="remark" id="action" value="{$info.remark}">
+						<a href="http://www.thinkcmf.com/font/icons" target="_blank">选择图标</a> 如fa-user 
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('NODE_STATUS')}:</label>
+					<div class="controls">
+						<select name="status">
+							<option value="1" {if condition="$info['status'] eq '1'"}selected{/if}>{:L('NODE_START')}</option>
+							<option value="0" {if condition="$info['status'] eq '0'"}selected{/if}>{:L('NODE_END')}</option>
+						</select>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="id" value="{$info.id}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('SAVE')}</button>
+				<button class="btn js-ajax-close-btn" type="submit">{:L('CLOSE')}</button>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script>
+		$(function() {
+			$(".js-ajax-close-btn").on('click', function(e) {
+				e.preventDefault();
+				Wind.use("artDialog", function() {
+					art.dialog({
+						id : "question",
+						icon : "question",
+						fixed : true,
+						lock : true,
+						background : "#CCCCCC",
+						opacity : 0,
+						content : "您确定需要关闭当前页面嘛？",
+						ok : function() {
+							setCookie('refersh_time_admin_menu_index', 1);
+							window.close();
+							return true;
+						}
+					});
+				});
+			});
+		});
+	</script>
+</body>
+</html>

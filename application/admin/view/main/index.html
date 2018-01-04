@@ -1,0 +1,47 @@
+{include file="header" /} 
+<style>
+.home_info li em {
+	float: left;
+	width: 200px;
+	font-style: normal;
+}
+li {
+	list-style: none;
+	margin-right:300px;
+}
+</style>
+</head>
+<body>
+	<div>
+		<div style="overflow:hidden;width:100%;">
+		
+		<div class="wrap">
+			<div id="home_toptip"></div>
+			<h4 class="well">基础统计</h4>
+			<div class="home_info" style="text-align:center;">
+				<ul style="display:inline-block;margin:0 auto;">
+					<li><em>今日订单总数</em> <span>{$order}</span></li>
+					<li><em>今日新增会员</em> <span>{$new_people}</span></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="wrap">
+			<div id="home_toptip"></div>
+			<h4 class="well">订单信息</h4>
+			<div class="home_info" style="text-align:center;">
+				<ul style="display:inline-block;margin:0 auto;">
+						<li><em><a href="{:U('orders/lists',['state' => 1])}">未付款订单数</a></em> <span>{$order_count.pay_order}</span></li>
+						<li><em><a href="{:U('orders/lists',['state' => 2])}">待发货订单数</a></em> <span>{$order_count.send_order}</span></li>
+						<li><em><a href="{:U('orders/lists',['state' => 3])}">未确认订单数</a></em><span>{$order_count.confirm_order}</span></li>
+						<li><em><a href="{:U('orders/lists',['state' => 4])}">已成交订单数</a></em> <span>{$order_count.finish_order}</span></li>
+						<li><em><a href="{:U('comment/index')}">未处理评价订单数</a></em> <span>{$order_count.wait_comment}</span></li>
+				</ul>
+			</div>
+	
+		</div>
+		</div>
+		</div>
+	</div>
+</body>
+</html>

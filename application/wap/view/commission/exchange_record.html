@@ -1,0 +1,47 @@
+{include file="header"}
+</head>
+
+<body >
+	
+	<div class="header">
+		    <div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title">兑换记录</span>
+			</div>
+	</div>
+	<div ng-controller="myctrl" ng-cloak class="container top-container">
+		<div infinite bind="records" url="commission/excharge_records" data="goods_id={:I('goods_id')}" need_token="1" ng-show="records.length > 0">
+			<div  ng-repeat="r in records" class="score-detail-div"><!-- repeat this -->
+				<div class="score-detail-left-td">
+					<p class="score-detail-left-p">
+						<span>{{r.pay_name}}</span>
+						<span>{{r.account}}</span>
+					</p>
+					<p class="score-detail-left-second">
+						<span class="ongoing" ng-if="r.state == 0">审核中</span>
+						<span ng-if="r.state == 1">兑换积分</span>
+						<span class="fail" ng-if="r.state == 2">未通过</span>
+					</p>
+				</div>
+				<div class="score-detail-right-td">
+					<p class="score-detail-right-p">{{r.date_add * 1000 | date: 'yyyy-MM-dd'}}</p>
+					<p class="score-detail-right-second">-{{r.money}}</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="dt-gad-no-record" ng-show="records.length == 0">
+			<img src="__PUBLIC__/wap/image/classify34.png"  />
+			<span>亲，您暂无兑换记录</span>
+		</div>
+		
+		
+	</div>
+	<script>
+		var app = angular.module("myapp",['lazy-load','back-filter'])
+		app.controller("myctrl",['$scope',function($scope){
+			
+		}]);
+	</script>
+</body>
+</html>

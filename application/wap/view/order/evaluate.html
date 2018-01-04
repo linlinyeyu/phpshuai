@@ -1,0 +1,88 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">评价</span>
+			    </div>
+	</div>
+	<div ng-controller="ctrl" ng-cloak class="container main-container" >
+		<div class="od-goods-div">
+			<div class="od-goods-child">
+				<p>商品详情</p>
+			</div>
+			<div class="od-goods-two-child">
+				<div class="od-goods-info">
+					<img image-resize width="75px" goods="1" ng-src="{{order.image}}">
+					<p class="od-goods-detail-onep">{{order.name}}</p>
+					<p class="od-goods-detail-twop">规格:<span>{{order.option_name}}</span></p>
+					<p class="od-goods-detail-three">¥{{order.price}}</p>
+					<span>×{{order.quantity}}</span>
+				</div>
+				
+			</div>
+		</div>
+		<div class="evaluate-rank-div">
+			<div class="evaluate-rank-child">
+				<div ng-click="score = 2;" class="evaluate-rank">
+					<span ng-class="{true : 'active'}[score == 2]">好评</span>
+				</div>
+				<div ng-click="score = 1;" class="evaluate-rank">
+					<span ng-class="{true : 'active'}[score == 1]">中评</span>
+				</div>
+				<div ng-click="score = 0;" class="evaluate-rank">
+					<span ng-class="{true : 'active'}[score == 0]">差评</span>
+				</div>
+			</div>
+			<textarea class="evaluate-textarea" id="textarea" placeholder="写下对商品的感受吧,对他人帮助很大哦!" ng-model="comment"></textarea>
+		</div>
+		<div class="evaluate-footer">
+			<div ng-click="is_anony = is_anony == 1 ? 0 : 1" class="evaluate-footer-first">
+				<img  ng-if="is_anony == 0" src="__PUBLIC__/wap/image/noselect.png">
+				<img  ng-if="is_anony == 1" src="__PUBLIC__/wap/image/select.png">
+				<span>匿名评价</span>
+			</div>
+			<div ng-click="submit()" class="evaluate-footer-second">
+				<a>提交评价</a>
+			</div>
+		</div>
+	</div>
+	 <script>		
+	 	var app = angular.module("myapp",['back-filter','image-resize']);
+   	  	app.controller('ctrl',["$scope",function($scope){
+   	  		$scope.order = {$order | json_encode};
+   	  		$scope.score = "2";
+   	  		$scope.is_anony = "0";
+   	  		
+   	  		$scope.submit = function(){
+   	  			var comment = $scope.comment;
+   	  			if(!comment || comment.length < 4 || comment.length > 200){
+   	  				pinet.toast("评论的长度为4~200个字符");
+   	  				return;
+   	  			}
+   	  			
+   	  			var data = {
+   	  				'order_sn' : $scope.order.order_sn,
+   	  				'goods_id' : {:I('goods_id')},
+   	  				'comment' : comment,
+   	  				'score' : $scope.score,
+   	  				'is_anony' : $scope.is_anony,
+   	  				'access_token' : pinet.getCookie("access_token")
+   	  			};
+   	  			layer.open({'type':2});
+   	  			pinet.post("order/comment", data, function(data){
+   	  				layer.closeAll();
+   	  				pinet.alert("发表成功", function(){
+   	  					var url =  "{:U('order/order_detail')}?order_sn=" + $scope.order.order_sn;
+   	  					location.replace(url);
+   	  				});
+   	  			});
+   	  			
+   	  		}
+   	  	}]);
+			   	  	
+	   </script>
+	  
+</body>
+</html>

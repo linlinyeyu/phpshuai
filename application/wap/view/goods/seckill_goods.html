@@ -1,0 +1,60 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header" >
+    	<div class="wrapper">
+    		<span class="back" on-back-render-filters></span>
+	     	<span class="title">秒杀商品</span>
+	    </div>
+	</div>
+	<div  ng-controller="ctrl" ng-cloak  class="container top-container seckill-first-div">
+		<div  infinite url="goods/getgoods" data="type=2" bind="goods">
+			<div ng-repeat="g in goods" class="seckill-child-div"><!-- repeat这个div -->
+				<div class="seckill-image-div" >
+					<img image-resize ng-src="{{g.banner}}" ratio="0.5" activity="1">
+					<div class="seckill-lasttime-div">
+						<span ng-if="g.date_end > 0">剩余:{{g.date_end | date_count_down}}</span>
+						<span ng-if="g.date_end <= 0">活动已结束</span>
+					</div>
+				</div>
+	 		    <div style="font-size:14px;overflow:hidden;width:90%;margin:0 auto;line-height:18px;margin-top:5px">
+	 		   		<span>{{g.name}}</span> 
+	 		   </div>
+	 		    <div class="seckill-money-div">
+	 		    	<span class="seckill-now-money-span">¥{{g.price}}</span>
+	 		    	<del class="seckill-market-money-span">市场价:¥{{g.market_price}}</del>
+	 		    	<span class="seckill-last-span">/ 剩余<span class="seckill-last-number">{{g.stock}}</span>件</span>
+	 		    </div>
+	 		    
+	 		     <a href="{:U('goods/goodsinfo')}?goods_id={{g.goods_id}}" class="seckill-button " ng-class="{true:'active', false:'disabled'}[g.date_end >= 0 && g.stock > 0]">
+					<span ng-if="g.date_end < 0 || g.stock == 0">活动结束</span>
+	             	<span ng-if="g.date_end >= 0 && g.stock > 0">立即秒杀</span>
+				</a>
+	 		     				
+	 		     
+			</div>
+			
+			<div class="dt-gad-no-record" ng-if="ins.busy !=  true && goods.length == 0">
+				<img src="__PUBLIC__/wap/image/classify34.png"  />
+				<span>亲，暂无秒杀活动</span>
+			</div>
+		</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter', 'lazy-load', 'date-filter','image-resize']);
+		app.controller("ctrl",['$scope', '$interval', function($scope, $interval){
+			
+			$interval(function(){
+				if(!$scope.goods){
+					return;
+				}
+				for(var i = 0; i < $scope.goods.length ; i++){
+					$scope.goods[i].date_end --;
+					
+				}
+			},1000);
+		}])
+	</script>
+
+</body>
+</html>

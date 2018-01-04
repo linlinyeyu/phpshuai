@@ -1,0 +1,489 @@
+{include file="header"}
+<style>
+	.goodsinfo-descripion img{
+		width:100% !important;
+		display:block;
+	}
+</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0bc5b98d70d489fab62dbb010ca3c641";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+ <link href="__PUBLIC__/css/layer.css" rel="stylesheet"/>
+</head>	
+<body ng-controller="ctrl" ng-cloak style="background-color:#fff;" ng-class="{true:'over-hidden'}[modalLogin||modalActive||modelBuy]">
+		<div class="header">
+		   	<div class="wrapper">
+		   		<span class="left back" on-back-render-filters ></span>
+		   		<span class="title">{{page_name}}</span>
+		    </div>
+		</div>
+		  
+	<div  ng-cloak class="container main-container" >
+			<div style="position:relative">
+				<ul image-resize ratio="0.53"  class="bxslider" > 
+				     <li ng-repeat="i in goods.images" on-finish-render-filters>
+				     	<img image-resize ratio="0.53" activity="1" ng-src="{{i}}" >
+				     </li>
+				</ul>
+				<div ng-show="goods_text != ''" class="goodsinfo-count-down">{{goods_text}}</div>
+			</div>
+		   	
+			<div style="background:white;">
+				<p style="padding-left:10px;padding-top:5px">{{goods.name}}</p>
+				<p style="color:#f25d25;font-weight:bold;padding-left:10px;padding-top:5px">¥{{goods.price}}<del style="color:#999999;font-size:10px;margin-left:10px">¥{{goods.market_price}}</del></p>
+				<div style="margin-top:5px;overflow:hidden;padding-bottom:5px;font-size:12px;">
+					<div style="display:inline-block;width:33.3%;float:left;">
+						<span style="float:left;padding-left:10px;color:#808080">库存:{{goods.stock}}</span>
+					</div>
+					<div style="display:inline-block;width:33.3%;float:left;text-align:center">
+						<span style="color:#808080">销量:{{goods.sale_count}}</span>
+					</div>
+					<div style="display:inline-block;width:33.3%;float:left;">
+						<span style="float:right;padding-right:10px;color:#808080">运费:{{express}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="background" style="height:10px;"></div>
+		    <div id="body" >
+				<div class="nav-container" >
+					<div class="nav-wrapper " style="background:white;overflow:hidden">
+						<a id="nav_1" class="nav-pills nav-col-4 no-padding"  ng-click="tab(1)" >
+							<span class="nav-text nav-small">图文详情</span>
+						</a>
+						 <a id="nav_2"  class="nav-pills nav-col-4 no-padding"  ng-click="tab(2)" >
+							<span class="nav-text nav-small">产品参数</span>
+						</a>
+					 	<a id="nav_3" class="nav-pills nav-col-4 no-padding" ng-click="tab(3)" >
+							<span class="nav-text nav-small">用户评价</span>
+						</a>
+						<a id="nav_4" class="nav-pills nav-col-4 no-padding"  ng-click="tab(4)" >
+							<span class="nav-text nav-small">同店推荐</span>
+						</a>
+					</div>
+				</div>
+				<div class="content-container">
+					
+					<!-- 图文详情 -->
+					<div class="goodsinfo-descripion" id="container_1">
+						{$description | html_entity_decode}
+					</div>
+					
+					<!-- 产品参数 -->
+					<div id="container_2">
+						<div ng-if="goods.params.length > 0">
+							<div class="goodsinfo-params" ng-repeat="p in goods.params">
+								{{p.name}}:{{p.value}}
+							</div>
+						</div>
+						<div class="goodsinfo-no-params" ng-if="goods.params.length == 0">
+							该产品无参数
+						</div>
+					</div>
+					
+					<!-- 评论 -->
+					<div  id="container_3">
+						<div class="goodsinfo-comment-top-content">
+							<div class="goodsinfo-comment-top-left">
+								<div class="goodsinfo-comment-total">{{goods.comment.score_2 / goods.comment.base * 100 | number : 0}}%</div>
+								<span>好评率</span>
+							</div>
+							<div class="goodsinfo-comment-top-right">
+								<div class="goodsinfo-comment-score">
+									<span>好评</span>
+									<div class="goodsinfo-comment-process-container">
+										<div class="goodsinfo-comment-process" style="width:{{goods.comment.score_2 / goods.comment.base * 100 | number : 0}}%"></div>
+									</div>
+									<span class="goodsinfo-comment-rate">{{goods.comment.score_2 / goods.comment.base * 100 | number : 0}}%</span>
+								</div>
+								<div class="goodsinfo-comment-score">
+									<span>中评</span>
+									<div class="goodsinfo-comment-process-container">
+										<div class="goodsinfo-comment-process" style="width:{{goods.comment.score_1 / goods.comment.base * 100 | number : 0}}%"></div>
+									</div>
+									<span class="goodsinfo-comment-rate">{{goods.comment.score_1 / goods.comment.base * 100 | number : 0}}%</span>
+								</div>
+								<div class="goodsinfo-comment-score">
+									<span>差评</span>
+									<div class="goodsinfo-comment-process-container">
+										<div class="goodsinfo-comment-process" style="width:{{goods.comment.score_0 / goods.comment.base * 100 | number : 0}}%"></div>
+									</div>
+									<span class="goodsinfo-comment-rate">{{goods.comment.score_0 / goods.comment.base * 100 | number : 0}}%</span>
+								</div>
+							</div>
+						</div>
+						<div class="goodsinfo-comment-split"></div>
+						<div class="goodsinfo-comment-nav">
+							<span ng-class="{true:'active'}[comment_active == -1]" ng-click="get_comment(-1)" class="active">全部({{goods.comment.total}})</span>
+							<span ng-class="{true:'active'}[comment_active == 2]" ng-click="get_comment(2)">好评({{goods.comment.score_2}})</span>
+							<span ng-class="{true:'active'}[comment_active == 1]" ng-click="get_comment(1)">中评({{goods.comment.score_1}})</span>
+							<span ng-class="{true:'active'}[comment_active == 0]" ng-click="get_comment(0)">差评({{goods.comment.score_0}})</span>
+						</div>
+						<div infinite url="order/get_comments" data="goods_id={:I('goods_id')}&score=-1" instance="comm" bind="comments" >
+							<div ng-if="comments && comments.length > 0" ng-repeat="c in comments" class="goodsinfo-comment-item">
+								<a class="goodsinfo-comment-item-top">
+									<img avater="1" ng-src="{{c.image}}" image-resize width="40px" />
+									<div class="goodsinfo-comment-item-left">
+										<div ng-bind-html="c.nickname | emoji"></div>
+										<div>规格：{{c.option_name}}</div>
+									</div>
+									<div class="goodsinfo-comment-item-right">{{c.date_add * 1000 | date:"yyyy-MM-dd"}}</div>
+								</a>
+								<div class="goodsinfo-comment-item-content"><span>[{{c.score}}]</span>{{c.content}}</div>
+								<div ng-if="c.reply_content">
+									<div class="goodsinfo-comment-reply-before"></div>
+									<div class="goodsinfo-comment-reply">掌柜回复：{{c.reply_content}}</div>
+								</div>
+							</div>
+							
+							<div ng-if="comm.busy == false && comments.length == 0" class="goodsinfo-no-params">
+								暂无评论
+							</div>
+						</div>
+					</div>
+					
+					<!-- 同店推荐 -->
+					<div id="container_4">
+						<div class="goodsinfo-rec">
+							<a href="{:U('goods/goodsinfo')}?goods_id={{r.goods_id}}" ng-repeat="r in goods.recs" class="goodsinfo-rec-goods">
+								<img image-resize  ng-src="{{r.image}}" goods="1" width="46%">
+								<div class="goodsinfo-rec-info">
+									<div class="goodsinfo-rec-names">{{r.name}}</div>
+									<div class="goodsinfo-rec-bottom">
+										<div class="goodsinfo-rec-price">¥{{r.price}}</div>
+										<div class="goodsinfo-rec-sale">销量：{{r.sale_count}}</div>
+									</div>
+								</div>
+								
+							</a>
+						</div>
+					</div>
+				</div>
+			</div> 		
+			<div ng-show="active" class="footer">
+			    <div ng-click="show(2);" class="footer-btn footer-full-btn footer-warning"><span ng-if="goods.goods_type != 3">立即购买</span><span ng-if="goods.goods_type == 3">立即领取</span></div>
+			</div>
+		</div>	
+		
+		<!-- 绑定手机弹出框  -->
+		<div class="modal ng-hide" ng-show="modalActive">
+			<div class="modal-dialog">
+				<div class="modal-content" ng-show="modalActive" >
+					<div class="modal-close" ng-click="modalActive = false;"></div>
+					<div class="modal-body" >
+						<div style="margin-top:10px;">下单前请先完善用户信息</div>
+						<input class="goodsinfo-modal-input" ng-show="!goods.agent_bind" id="uuid" type="text" placeholder="请输入推荐人ID" >
+						<input class="goodsinfo-modal-input" ng-model="realname" type="text" placeholder="请输入真实姓名" >
+						<input class="goodsinfo-modal-input" ng-model="phone" type="tel" placeholder="请输入手机号" >
+						<div class="goodsinfo-modal-input-group">
+							<input class="goodsinfo-modal-input" ng-model="verify_code" type="tel" placeholder="请输入验证码" >
+							<div class="goodsinfo-modal-verify" ng-click="send()">{{verify_code_text}}</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a class="modal-btn modal-primary-btn  modal-full-btn" ng-click="bind_phone()">确认</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 购买弹出框 -->
+		<div id="pop" class="modal modal-bottom" style="display:none;" >
+			<div class="modal-dialog" id="pop-dialog" style="bottom:-100%">
+				<div class="modal-content" >
+					<div class="modal-close" ng-click="hide()" ></div>
+					<div class="modal-body">
+						<div class="goodsinfo-modal-info">
+							<img class="goodsinfo-modal-image" goods="1" ng-src="{{goods.cover}}" image-resize ratio="1" width="80px">
+							<div class="goodsinfo-modal-text">
+								<span class="goodsinfo-modal-price">￥{{currOpts.sale_price}}</span>
+								<span class="goodsinfo-modal-stock">库存{{currOpts.stock}}件</span>
+								<span class="goodsinfo-modal-name">已选：{{currOpts.name}}</span>
+							</div>
+						</div>
+						<div class="goodsinfo-modal-specs-container">
+							<div class="goodsinfo-modal-specs" ng-repeat="s in goods.specs">
+								<span class="goodsinfo-modal-specs-title">{{s.name}}</span>
+								<span class="goodsinfo-modal-specs-item" ng-click="selectSpecs($parent.$index,$index)" ng-class="{true:'active'}[i.id == currOpts['specs'][$parent.$index]]" ng-repeat="i in s.items">{{i.name}}</span>
+							</div>
+						</div>
+						<div ng-show="goods.max_once_buy > 1" class="goodsinfo-modal-number-container">
+							<span class="goodsinfo-modal-number-title">购买数量</span>
+							<div class="goodsinfo-modal-number-content count-group">
+								<span class="count-btn count-sub" ng-click="sub()" ></span>
+								<input class="count-font" ng-blur="cal()" ng-model="quantity" type="tel" />
+								<span class="count-btn count-add" ng-click="add()"></span>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer bordered">
+						<a class="modal-btn modal-warning-reverse-btn" ng-click="hide()">取消</a>
+						<a class="modal-btn modal-warning-btn" ng-click="confirm()">确认购买</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 要求登录弹出框 -->
+		<div class="modal ng-hide" ng-show="modalLogin">
+			<div class="modal-dialog">
+				<div class="modal-content" ng-show="modalLogin" >
+					<div class="modal-close" ng-click="modalLogin = false;"></div>
+					<div class="modal-body" >
+						<div style="margin-top:20px; text-align:center">下单前请先登录</div>
+					</div>
+					<div class="modal-footer">
+						<a class="modal-btn modal-primary-reverse-btn" ng-click="modalLogin = false;" >取消</a>
+						<a href="{:U("home/login")}" class="modal-btn modal-primary-btn">登录</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		   
+</body>
+<script src="__PUBLIC__/wap/js/bxslider.min.js"></script>
+<script>
+		var app = angular.module("myapp",['image-resize','back-filter','lazy-load', 'repeat-filter','date-filter', 'emoji-filter']);
+		app.controller("ctrl",['$scope', '$interval',"$filter", function($scope,$interval, $filter){
+			//初始化数据
+			$scope.goods = {$goods | json_encode};
+			$scope.comment_active = "-1";
+			$scope.goods_text = "";
+			if($scope.goods.on_sale == 0){
+				$scope.goods_text = "该产品已下架";
+			}else if($scope.goods.quantity <= 0){
+				$scope.goods_text = "该产品已售罄";
+			}else{
+				$scope.active = true;
+			}
+			
+			$scope.goods.comment.base = $scope.goods.comment.total > 0 ? $scope.goods.comment.total : 1;
+			
+			var page_name = "面膜";
+			if($scope.goods.goods_type == 2){
+				page_name = "秒杀商品";
+				if($scope.goods.date_end <= 0){
+					$scope.active = false;
+					$scope.goods_text = "活动已结束";
+				}else if($scope.active){
+					$interval(function(){
+						$scope.goods.date_end -- ;
+						$scope.goods_text = $filter("date_count_down")($scope.goods.date_end);
+					},1000);
+					$scope.goods_text = $filter("date_count_down")($scope.goods.date_end);
+				}
+				
+			}else if($scope.goods.goods_type == 3){
+				page_name = "领取商品";
+			}
+			$scope.page_name = page_name;
+			$scope.modalActive = false;
+			$scope.express = "包邮";
+			$scope.quantity = 1;
+			$scope.verify_code_text = "获取验证码";
+			
+			//运费计算
+			if($scope.goods.express_fee > 0){
+				$scope.express = "¥" + $scope.goods.express_fee;
+			}
+			//底部切换
+			$scope.tab = function(index){
+				$('#nav_'+index).addClass('active');
+				$('#nav_'+index).siblings().removeClass('active');
+				$('#container_'+index).fadeIn();
+				$('#container_'+index).siblings().hide();
+			}
+			$scope.tab(1);
+			
+			
+			//样式初始化
+			var options = {};
+			for(var i = 0; i < $scope.goods.options.length; i++){
+				var option = $scope.goods.options[i];
+				var spec = option.specs;
+				option.specs = spec.split("_");
+				
+				options[spec] = option;
+			}
+			
+			if($scope.goods.options.length == 0){
+				options = {"0": {
+					"sale_price" : $scope.goods.price,
+					"stock" : $scope.goods.stock,
+					"specs" : [],
+					"name" : "默认",
+					'id' : 0
+					}
+				};
+			}
+			for(var i in options){
+				$scope.currOpts = options[i];
+				break;
+			}
+			$scope.options = options;
+			
+			$scope.selectSpecs = function(parentIndex, index){
+				var specs = [];
+				$scope.quantity = 1;
+				for(var i = 0; i < $scope.currOpts.specs.length ; i++){
+					specs.push($scope.currOpts.specs[i]);
+				}
+				var id = $scope.goods.specs[parentIndex].items[index].id;
+				specs[parentIndex] = id;
+				$scope.currOpts = $scope.options[specs.join("_")];
+				var pid = $scope.currOpts.specs[parentIndex];
+			}
+			
+			//弹出框的显示与隐藏
+			$scope.show = function(){
+				var is_login = "{$is_login}";
+				if(!is_login || is_login == 0){
+					$scope.modalLogin = true;
+					return;
+				}
+				if(!$scope.goods.phone_bind){
+					$scope.modalActive = true;
+					return;
+				}
+				if($scope.goods.order_count == 0){
+					pinet.alert("领取此商品前必须先购买" + $scope.goods.pname);
+					return;
+				}
+				
+				if($scope.goods.max_once_buy == 1 && $scope.goods.options.length == 0){
+					$scope.confirm();
+				}else{
+					$scope.modelBuy = true;
+					$("#pop").show();
+					$("#pop-dialog").animate({
+						'bottom':"0px",
+					});
+					
+				}
+				
+			}
+			
+			$scope.hide = function(){
+				$scope.modelBuy = false;
+				
+				$("#pop-dialog").animate({
+					'bottom':"-100%",
+				},function(){
+					$("#pop").hide();
+					
+				});
+				
+			}
+			
+			$scope.$on("ngRepeatFinished",function(){
+		   	  	$('.bxslider').bxSlider({
+		   	  		infiniteLoop: true,
+		   	  		auto: true,
+		   	  		controls:false
+	   	  		});
+   	  		});
+			
+			
+			$scope.sub = function(){
+				if($scope.quantity > 1){
+					$scope.quantity --;
+				}
+			}
+			
+			$scope.cal = function(){
+				var max_buy = $scope.currOpts.stock * 1 > $scope.goods.max_once_buy * 1 ? $scope.goods.max_once_buy : $scope.currOpts.stock;
+				if($scope.quantity * 1 > max_buy * 1){
+					$scope.quantity = max_buy;
+				}
+			}
+			
+			$scope.add = function(){
+				if($scope.quantity < $scope.currOpts.stock && $scope.quantity < $scope.goods.max_once_buy){
+					$scope.quantity ++;
+				}
+			}
+			
+			//处理业务逻辑，ajax请求
+			$scope.send=function(){
+				var phone = $scope.phone;
+				if(!phone){
+					layer.open({content:"请输入手机号",time:3});
+					return;
+				}
+				if($scope.stop){
+					return;
+				}
+				$scope.time = 60;
+				$scope.stop = $interval(function(){
+					if($scope.time > 0){
+						$scope.time --;
+						$scope.verify_code_text = $scope.time + "秒重发";
+					}else{
+						$scope.verify_code_text = "获取验证码";
+						$interval.cancel($scope.stop);
+						$scope.stop = null;
+					}
+				}, 1000);
+				
+				pinet.post('User/SendCode',{"phone":$scope.phone,"state":0},function(data){
+					pinet.toast(data.message);
+					$scope.$apply();
+				});
+			};
+			
+			$scope.bind_phone = function(){
+				var phone = $scope.phone ;
+				var verify_code = $scope.verify_code;
+				var realname = $scope.realname;
+				var uuid = $("#uuid").val() ? $("#uuid").val() : "";
+				
+				if(!phone){
+					pinet.alert("请输入手机号");
+					return;
+				}
+				if(!verify_code) {
+					pinet.alert("请输入验证码");
+					return;
+				}
+				
+				if(!realname){
+					pinet.alert("请输入真实姓名");
+					return;
+				}
+				
+				
+				var data = {"phone" : phone , 
+						"verify_code" : verify_code,
+						"realname" : realname,
+						"uuid" : uuid,
+						'access_token' : pinet.getCookie("access_token")};
+				layer.open({type:2});
+				pinet.post('User/BindPhone', data, function(data){
+					layer.closeAll();
+					location.reload();
+				});
+			}
+			
+			$scope.confirm = function(){
+				if(!$scope.currOpts){
+					return;
+				}
+				var url="{:U('order/place_order')}?quantity=" + $scope.quantity 
+						+ "&goods_id=" + $scope.goods.goods_id + "&option_id=" + $scope.currOpts.id; 
+				location.href = url;	
+			}
+			
+			$scope.get_comment = function(state){
+				$scope.comment_active = state;
+				$scope.comm.data = "goods_id={:I('goods_id')}&score=" + state;
+				$scope.comm.reset();
+			}
+		}]);
+			
+</script>
+</html>

@@ -1,0 +1,40 @@
+{include file="header" /} 
+</head>
+<body>
+  <div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="{:U('node/index')}">{:L('ADMIN_MENU_INDEX')}</a></li>
+      <li><a href="{:U('node/add')}">{:L('ADMIN_MENU_ADD')}</a></li>
+      {if condition="APP_DEBUG"}
+      <li><a href="{:U('node/lists')}">{:L('ADMIN_MENU_LISTS')}</a></li>
+      {/if}
+    </ul>
+    <form class="js-ajax-form" action="{:U('node/sort')}" method="post">
+      <div class="table-actions">
+        <button class="btn btn-primary btn-small js-ajax-submit" type="submit">{:L('SORT')}</button>
+      </div>
+      <table class="table table-hover table-bordered table-list" id="menus-table">
+        <thead>
+          <tr>
+            <th width="80">{:L('SORT')}</th>
+            <th width="50">ID</th>
+            <th>{:L('NAME')}</th>
+            <th>{:L('TYPE')}</th>       
+            <th width="80">{:L('STATUS')}</th>
+            <th width="80">{:L('DISPLAY')}</th>
+            <th width="180">{:L('ACTIONS')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {$menus}
+        </tbody>
+
+      </table>
+      <div class="table-actions">
+        <button class="btn btn-primary btn-small js-ajax-submit" type="submit">{:L('SORT')}</button>
+      </div>
+    </form>
+  </div>
+  <script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+.row-container{
+	display:block;
+	>.row{
+		width:100%;
+		background-color:@white;
+		min-height: @row-height;
+		line-height:@row-line-height;
+		padding: @row-line-vertical-padding @row-line-horizontal-padding;
+		overflow:hidden;
+		&.row-big-height{
+			height:@row-big-height;
+			line-height : @row-line-big-height;
+			>.row-content{
+				>.row-middle{
+					padding:@row-line-vertical-padding 0;
+					line-height: @row-line-height;
+					>.row-title{
+						color:@black;
+						line-height:inherit;
+					}
+					>.row-descript{
+						margin-top:3px;
+						color:@gray;
+						line-height :  inherit;
+						font-size:@font-size-base - 2;
+					}
+				}
+				
+			}
+		}
+		&.row-fixed-height{
+			height:@row-height;
+			white-space: nowrap;
+		}
+		&.row-bordered{
+			border-bottom:1px solid @row-border-color;
+			&:first-child{
+				border-top:1px solid @row-border-color;
+			}
+		}
+		>.row-content{
+			font-size:@font-size-base - 2;
+			display:block;
+			overflow:hidden;
+			&:after{
+				clear:both;
+			}
+			>.row-input{
+				display:block;
+				width:150px;
+				>input{
+					color:@row-text-color;
+					border:none;
+					outline:none;
+					background:none;
+					font-size:inherit;
+					line-height:inherit;
+				}
+				&.rows-left-border:before{
+					content : '|';
+					display:inline-block;
+				}
+			}
+			>.row-icon{
+				display:inline-block;
+				height:@row-line-height;
+				width:@row-content-icon-size;
+				>img{
+					width:@row-content-icon-size;
+					height:@row-content-icon-size;
+					margin-top : (@row-line-height - @row-content-icon-size) /2;
+					
+				}
+			}
+			>.row-big-icon{
+				display:inline-block;
+				height:@row-line-big-height;
+				width:@row-line-big-height;
+				>img{
+					width:@row-line-big-height;
+					height:@row-line-big-height;
+				}
+			}
+			>.row-left{
+				float:left;
+				margin-left:5px;
+				&:first-child{
+					margin-left:0;
+				}
+			}
+			>.row-text{
+				display:block;
+				color:@row-text-color;
+				font-size:inherit;
+				line-height:inherit;
+			}
+			.row-right{
+				float:right;
+				margin-left:5px;
+				&:last-child{
+					margin-left:0px;				
+				}
+			}
+			.row-arrow{
+				display:inline-block;
+				vertical-align: middle;
+				width:10px;
+				height:@row-line-height;
+				background:url(../image/right-jiantou.png) center no-repeat;
+				background-size: 8px auto;
+			}
+			.row-switch{
+				display:inline-block;
+				vertical-align: top;
+				margin-top: (@row-line-height - 30 ) / 2;
+				width:50px;
+				height:30px;
+				background:url(../image/switch_off.png) center no-repeat;
+				background-size: 100% auto;
+				&.active{
+					background-image : url(../image/switch_on.png);
+				}
+			}
+			
+			>.row-label{
+				float:left;
+				width:25%;
+				text-align:right;
+				color:@row-text-label-color;
+				line-height:inherit;
+		    }
+		    
+			>.row-input{
+				float:left;
+				>input{
+					border:none;
+					border-radius:3px;
+					line-height:inherit;
+					color:@row-text-input-color;
+					text-align:left;
+					width:100%;
+					&.error{
+						border:1px solid @error-color;
+					}
+				}
+			}
+		}
+		
+		
+	}
+}

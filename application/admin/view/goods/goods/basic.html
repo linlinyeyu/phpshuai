@@ -1,0 +1,381 @@
+<div ng-controller="basic" ng-cloak>
+
+
+<div class="control-group">
+	<label class="control-label">商品名
+		<span class="form-required"style="color:red;">*</span>
+	</label>
+	<div class="controls">
+		<input type="text" name="goods_name" value="{$goods.name}" required>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">商品简称
+		<span class="form-required"style="color:red;">*</span>
+	</label>
+	<div class="controls">
+		<input type="text" name="mini_name" value="{$goods.mini_name}" required> 
+		<span>用户短信发送时商品的简称*</span>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">商品编号
+		<span class="form-required"style="color:red;">*</span>
+	</label>
+	<div class="controls">
+		<input type="text" name="goods_sku" value="{$goods.sku}" />
+	</div>
+</div>
+
+{if condition="$goods_type neq 3"}
+<div class="control-group">
+	<label class="control-label">商品类别</label>
+	<div class="controls">
+		<select name="goods_category">
+			<option value="0">请选择分类</option>
+			{$categorys}
+		</select>
+	</div>
+</div>
+{/if}
+
+{if condition="$goods_type eq 3"}
+<div class="control-group">
+	<label class="control-label">关联商品</label>
+	<div class="controls">
+		<select name="pid">
+			<option value="0">请选择商品</option>
+			{volist name="p_goods" id="g"}
+			<option {if condition="$goods.pid eq $g.goods_id"}selected{/if} value="{$g.goods_id}">{$g.name}</option>
+			{/volist}
+		</select>
+	</div>
+</div>
+{/if}
+
+{if condition="$goods_type eq 4"}
+<div class="control-group">
+	<label class="control-label">关联商品</label>
+	<div class="controls">
+		<select name="pid">
+			<option value="0">请选择商品</option>
+			{volist name="p_goods" id="g"}
+			<option {if condition="$goods.pid eq $g.goods_id"}selected{/if} value="{$g.goods_id}">{$g.name}</option>
+			{/volist}
+		</select>
+	</div>
+</div>
+{/if}
+
+<div class="control-group">
+	<label class="control-label">商品图片</label>
+	<div class="controls">
+		<div id="content">
+			
+         	<span id="spanButtonPlaceholder"></span>
+         	<span style="display:block;margin-top:5px;">建议尺寸：750*750</span>
+			<div id="divFileProgressContainer"></div>
+				<div id="thumbnails">
+					{volist name="goods.imgs" id="img"}
+						<div class="get selected" id="aid-{$img.image_id}">
+							<input type="hidden" name="image_id[]" value="{$img.name}">
+							<img src="{$img_url}{$img.name}" data-id="{$img.image_id}" data-path="{$img.name}"  title="" />
+							<a class="del btn1">删除</a>
+						</div>
+					{/volist}
+				</div>
+			</div>
+	</div>
+</div>
+
+{if condition="$goods_type neq 1"}
+<div class="control-group">
+	<label class="control-label">专场图片</label>
+	<div class="controls">
+		<uploadimg fileid="banner" image-name="banner" image-url="{$goods.banner}" cate="goods" width="750" height="380" ></uploadimg>
+	</div>
+</div>
+{/if}
+
+<div class="control-group">
+	<label class="control-label">商品简介</label>
+	<div class="controls">
+		<textarea name="goods_desc">{$goods.detail}</textarea>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">商品重量</label>
+	<div class="controls">
+		<input type="text" name="weight" value="{$goods.weight}"/> kg
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">商品金额</label>
+	<div class="controls">
+		<input type="text" name="goods_price" value="{$goods.shop_price}" />
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">市场金额</label>
+	<div class="controls">
+		<input type="text" name="market_price" value="{$goods.market_price}" />
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">积分</label>
+	<div class="controls">
+		<input type="text" name="max_integration" value="{$goods.max_integration}" />
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">购物积分</label>
+	<div class="controls">
+		<input type="text" name="max_shopping_coin" value="{$goods.max_shopping_coin}" />
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">鸿府积分</label>
+	<div class="controls">
+		<input type="text" name="hongfu" value="{$goods.hongfu}" />
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">运营服务费率</label>
+	<div class="controls">
+		<input type="text" name="manage_fee" value="{:round($goods.manage_fee,2)}" />%
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">pv费率</label>
+	<div class="controls">
+		<input type="text" name="pv" value="{:round($goods.pv,2)}" />%
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">pv本级费率</label>
+	<div class="controls">
+		<input type="text" name="pv_self" value="{$goods.pv_self*100}" />%
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">pv上级费率</label>
+	<div class="controls">
+		<input type="text" name="pv_superior" value="{$goods.pv_superior*100}" />%
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">奖励比例</label>
+	<div class="controls">
+		<input type="text" name="reward_fee" value="{$goods.reward_fee*100}" />%
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">积分比例</label>
+	<div class="controls">
+		<input type="text" name="integra_fee" value="{$goods.integra_fee*100}" />%
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label">购物积分比例</label>
+	<div class="controls">
+		<input type="text" name="purchase_fee" value="{$goods.purchase_fee*100}" />%
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">提货地址</label>
+	<div class="controls">
+		<input type="text" name="address" value="{$goods.address}" />
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">商品库存</label>
+	<div class="controls">
+		<input type="text" name="goods_stock" value="{$goods.quantity}"/>
+	</div>
+</div>
+
+
+<div class="control-group">
+	<label class="control-label">虚拟销量</label>
+	<div class="controls">
+		<input type="text" name="virtual_count" value="{$goods.virtual_count}"/>
+	</div>
+</div>
+
+{if condition="$goods_type neq 2"}
+<div class="control-group">
+	<label class="control-label">库存模式</label>
+	<div class="controls">
+		<label class="radio-inline">
+			<input type="radio" name="stock_type" value="0" {if condition="$goods.stock_type eq 0"}checked{/if}/><span>支付减库存</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="stock_type" value="1" {if condition="$goods.stock_type eq 1"}checked{/if}/><span>下单减库存</span>
+		</label>
+	</div>
+</div>
+{/if}
+
+
+
+<div class="control-group">
+	<label class="control-label">运费模式</label>
+	<div class="controls">
+		<label class="radio-inline">
+			<input type="radio" ng-model="dispatch_type" name="dispatch_type" value="1" />固定邮费
+		</label>
+		<label class="radio-inline">
+			<input type="radio" ng-model="dispatch_type" name="dispatch_type" value="2" />邮费
+		</label>
+	</div>
+</div>
+<div class="control-group" ng-show="dispatch_type == 1">
+	<label class="control-label">固定运费</label>
+	<div class="controls">
+		<input type="text" placeholder="收取固定的运费费用" ng-model="dispatch_fee" name="dispatch_fee" />
+	</div>
+</div>
+
+<div class="control-group" ng-show="dispatch_type == 2">
+	<label class="control-label">运费规则</label>
+	<div class="controls">
+	 	<div ng-show="dispaths.length == 0"><a href="{:U('express/add_template')}">没有运费模板，请先进行设置</a></div>
+	 	<select name="dispatch_id" ng-model="dispatch_id">
+	 		<option ng-repeat="d in dispatchs" value="{{d.template_id}}">{{d.name}}</option>
+	 	</select>
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">最大购买限制</label>
+	<div class="controls">
+		<label class="radio-inline">
+			<input type="radio" ng-model="max_type" name="max_type" value="0" /><span>不限制</span>
+		</label>
+		<label class="radio-inline">
+			<input type="radio" ng-model="max_type" name="max_type" value="1" /><span>限制</span>
+		</label>
+	</div>
+</div>
+
+<div class="control-group" ng-show="max_type == 1">
+	<label class="control-label">最大购买数</label>
+	<div class="controls">
+		<input type="text"  name="max_buy" value="{$goods.max_buy}" />
+	</div>
+</div>
+
+{if condition="$goods_type eq 3"}
+<div class="control-group" >
+	<label class="control-label">领取时间间隔</label>
+	<div class="controls">
+		<label class="radio-inline">
+			<input type="radio" name="time_unit" value="1" {if condition="$goods.time_unit eq 1"}checked{/if} />天
+		</label>
+		<label class="radio-inline">
+			<input type="radio" name="time_unit" value="2" {if condition="$goods.time_unit eq 2"}checked{/if}/>小时
+		</label>
+		<br/>
+		<input style="margin-top:10px;" type="text" placeholder="请输入具体数值"  name="time_number" value="{$goods.time_number}" />
+	</div>
+</div>
+{/if}
+
+{if condition="$goods_type eq 2"}
+<div class="control-group" >
+	<label class="control-label">活动日期</label>
+	<div class="controls">
+		<input type="text" name="date_start" placeholder="起始日期" id="min_date" style="width:200px;float:left" value="{$goods.date_start}" >
+		<label style="float:left;">---</label>
+		<input type="text" name="date_end" placeholder="截止日期"  id="max_date" style="width:200px; float:left" value="{$goods.date_end}" >
+	</div>
+</div>
+{/if}
+
+
+<div class="control-group">
+	<label class="control-label">商品排序</label>
+	<div class="controls">
+		<input type="number" name="sort" value="{$goods.sort}"/>
+	</div>
+</div>
+</div>
+
+<script>
+	app.controller("basic", ['$scope', function($scope){
+		$scope.dispatch_type = "{$goods.dispatch_type | intval}";
+		$scope.dispatchs = {$dispatchs | json_encode};
+		$scope.dispatch_id = "{$goods.dispatch_id}";
+		$scope.dispatch_fee = "{$goods.dispatch_fee}";
+		$scope.max_type = "{$goods.max_type | intval}";
+		if((!$scope.dispatch_id || $scope.dispatch_id == "0") && $scope.dispatchs.length > 0){
+			$scope.dispatch_id = $scope.dispatchs[0].template_id;
+		}
+	}])
+	
+	$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	
+</script>
+
+<script src="__PUBLIC__/js/swfupload/swfupload.js"></script>
+	<script src="__PUBLIC__/js/swfupload/handlers.js?012"></script>
+	
+	<script type="text/javascript">
+var swfu;
+window.onload = function () {
+	swfu = new SWFUpload({
+		
+		// 后端设置
+		upload_url: "{:U('Uploadimage/upload_image')}",
+		post_params: {"PHPSESSENID": "{:session_id()}", "cate" : "goods"},
+
+		// 文件上传设置
+		file_size_limit : "2 MB",	// 2MB
+		file_types : "*.jpg;*.gif;*.png;*.jpeg",
+
+		// 事件处理程序设置 - 这些功能在Handlers.js定义
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : uploadError,
+		upload_success_handler : uploadSuccess,
+		upload_complete_handler : uploadComplete,
+
+		// 按钮设置
+		button_image_url: "__PUBLIC__/images/button.png",
+		button_width: "133",
+		button_height: "36",
+		button_placeholder_id: "spanButtonPlaceholder",
+		button_text: '<span class="theFont">上传图片</span>',
+		button_text_style: ".theFont{font-size:18;font-weight:800;text-align:center}",
+		button_text_left_padding: 5,
+		button_text_top_padding: 6,
+		button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+		button_cursor: SWFUpload.CURSOR.HAND,
+		
+		flash_url : "__PUBLIC__/js/swfupload/swfupload.swf",
+		custom_settings : {
+			upload_target : "divFileProgressContainer"
+		},
+		
+		debug: true
+		
+	});
+};
+    function startUploadFile(){
+        swfu.startUpload();
+      }
+</script>

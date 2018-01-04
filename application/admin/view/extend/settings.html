@@ -1,0 +1,174 @@
+{include file="header" /}
+</head>
+<body ng-app="myapp" ng-controller="ctrl">
+
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('extend/settings')}">分销设置</a></li>
+        <li><a href="{:U('extend/withdraw_settings')}">提现设置</a></li>
+    </ul>
+    <form  class="form-horizontal js-ajax-form" method="post">
+        <div class="panel panel-default">
+            <input type="hidden" name="id">
+            <div class="panel-heading">
+                分销佣金设置
+            </div>
+            <div class="panel-body">
+                <div class="control-group">
+                    <label class="control-label">分销开启</label>
+                    <div class="controls">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="s.is_open" name="is_open" value="0">关闭
+                        </label>
+
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="s.is_open" name="is_open" value="1">开启
+                        </label>
+
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">一级分销</label>
+                    <div class="controls">
+                        百分比：<input type="text" class="form-control" ng-model="s.commission1_rate">%
+                        固定额度：<input type="text" class="form-control" ng-model="s.commission1_pay">元
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">二级分销</label>
+                    <div class="controls">
+                        百分比：<input type="text" class="form-control" ng-model="s.commission2_rate">%
+                        固定额度：<input type="text" class="form-control" ng-model="s.commission2_pay">元
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">三级分销</label>
+                    <div class="controls">
+                        百分比：<input type="text" class="form-control" ng-model="s.commission3_rate">%
+                        固定额度：<input type="text" class="form-control" ng-model="s.commission3_pay">元
+                    </div>
+                </div>
+            </div>
+                <div class="panel-heading" style="display: none">
+                    分销设置
+                </div>
+                <div class="panel-body"  style="display: none">
+
+
+
+
+                    <!--<div class="control-group">-->
+                        <!--<label class="control-label">成为下线条件</label>-->
+                        <!--<div class="controls">-->
+                            <!--<label class="radio-inline">-->
+                                <!--<input type="radio" ng-model="s.is_open" name="is_open" value="0">关闭-->
+                            <!--</label>-->
+
+                            <!--<label class="radio-inline">-->
+                                <!--<input type="radio" ng-model="s.is_open" name="is_open" value="1">开启-->
+                            <!--</label>-->
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="control-group">
+                        <label class="control-label">成为分销商条件</label>
+                        <div class="controls">
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="s.become" name="become" value="0">无条件
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="s.become" name="become" value="1"> 消费达到：<input type="text" class="form-control" ng-model="s.become_moneycount">元</label>
+
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="s.become" name="become" value="0"> 购买商品：<input type="text" class="form-control" ng-model="s.become_moneycount" readonly="">
+                                <a class="btn btn-default glyphicon glyphicon-plus" ng-click="search_goods();" href="javascript:;">选择产品</a>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+
+        <div class="form-actions">
+            <input type="hidden" name="settings" value="{{s | json}}">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+        </div>
+    </form>
+    <!-- 选择产品弹出框  -->
+    <div class="modal" ng-show="modalActive">
+        <div class="modal-dialog">
+            <div class="modal-content" ng-show="modalActive" >
+                <div class="modal-close" ng-click="modalActive = false;"></div>
+                <div class="modal-body" >
+                    <div style="margin-top:10px;">下单前请先完善用户信息</div>
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="50" align="center">商品ID</th>
+                            <th width="300">商品名</th>
+
+
+                            <th width="50" align="center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if condition="count($goods_list) gt 0"}
+                        {volist name="goods_list" id="vo"}
+                        <tr>
+                            <td align="center">{$vo.goods_id}</td>
+                            <td><img src="{:C('img_url')}{$vo.image_url}" style="width:30px;height:30px;padding1px;border:1px solid #ccc"> {$vo.name}</td>
+                            <td  align="center"><a href="javascript:;" class="btn btn-default" ng-click="select_good({'id':'{$vo.goods_id}','name':'{$vo.name}'})">选择</a></td>
+                        </tr>
+                        {/volist}
+                        {/if}
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-btn modal-primary-btn  modal-full-btn" ng-click="bind_goods()">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var app = angular.module("myapp", []);
+        app.controller("ctrl", ['$scope', function ($scope) {
+            $scope.s = {$settings | json_encode};
+            $scope.modalActive = false;
+
+            $scope.search_goods = function(){
+                $scope.modalActive = true;
+            }
+            $scope.select_good = function(o){
+                alert("dddd"+o.id+"产品名称："+o.name)
+            }
+            $scope.bind_goods = function(){
+                $scope.modalActive = false;
+            }
+
+
+        }])
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('user/real_list')}">实名列表</a></li>
+		</ul>
+		<form name="excel" method="get" action="{:U('user/real_excel')}" class="form-horizontal">
+			<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+		</form>
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th width="50">用户id</th>
+					<th>登录账号</th>
+					<th>姓名</th>
+					<th>电话</th>
+					<th>交易商账号</th>
+					<th>详细地址</th>
+					<th>购买数量</th>
+					<th>订单编号</th>
+					<th>下单时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				{volist name="list" id="vo"}
+				<tr>
+					<td>{$vo.customer_id}</td>
+					<td>{$vo.nickname}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.phone}</td>
+					<td>{$vo.trade_num}</td>
+					<td>{$vo.address}</td>
+					<td>{$vo.quantity}</td>
+					<td>{$vo.order_sn}</td>
+					<td>{:get_color_date($vo.date_pay)}</td>
+				</tr>
+				{/volist}
+			</tbody>
+		</table>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

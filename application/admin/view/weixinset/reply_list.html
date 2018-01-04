@@ -1,0 +1,41 @@
+{include file="header" /}
+</head>
+<body ng-app="myapp">
+<div class="wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('weixinset/reply_list')}">我的规则</a></li>
+		<li><a href="{:U('weixinset/reply_rule_edit')}">添加规则</a></li>
+	</ul>
+	<form method="post" class="js-ajax-form">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th>规则名称</th>
+				<th>关键词</th>
+				<th>对应回复</th>
+				<th >操作</th>
+			</tr>
+			</thead>
+			<tbody>
+				{if condition="count($lists) gt 0"}
+				{volist name="lists" id="vo"}
+				<tr>
+					<td>{$vo.group_name}</td>
+					<td>{volist name="$vo.keyword_group" id="keyword_g"}<a title="{$keyword_g.match_rule}" style="text-decoration: none;"><span style="font-size: 14px;font-weight:bold; background-color: #7B7B7B;color: whitesmoke;padding:5px;margin-left: 5px;margin-right: 5px;border-radius: 3px;">{$keyword_g.keyword}</span></a>{/volist}</td>
+					<td>{$vo.content}</td>
+					<td>
+						<a href="{:U('weixinset/reply_rule_edit',['group_id'=>$vo.id])}">编辑</a> |
+						<a href="{:U('weixinset/delete_reply_rule', ['group_id' => $vo.id])}"class="js-ajax-dialog-btn">删除</a>
+					</td>
+				</tr>
+				{/volist}
+				{/if}
+			</tbody>
+		</table>
+		<div class="pagination">{$page}</div>
+	</form>
+</div>
+</body>
+
+
+</html>

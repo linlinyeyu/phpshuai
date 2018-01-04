@@ -1,0 +1,59 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+    .control-group{
+        float:left;
+    }
+    .ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('customer/index')}">会员列表</a></li>
+        <li class="active"><a href="{:U('customer/hongfuDetail')}">鸿府积分详情</a></li>
+    </ul>
+
+    <div  class="panel panel-default">
+        <div class="panel-heading">{$customer.realname}</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>总鸿府积分</td>
+                    <td colspan="5">{$customer.hongfu}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <form method="post" class="js-ajax-form">
+        <div style="clear:both;" class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th>收支情况</th>
+                        <th>详细情况</th>
+                        <th>收支日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="hongfu" id="vo"}
+                    <tr>
+                        <td align="center">{$vo.title}</td>
+                        <td>{$vo.comments}</td>
+                        <td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+
+</body>
+</html>

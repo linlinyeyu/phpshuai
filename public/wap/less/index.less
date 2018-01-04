@@ -1,0 +1,97 @@
+
+.index-head-bar{
+	overflow: hidden;
+	margin: 0;
+}
+.index-body-title{
+	float: left;
+	overflow: hidden;
+	width:25%;
+	text-align:center;
+	display:inline-block;
+	padding:10px 0 5px;
+	>p{
+		font-size:12px;
+		margin-top:10px;
+	}
+}
+.index-activity{
+	>div{
+		margin-top:6px;
+		&:first-chlid{
+			margin-top:0px;
+		}
+	}
+}
+.index-goods-container{
+	margin-top:10px;
+	overflow:hidden;
+	.index-box{
+		width:42%;
+		float:left;
+		margin-left: 4%;
+		margin-right:4%;
+		&:first-chlid{
+			margin-right:0%;
+		}
+		>.index-goods-image{
+			display:block;
+			position:relative;
+			>.index-goods-tip{
+				text-align:center;
+				font-size:12px;
+				color:white;
+				width:100%;
+				height:26px;
+				line-height:26px;
+				position:absolute;
+				bottom:0;
+				z-index:99; 
+				background:rgba(0,0,0,0.3)
+			}
+		}
+		>.index-goods-info{
+			padding:5px;
+			position:relative;
+			line-height:20px;
+			font-size:14px;
+			>.index-goods-name{
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+			}
+			>.index-goods-price{
+				color:@red;
+				font-weight:bold;
+				font-size:20px;
+			}
+			
+			>.index-goods-button{
+				width:50px;
+				
+				position:absolute;
+				right:0;
+				font-size:16px;
+				bottom:10px;
+				color:@white;
+				padding:7px;
+				line-height:18px;
+				height:50px;
+				text-align:center;
+				&.active{
+					background:@red;
+				}
+				&.disabled{
+					background:@gray;
+				}
+			}
+			
+			
+		}
+		
+	}
+}
+
+
+
+

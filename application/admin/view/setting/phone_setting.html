@@ -1,0 +1,45 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/phone_setting')}">客服设置</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">客服电话：</label>
+					<div class="controls">
+						<input type="text" name="tel" value="{$seller_info.tel}" style="outline:none">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">客服qq：</label>
+					<div class="controls">
+						<input type="text" name="qq" value="{$seller_info.qq}" style="outline:none">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">客服微信：</label>
+					<div class="controls">
+						<uploadimg image-url="{$seller_info.weixin}" width="375" height="375" image-name="weixin"></uploadimg>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">联系地址：</label>
+					<div class="controls">
+						<input type="text" name="address" value="{$seller_info.address}" style="outline:none">
+					</div>
+				</div>	
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">确定</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+        var app = angular.module("myapp", ['uploadimg']);
+	</script>
+</body>
+</html>

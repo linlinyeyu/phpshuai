@@ -1,0 +1,52 @@
+{include file="header" /} 
+
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('customer/index')}">会员列表</a></li>
+			<li ><a href="{:U('customer/extend', array('id'=> $customer['pid']))}">我的徒弟</a></li>
+			<li  class="active"><a href="{:U('customer/extend_detail', array('id'=> $customer['customer_extend_id']))}">佣金明细</a></li>
+		</ul>
+			 <table  class="table table-hover table-bordered">
+			 	<tr>
+			 		<td>徒弟名：</td>
+			 		<td>{$customer['nickname']}</td>
+			 		<td>共获取佣金：</td>
+			 		<td>{$customer['commission']}</td>
+			 		<td>所属关系</td>
+			 		<td>{if condition='$customer.level eq 1'}徒弟{elseif condition='$customer.level eq 2'}徒孙{/if}</td>
+			 	</tr>
+			 </table>
+				
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<td width="50%" >购买商品</td>
+						<th>获得佣金</th>
+						<th>订单号</th>
+						<th>消费日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="records" id="vo"}
+					<tr>
+						<td style="overflow:hidden">{$vo.goods_name}</td>
+						<td>{$vo.commission}</td>
+						<td><a href="{:U('orders/details', array('number' => $vo.order_number))}">{$vo.order_number}</a></td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+					</tr>
+					{/volist}		
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+		
+	<script>
+		
+	</script>
+</body>
+</html>

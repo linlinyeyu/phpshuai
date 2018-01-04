@@ -1,0 +1,99 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.table-tr td{
+	vertical-align: middle;
+	text-align: center;
+}
+.table th{
+	text-align:center;
+}
+a:hover{text-decoration:none;}
+.ui-datepicker{width:214px;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="" >订单统计</a></li>
+		</ul>
+		<form name="form" method="get" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">统计日期：</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+			</fieldset>	  
+		</form>
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td colspan="7" >
+						<div id="order" style="width:1700px;height:350px;"></div>					
+					</td>	
+				</tr>
+
+			<tbody>
+		</table>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__/js/highcharts.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/exporting.js"></script>
+	<script>
+	$(function() {
+		$( "#min_date" ).datetimepicker();
+		$( "#max_date").datetimepicker();
+		
+		$('#order').highcharts({
+			title:{
+				text:"成交订单统计图",
+				x:-20
+			},
+			xAxis:{
+				categories:{$orders.xAxis | json_encode}
+			},
+			yAxis:{
+				title:{
+					text:'单数'
+				},
+				plotLines:[{
+					value:0,
+					width:1,
+					color: '#808080'
+				}]
+			},
+			tooltip:{
+				valueSuffix:'单'
+			},
+			legend: {
+ 	            layout: 'vertical',
+ 	            align: 'right',
+ 	            verticalAlign: 'bottom',
+ 	            borderWidth: 0
+ 	        },
+ 	       	series: [{
+	            name: '订单统计',
+	            data: trans({$orders.yAxis | json_encode})
+	        }]
+		});
+	});
+	function trans(arr){
+		for(var i=0;i<arr.length;i++){
+			arr[i]-= 0;
+		}
+		return arr;
+	}
+	</script>
+</body>
+</html>

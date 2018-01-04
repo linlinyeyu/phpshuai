@@ -1,0 +1,92 @@
+#insertshare-bg {
+  background: #ffffff;
+}
+.insertshare-goods {
+  width: 100%;
+  display: inline-block;
+  padding: 10px;
+}
+.insertshare-goods-left {
+  display: inline-block;
+  float: left;
+}
+.insertshare-goods-left img {
+  height: 100%;
+}
+.insertshare-goods-right {
+  display: inline-block;
+  width: 65%;
+  float: left;
+  padding: 10px 0;
+}
+.insertshare-goods-right p {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #a5a5a5;
+}
+.insertshare-goods-right .insertshare-goods-right-onep {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #020202;
+}
+.insertshare-red {
+  color: #d93a56;
+}
+.insertshare-rated {
+  padding: 10px;
+}
+.insertshare-rated-top span {
+  font-size: 14px;
+}
+.insertshare-rated-top .insertshare-rated-top-right {
+  font-size: 12px;
+  color: #a5a5a5;
+  float: right;
+}
+.insertshare-rated-bottom {
+  padding: 10px 10;
+}
+.insertshare-rated-bottom textarea {
+  padding: 5px;
+  margin-top: 15px;
+  resize: none;
+  overflow: hidden;
+  width: 100%;
+  outline: none;
+  border: 1px solid #a5a5a5;
+}
+.insertshare-pic-top {
+  padding: 10px 10px;
+}
+.insertshare-pic-top span {
+  font-size: 14px;
+}
+.insertshare-pic-top .insertshare-pic-top-right {
+  font-size: 12px;
+  color: #a5a5a5;
+  float: right;
+}
+.insertshare-pic-bottom {
+  padding: 10px;
+}
+.insertshare-yes {
+  border: none;
+  outline: none;
+  display: block;
+  font-size: 14px;
+  padding: 5px 10px;
+  width: 76px;
+  background: #d93a56;
+  color: #ffffff;
+  border-radius: 5px;
+  margin: 7.5px auto;
+}
+#images-ul {
+  width: 100%;
+  display: inline-block;
+}
+#images-ul li {
+  width: 30%;
+  float: left;
+  margin: 3% 1.6%;
+}

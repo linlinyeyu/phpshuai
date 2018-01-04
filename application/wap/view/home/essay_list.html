@@ -1,0 +1,27 @@
+{include file="header"}
+</head>
+<body >
+	<div class="header" >
+    	<div class="wrapper">
+    		<span class="back" on-back-render-filters></span>
+	     	<span class="title">资讯</span>
+	    </div>
+	</div>
+	<div ng-cloak  class="container top-container" infinite url="essay/get_essay" bind="essay" instance="ins">
+		<a href="{:U('home/essay_detail')}?essay_id={{e.id}}" ng-repeat="e in essay" class="essay-list">
+			<img class="essay-image" goods="1" ng-src="{{e.cover}}" width="70px" image-resize ratio="1" >
+			<div class="essay-right">
+				<div class="essay-right-title">{{e.title}}</div>
+				<div class="essay-right-date">{{e.date_add * 1000 | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+			</div>
+		</a>
+		<div class="dt-gad-no-record" ng-if="ins.busy !=  true && essay.length == 0">
+			<img src="__PUBLIC__/wap/image/classify34.png"  />
+			<span>亲，暂无资讯</span>
+		</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter', 'image-resize', 'lazy-load']);
+	</script>
+</body>
+</html>

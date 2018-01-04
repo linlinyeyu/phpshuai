@@ -1,0 +1,57 @@
+{include file="header" /} 
+
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('customer/index')}">会员列表</a></li>
+			<li  class="active"><a href="{:U('customer/extend', array('id'=> I('get.id')))}">我的徒弟</a></li>
+		</ul>
+			 <table  class="table table-hover table-bordered">
+			 	<tr>
+			 		<td>昵称：</td>
+			 		<td>{$nickname}</td>
+			 		<td>徒弟总数</td>
+			 		<td>{$count}</td>
+			 	</tr>
+			 </table>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>徒弟名</th>
+						<th>所属关系</th>
+						<th>总消费</th>
+						<th>佣金</th>
+						<th>绑定日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="extends" id="vo"}
+					<tr>
+						<td align="center">{$vo.nickname}</td>
+						<td>{if condition='$vo.level eq 1'}徒弟{elseif condition='$vo.level eq 2'}徒孙{/if}</td>
+						<td>{$vo.account}</td>
+						<td>{$vo.commission}</td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+						<td align="center">
+							<a href="{:U('customer/extend_detail',array('id'=>$vo['customer_extend_id']))}">查看消费详情</a> 
+						</td>
+					</tr>
+					{/volist}		
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+	<script>
+		
+	</script>
+	
+	<script>
+		
+	</script>
+</body>
+</html>

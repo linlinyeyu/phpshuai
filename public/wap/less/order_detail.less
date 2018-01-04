@@ -1,0 +1,351 @@
+.od-first-state-div{
+    width:100%;
+    height:70px;
+    background:@primary-color;
+    color:@white;
+    padding:5px 10px;
+    text-align:center;
+    >.od-child-div{
+        height:100%;
+        text-align:center;
+        margin:auto;
+        overflow: hidden;
+        >img{
+            display:inline-block;
+            vertical-align: middle;
+        }
+        >span{
+            display:inline-block;
+            height: 60px;
+            line-height:60px;
+        }
+        
+    }
+}
+.od-received{
+	padding:10px;
+	color:gray;
+	font-size:12px;
+	text-align:center;
+	line-height:18px;
+	margin-bottom:10px;
+	background-color:@white;
+	.od-received-time{
+		color:@secondary-color;	
+	}
+	>.od-received-btn{
+		color:@primary-color;
+		border : 1px solid @primary-color;
+		width:80%;
+		margin: 0 auto;
+		margin-top:10px;
+		text-align:center;
+		font-size:12px;
+		line-height:25px;
+	}
+}
+.od-second-div{
+    width:100%;
+    height:70px;
+    background:@white;
+    color:@word;
+    padding:10px;
+    >img{
+        width:15px;
+        float:left;
+        margin-top:15px;
+        margin-left:5px
+    }
+    >a{
+        border-radius:5px;
+        display:block;
+        float:right;
+        padding:9px 0px;
+        margin-top:10px;
+        font-size:12px;
+        background:@primary-color;
+        color:@white;
+        height:30px;
+        width:70px;
+        text-align:center
+    }
+    >.od-address-div{
+        float:left;
+        color:@word;
+        padding:6px 15px;
+        width: 60%;
+        >.od-address-first-p{
+            font-size:14px;
+            >.od-address-span{
+                margin-left:10px
+            }
+        }
+        >.od-address-second-p{
+            margin-top:10px;
+            font-size:12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}
+.od-third-div{
+    margin-top:10px;
+    background:@white;
+    padding:13px 15px;
+    font-size:14px;
+    color:#666;
+    >p{
+        >span{
+            margin-left:5px
+        }
+    }
+    >.od-third-p{
+        margin-top:10px;
+    }
+}
+.od-goods-div{
+    background:@white;
+    margin-top:10px;
+    color:@word;
+    >.od-goods-child{
+		overflow:hidden;
+		padding-left:15px;
+		padding-right:10px;
+	 	border-bottom:1px solid @border;
+    	>p{
+    		float:left;
+	        font-size:14px;
+	        padding:15px 0;
+    	}
+        
+        >a{
+	        border-radius:5px;
+	        display:block;
+	        float:right;
+	        padding:9px 0px;
+	        margin-top:7px;
+	        font-size:12px;
+	        background:@primary-color;
+	        color:@white;
+	        height:30px;
+	        width:70px;
+	        text-align:center;
+	    }
+    }
+    >.od-goods-refund-info{
+        border-bottom:1px solid @border;
+        padding:15px;
+        font-size:14px;
+        color:@word;
+        >p{
+            >span{
+                margin-left: 5px;
+                
+            }
+        }
+        
+        >.od-goods-refund-p{
+            margin-top:10px;
+            >.od-refund-money{
+                font-weight: bold;
+            }
+        }
+        >.od-goods-refund-p:first-child{
+            margin-top:0;
+            >.od-refund-money{
+                font-weight: bold;
+            }
+        }
+    }
+    >.od-goods-two-child{
+        width:100%;
+        position:relative;
+        >.od-goods-info{
+        	overflow:hidden;
+        	position:relative;
+        	padding:10px 0px 10px 15px;
+        	border-bottom:1px solid @border;
+	        >img{
+	            float:left;
+	            width:75px;
+	            height:75px;
+	        }
+	        
+	        >.od-goods-detail-onep{
+	            font-size:14px;
+	            left:100px;
+	            position:absolute;
+	            top:10px;
+	            text-overflow: ellipsis;
+	            white-space: nowrap;
+	            overflow: hidden;
+	            width:14em
+	        }
+	        >.od-goods-detail-twop{
+	            color:#999;
+	            font-size:12px;
+	            left:100px;
+	            position:absolute;
+	            top:43%
+	        }
+	        >.od-goods-detail-three{
+	            font-size:18px;
+	            color:@money;
+	            font-weight:bold;
+	            position:absolute;
+	            left:100px;
+	            bottom:10px
+	        }
+	        >span{
+	            position:absolute;
+	            bottom:10px;
+	            right:10px;
+	            color:#999;
+	            font-size:12px
+	        }
+        }
+        >.od-success-evaluate{
+        	clear:both;
+	        height:50px;
+	        padding:7px 15px;
+	        >a{
+	            color:@white;
+	            font-size:14px;
+	            background:@primary-color;
+	            height:36px;
+	            text-align:center;
+	            float:right;
+	            padding:11px;
+	            width:110px;
+	            border-radius:5px;
+	            &.evaluated{
+	                color: #999;
+	                background: @white;
+	                border: 1px solid #999;
+	            }
+	        }
+    	}
+    }
+}
+
+.od-money-detail-div{
+    margin-top:10px;
+    background:@white;
+    >.od-money-one-div{
+        padding:10px;
+        border-bottom:1px solid @border;
+        font-size:12px;
+        color:@word;
+        >.od-money-child{
+            margin-top:11px
+        }
+        >div{
+            >.od-money-span{
+                float:right
+            }
+        }
+    }
+    >.od-refund-one-div{
+        height:100px;
+        padding:10px;
+        border-bottom:1px solid @border;
+        font-size:12px;
+        color:@word;
+        >.od-money-child{
+            margin-top:11px
+        }
+        >div{
+            >.od-money-span{
+                float:right
+            }
+        }
+    }
+    >.od-money-two-div{
+        height:40px;
+        padding:10px;
+        >div{
+            >.od-money-two-real{
+                font-size:14px;
+                color:@word
+            }
+            >.od-money-real-num{
+                float:right;
+                color:@money;
+                font-weight:bold
+            }
+        }
+    }
+}
+.od-modal-express-p{
+    padding-top:10px;
+    border-bottom:1px solid @border;
+    padding-bottom:10px;
+}
+.od-express-modal-div{
+    overflow:scroll;
+    max-height:200px;
+    >.od-express-no-express{
+    		padding:20px;
+        	text-align:center;
+        }
+    
+    >.od-express-background{
+        margin-top:18px;
+        border-left:1px solid @border;
+        background:@white;
+        width:96%;
+        float:right;
+        font-size:12px;
+        
+        .od-express-child-div{
+            width:100%;
+            >.od-express-child{
+            	&.active{
+            		>.od-express-point{
+	            		width:15px;
+	            		height:15px;
+	            		margin-left :-8px;
+	            		margin-top:1px;
+            			background-color:@primary-color;
+            			border:2px solid lighten(@primary-color,30%);
+            		}
+            		>div>div{
+            			color:@primary-color;
+            		}
+            		
+            	}
+            	.od-express-point{
+            		width:3px;
+            		height:3px;
+            		margin-left: -5px;
+            		margin-top:8px;
+            		position:relative;
+            		display:inline-block;
+            		float:left;
+            		border-radius:50%;
+            		background-color:@light-gray;
+            		border :5px solid rgba(0,0,0,0);
+            	}
+                >div{
+                    overflow:hidden;
+                    >div{
+                    	padding : 6px 0;
+                        float:right;
+                        width:90%;
+                        border-bottom:1px solid @border;
+                        color:@gray;
+                        margin-left:5%;
+                        >p:first-child{
+                            line-height:15px
+                        }
+                        >p:last-child{
+                            margin-top:6px
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+}

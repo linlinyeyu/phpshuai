@@ -1,0 +1,17 @@
+.servicephone {
+  font-size: 14px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.set_suggestion {
+  font-size: 14px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.suggestion_textarea {
+  width: 90%;
+  height: 80px;
+  margin-left: 5%;
+  margin-top: 20px;
+  border-radius: 5px;
+}

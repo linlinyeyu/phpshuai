@@ -1,0 +1,157 @@
+{include file="header" /} 
+<style>
+.box{
+	border:1px solid #eee;
+	width:320px;
+	height:504px;
+	margin-left:100px;
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size: 100% 100%;
+}
+.qrcode > div{
+	background:url(__PUBLIC__/admin/image/qrcode.png) no-repeat;
+	background-size: 100% 100%;
+}
+dt{
+	margin: 0 !important;
+}
+.avater > img{
+	box-sizing:border-box;
+	border-radius:3px;
+	border:2px solid white;
+	display:block;
+}
+
+.name {
+	font-size:16px;
+	color:#333;
+}
+.box > div{
+	border-radius:2px;
+	border:2px solid red;
+}
+
+.box > div > *{
+	width:100%;
+	height:100%;
+	
+}
+.draggable{
+	display:block ;
+	right:-10px;
+	bottom:-10px;
+	position:absolute;
+	cursor:se-resize;
+	background:url('__PUBLIC__/admin/image/drag.png') no-repeat center;
+	background-size: 20px 20px;
+	width:20px !important;
+	height:20px !important;
+}
+
+</style>
+
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/qrcode')}">二维码管理</a></li>
+		</ul>
+		<form method="post" submit-check="sub" class="form-horizontal js-ajax-form">
+		<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">框中元素可拖动，点击框中背景，可进行图片更换</p>
+			<div style="background-image:url({$img_url}{$position.background})" class="box" >
+				<div class="qrcode" 
+				data-center="{$position.qrcode.center}" 
+				data-left="{$position.qrcode.x}px" 
+				data-top="{$position.qrcode.y}px" 
+				style="width:{$position.qrcode.w}px;height:{$position.qrcode.h }px">
+					<div  ></div>
+				</div>
+				<div class="avater" 
+				data-center="{$position.image.center}" 
+				data-left="{$position.image.x}px" 
+				data-top="{$position.image.y}px" 
+				style="width:{$position.image.w}px;height:{$position.image.h }px">
+					<img src="__PUBLIC__/common/image/default-avater.png"  />
+				</div>
+				<div class="name" style="width:{$position.name.w}px;height:{$position.name.h }px" 
+				data-center="{$position.image.center}" 
+				data-left="{$position.name.x}px" 
+				data-top="{$position.name.y}px">
+					<div >姓名</div>
+				</div>
+			</div>
+			<div class="form-actions">
+				<input type="hidden" name="position" id="position" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+		<input style="display:none" type="file" id="file" name="file" onchange="upload()">
+		<input type="hidden" value="{$position.background}" id="background" >
+	</div>
+	<script src="__PUBLIC__/admin/js/drag.js?1223"></script>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+	
+	<script>
+		$(function(){
+			$(".box>div").each(function(){
+				$(this).dragging({randomPosition : false});
+			});
+			
+			$(".box").click(function(e){
+				if($(e.target).hasClass("box")){
+					$("#file").click();
+				}
+			})
+		});
+		
+		function sub(){
+			var faWidth = $(".box").width();
+			var faHeight = $(".box").height();
+			var position = {
+				'name' : 
+				{
+					x: $(".name").position().left ,
+					y: $(".name").position().top ,
+					w: $(".name").width() ,
+					h: $(".name").height() 
+				},
+				'image' : 
+				{
+					x: $(".avater").position().left ,
+					y: $(".avater").position().top ,
+					w: $(".avater").width() ,
+					h: $(".avater").height()
+				},
+				'qrcode' : 
+				{
+					x: $(".qrcode").position().left ,
+					y: $(".qrcode").position().top,
+					w: $(".qrcode").width() ,
+					h: $(".qrcode").height() 
+				},
+				'background' : $("#background").val()
+			};
+			$("#position").val(JSON.stringify(position));
+			return true;
+		}
+		
+		function upload(){
+			$.ajaxFileUpload({
+			 	url : "{:U('uploadimage/upload_image')}",
+			 	fileElementId : "file",
+			 	dataType : 'json',
+			 	data : {'cate': 'background'},
+			 	success : function(data){
+			 		console.log(data);
+			 		if(data.errcode >= 0){
+			 			var mUrl = data.content.name;
+						$(".box").css({"backgroundImage" : "url("+GV.IMG_URL + mUrl+")"} );
+						$("#background").val(mUrl);
+					}
+			 	}
+			 });
+		}
+	</script>
+</body>
+</html>

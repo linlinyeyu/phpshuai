@@ -1,0 +1,142 @@
+{include file="header" /} 
+
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('extend/withdraw')}">提现申请</a></li>
+			<li><a href="{:U('extend/withdraw_record')}">提现历史</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" >
+				<div class="control-group">
+					<label class="control-label">手机号:</label>
+					<div class="controls">
+						<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">用户编号:</label>
+					<div class="controls">
+						<input type="text" name="uuid" value="{:I('get.uuid')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">昵称:</label>
+					<div class="controls">
+						<input type="text" name="name" value="{:I('get.name')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">申请类型：</label>
+					<div class="controls">
+						<select name="type">
+							<option {if condition="I('type') eq 0"}selected{/if} value="0">全部</option>
+							<option {if condition="I('type') eq 1"}selected{/if} value="1">微信公众号</option>
+							<option {if condition="I('type') eq 2"}selected{/if} value="2">支付宝</option>
+							<option {if condition="I('type') eq 3"}selected{/if} value="3">微信APP</option>
+						</select>
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">创建日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I("min_date")}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I("max_date")}" >
+					</div>	
+				</div>
+					 	
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>昵称</th>
+						<th width="150px">提现商品</th>
+						<th>提现类型</th>
+						<th>提现金额</th>
+						<th>可用金额</th>
+						<th>申请时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="records" id="vo"}
+					<tr>
+						<td><img src="{$vo.avater}" width="40" height="40" /><a href="{:U('customer/detail',['id' => $vo.customer_id])}">{$vo['nickname']?$vo['nickname']:L('NOT_FILLED')}</a></td>
+						<td>{$vo.goods_name}</td>
+						<td>{if condition = '$vo.type eq 2'}支付宝<br/>支付宝账号：{$vo.account}<br/>真实姓名：{$vo.realname}{elseif condition="$vo.type eq 1"}微信公众号{else}微信APP{/if}</td>
+						<td style="color:#2fa4e7">{$vo.money}</td>
+						<td>{$vo.available}</td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+						<td align="center">
+							<a href="{:U('extend/extend_record',array('customer_id'=>$vo['customer_id'], 'goods_id' => $vo['goods_id'], 'withdraw_id' => $vo['id']))}">查看佣金明细</a>
+							| <a class="js-ajax-dialog-btn"  href="{:U('extend/agree',array('id'=>$vo['id']))}">审核通过</a> 
+							| <a class="disagree" data-id="{$vo['id']}">审核未通过</a> 
+							
+						</td>
+					</tr>
+					{/volist}		
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+	<script>
+		$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+		
+		$(".disagree").each(function(){
+			var rid = $(this).attr('data-id');
+			$(this).click(function(){
+			var dialog=art.dialog({
+				id:"shake-deom",
+				title:'拒绝原因',
+				content:'拒绝原因：<input type="text" name="reason"/>',
+				width:'400px',
+				height:'150px',
+				cancel:'取消',
+				cancel:true,
+				ok: function()
+				{
+                   	$.ajax({
+                   	  url: "{:U('extend/disagree')}",
+                   	  type : 'post',
+					  dataType: 'json',
+					  data: 'id='+rid+'&reason='+$("input[name=reason]").val(),
+					  success: function(json){
+					  	alert(json.msg);
+					  	location.reload();
+					  }
+                   	}); 
+				}
+			})
+
+		})
+		})
+
+	</script>
+	
+	<script>
+		
+	</script>
+</body>
+</html>

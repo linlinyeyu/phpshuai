@@ -1,0 +1,156 @@
+{include file="header" /} 
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('shop/settings')}">基础设置</a></li>
+			<li><a href="{:U('shop/banner')}">App轮播图列表</a></li>
+			<li><a href="{:U('shop/addBanner')}">添加App轮播图</a></li>
+		</ul>
+		<form ng-controller="myctrl" class="form-horizontal js-ajax-form" action="{:U('shop/settings')}" method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">店铺名称</label>
+					<div class="controls">
+						<input type="text" name="shop_name" value="{$seller.shop_name}" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">店铺标题</label>
+					<div class="controls">
+						<input type="text" name="shop_title" value="{$seller.shop_title}" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">店铺logo</label>
+					<div class="controls">
+						<uploadimg image-url="{$seller.shop_logo}" image_name="shop_logo" cate="shop_logo" width="280" height="280" ></uploadimg>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">店铺头部</label>
+					<div class="controls">
+						<uploadimg fileid="shop_header" image-url="{$seller.shop_header}" image_name="shop_header" cate="shop_header" width="1250" height="150" ></uploadimg>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">店铺头部点击</label>
+					<div class="controls">
+						<select name="action_id" ng-model="action_id" id="action">
+							<option value="0">请选择事件</option>
+							<option value="2">商品详情</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group" {if condition="$seller.action_id eq 2"}ng-show="true"{else}ng-show="action_id == 2"{/if} id="goods">
+				    	<label class="control-label">商品名称</label>
+					<div class="controls">
+						<input yzl-autocomplete label-key="name" value="{$seller.goods_name}" url="/shopadmin/goods/searchGoods" value-key="goods_id" callback="goods_callback">
+						<input type="hidden" name="goods_id" {if condition="$seller.goods_id neq ''"}ng-init="goods_id={$seller.goods_id}"{/if} value="{{goods_id}}"/>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">店铺地址</label>
+					<div class="controls">
+						<select name="province" ng-model="province">
+							<option value="0">请选择</option>
+							<option ng-repeat="p in province_list" value="{{p.id}}">{{p.name}}</option>
+						</select>
+						<select name="city" ng-model="city">
+							<option value="0">请选择</option>
+							<option ng-repeat="c in cities" value="{{c.id}}">{{c.name}}</option>
+						</select>
+						<select name="district" ng-model="district">
+							<option value="0">请选择</option>
+							<option ng-repeat="d in districts" value="{{d.id}}">{{d.name}}</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">详细地址</label>
+					<div class="controls">
+						<input type="text" name="address" value="{$seller.address}" />
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+        app.controller("myctrl",function($scope){
+            $scope.goods_callback = function(item){
+                $scope.goods_id = item.id;
+                $scope.$apply();
+            }
+
+            $scope.province = "{$province}";
+            $scope.city = "{$city}";
+            $scope.district = "{$district}";
+
+            $scope.first = 0;
+
+            $scope.province_list = {$provinces | json_encode};
+
+            $scope.$watch("province" , function(){
+                if($scope.province != "0"){
+                    $scope.cities = $scope.province_list[$scope.province].cities;
+                }
+                if($scope.first == 0){
+                    $scope.first = 1;
+                    return;
+                }
+
+                $scope.city = "0";
+
+            });
+
+            $scope.$watch("city" , function(){
+                if($scope.city != "0"){
+                    $scope.districts = $scope.cities[$scope.city].districts;
+                }
+                if($scope.first == 0){
+                    $scope.first = 1;
+                    return;
+                }
+
+                $scope.district = "0";
+
+            });
+
+        });
+
+		$(function(){
+			if({$seller.action_id} == 0){
+				$("#action").val(0);
+				$("#goods").hide();
+			}
+			if({$seller.action_id} == 2){
+				$("#action").val(2);
+				$("#goods").show();
+			}
+			$("#action").change(function(){
+				var action = $(this).children('option:selected').val();
+				if(action == 0){
+					$("#goods").hide();
+				}
+				if(action == 2){
+					$("#goods").show();
+				}
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+{include file="header" /}
+<style>
+
+.control-group{
+	
+	float:left;
+}
+
+.ui-datepicker{
+	width:212px;
+}
+
+</style>
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+</head>
+
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="">查看详情</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form">
+			<fieldset>
+				<div class="control-group">	
+					<label class=" control-label">时间</label>
+					<div class="controls">
+						<input class="input" type="text" id="datepicker"/>
+					</div>
+				</div>
+				<div class="control-group">	
+					<label class=" control-label">会员</label>
+					<div class="controls">
+						<input class="input" type="text"/>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class=" control-label">纯利</label>
+						<div class="controls">
+							<select class="input">
+								<option>是（仅显示微信和支付宝的记录）</option>
+								<option>否（全部显示）</option>
+							<select>
+						</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+					<input  type="submit" class="btn btn-success input" value="搜索"/>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td>会员名</td>
+					<td><a href="" title="点击进入会员详情">小李子</a></td>
+				</tr>	
+				<tr>
+					<td>金额</td>
+					<td>5000</td>
+				</tr>
+				<tr>
+					<td>使用余额</td>
+					<td>4000</td>
+				</tr>
+				<tr>
+					<td style="line-height:58px;">方式</td>
+					<td style="padding:0;">
+						<table style="width:100%;">
+							<tr>
+								<td style="border-left:none;">微信：<span name="wechat">300</span></td>
+								<td>支付宝：<span name="alipay">500</span></td>
+							</tr>
+							<tr>
+								<td style="border-left:none;">余额：<span name="bal">500</span></td>
+								<td>线下：<span name="offline">500</span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td style="line-height:58px;">备注</td>
+					<td style="padding:0px;">
+						<table style="width:100%;">
+							<tr>
+								<td style="border-left:none;">购买产品：<span>300</span></td>
+							</tr>
+							<tr>
+								<td style="border-left:none;">充值：<span>500</span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>余额</td>
+					<td><span>3000</span>(此次交易完成后的余额)</td>
+				</tr>
+				<tr>
+					<td>日期</td>
+					<td>2016-06-01</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="form-action">
+			<button  class="btn btn-primary">导出</button>
+				<a class="btn" href="index.html">返回</a>
+		</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__PUBLIC__/js/jquery-ui/jquery-ui.min.js"></script>
+	<script>
+		$(function() {
+		$( "#datepicker" ).datepicker();
+		$( "#datepicker" ).change(function() {
+			$( "#datepicker" ).datepicker( "option", "showAnim","slideDown" );
+		});
+	});
+	</script>
+	<script>
+		$(document).ready(function () {  
+			    $.datepicker.regional['zh-CN'] = {  
+			        clearText: '清除',  
+			        clearStatus: '清除已选日期',  
+			        closeText: '关闭',  
+			        closeStatus: '不改变当前选择',  
+			        prevText: '<上月',  
+			        prevStatus: '显示上月',  
+			        prevBigText: '<<',  
+			        prevBigStatus: '显示上一年',  
+			        nextText: '下月>',  
+			        nextStatus: '显示下月',  
+			        nextBigText: '>>',  
+			        nextBigStatus: '显示下一年',  
+			        currentText: '今天',  
+			        currentStatus: '显示本月',  
+			        monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],  
+			        monthNamesShort: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'],  
+			        monthStatus: '选择月份',  
+			        yearStatus: '选择年份',  
+			        weekHeader: '周',  
+			        weekStatus: '年内周次',  
+			        dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],  
+			        dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],  
+			        dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],  
+			        dayStatus: '设置 DD 为一周起始',  
+			        dateStatus: '选择 m月 d日, DD',  
+			        dateFormat: 'yy-mm-dd',  
+			        firstDay: 1,  
+			        initStatus: '请选择日期',  
+			        isRTL: false  
+			    };  
+			    $.datepicker.setDefaults($.datepicker.regional['zh-CN']);  
+});  
+	</script>
+</body>
+</html>

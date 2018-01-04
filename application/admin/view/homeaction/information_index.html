@@ -1,0 +1,50 @@
+{include file="header" /}
+<style>
+    .control-group{
+        float:left;
+    }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('homeaction/information')}">优惠资讯</a></li>
+        <li class="active"><a href="{:U('homeaction/information_index')}">优惠资讯列表</a></li>
+        <li><a href="{:U('homeaction/information_add')}">添加优惠资讯</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>优惠资讯编号</th>
+                <th width="200">资讯名称</th>
+                <th>资讯图片</th>
+                <th width="400">资讯简介</th>
+                <th>创建日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {if condition="count($information) gt 0"}
+            {volist name="$information" id="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td><img style="wdith:60px;height:60px;" src="{:C('img_url')}{$vo.image}" /></td>
+                <td>{$vo.mini_content}</td>
+                <td>{:get_color_date($vo.date_add)}</td>
+                <td>
+                    <a href="{:U('homeaction/information_add',['id'=>$vo.id])}">编辑</a> |
+                    <a href="{:U('homeaction/information_del',['id'=>$vo.id])}" class="js-ajax-dialog-btn">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            {/if}
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+</body>
+</html>

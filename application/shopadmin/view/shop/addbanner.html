@@ -1,0 +1,104 @@
+{include file="header" /} 
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('shop/banner')}">App轮播图列表</a></li>
+			<li class="active"><a href="{:U('shop/addBanner')}">添加App轮播图</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form" action="{:U('shop/addBanner')}" method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">图片名称</label>
+					<div class="controls">
+						<input type="text" name="name" value="{$banner.name}" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">轮播图片</label>
+					<div class="controls">
+						<uploadimg cate="banner" image-url="{$banner.img_url}" width="750" height="460"></uploadimg>
+					</div>
+				</div>
+				
+				<div>
+				<div class="control-group">
+					<label class="control-label">点击事件</label>
+					<div class="controls">
+						<select name="action_id" ng-model="action_id" id="action">
+							<option value="0">请选择事件</option>
+							<option value="2">商品详情</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group" {if condition="$banner.action_id eq 2"}ng-show="true"{else}ng-show="action_id == 2"{/if} id="goods">
+				    	<label class="control-label">商品名称</label>
+					<div class="controls">
+						<input yzl-autocomplete label-key="name" value="{$banner.goods_name}" url="/shopadmin/goods/searchGoods" value-key="goods_id" callback="goods_callback">
+					<input type="hidden" name="goods_id" {if condition="$banner.goods_id neq ''"}ng-init="goods_id={$banner.goods_id}"{/if} value="{{goods_id}}"/>
+					</div>
+				</div>
+
+				</div>
+				
+				<div class="control-group">
+		        <label class="control-label">是否开启：</label>
+		        <div class="controls">
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$banner['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$banner['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		          </div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">排序</label>
+					<div class="controls">
+						<input type="text" name="img_order" value="{$banner.img_order}"/>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="id" value="{$banner.id}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+		$(function(){
+			if({$banner.action_id} == 0){
+				$("#action").val(0);
+				$("#goods").hide();
+			}
+			if({$banner.action_id} == 2){
+				$("#action").val(2);
+				$("#goods").show();
+			}
+			$("#action").change(function(){
+				var action = $(this).children('option:selected').val();
+				if(action == 0){
+					$("#goods").hide();
+				}
+				if(action == 2){
+					$("#goods").show();
+				}
+			});
+		});
+		
+		app.controller("myctrl",function($scope){
+			$scope.goods_callback = function(item){
+				$scope.goods_id = item.id;
+				$scope.$apply();
+			}
+		});
+	</script>
+</body>
+</html>

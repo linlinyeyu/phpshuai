@@ -1,0 +1,63 @@
+.cd-top-info-div{
+    background-image:url(../image/mine-background.png);
+    background-size:100% 100%;
+    width:100%;
+    height:130px;
+    padding:25px 15px;
+    overflow:hidden;
+    color:@white;
+    font-size:12px;
+    >.cd-top-avater{
+        float:left;
+        >img{
+            border-radius:50%;
+            display:inline-block;
+        }
+    }
+    >.cd-customer-info{
+    	overflow:hidden;
+        >p{
+            line-height:22px;
+            margin-left:20px;
+            display:block;
+        	font-size:14px;
+        	overflow:hidden;
+        	text-overflow:ellipsis;
+        	white-space:nowrap;
+        }
+        .cd-phone{
+        	min-width:10px;
+        	height:22px;
+        }
+        .cd-span{
+        	margin-left:5px;
+        }
+        .cd-nickname{
+        	display:block;
+        	float:left;
+        	max-width:70%;
+        	overflow:hidden;
+        	text-overflow:ellipsis;
+        	white-space:nowrap;
+        	font-size:14px;
+        }
+    }
+}
+.cd-score-info{
+    background:@white;
+    >div{
+        width:100%;
+        height:50px;
+        border-bottom:1px solid @border;
+        padding:18px;
+        font-size:14px;
+        overflow:hidden;
+        color:@word;
+        >span:last-child{
+            float:right;
+            color:@money;
+            font-size:18px;
+            margin-top:-3px
+        }
+    }
+}

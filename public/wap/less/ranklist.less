@@ -1,0 +1,126 @@
+.ranklist-first-div{
+    height:50px;
+    width:100%;
+    background:@white;
+    >.rl-first-child-div{
+        width:33.3%;
+        height:100%;
+        text-align:center;
+        float:left;
+        padding:5px 10px;
+        >.rl-rank-background{
+            width:100%;
+            height:40px;
+            text-align:center;
+            color:#666;
+            >span{
+                font-size:14px;
+                line-height:40px;
+                padding:13px 10px 13px 10px;
+                &.active{
+                	background-image:url(../image/rank-radius.png);
+                	background-size:100% 100%;
+                	color:white;
+                }
+            }
+        }
+    }
+}
+.ranklist-second-div{
+    margin-top:10px;
+    
+}
+
+.ranklist-other-li{
+	padding:20px 10px;
+    border-bottom:1px solid @border;
+    background:@white;
+    overflow:hidden;
+	>.rl-other-first{
+    	
+    	display:inline-block;
+        float:left;
+        text-align:center;
+        width:40px;
+        height:40px;
+        color:#a2a8b1;
+        font-size:26px;
+        line-height:40px;
+        font-weight:bold;
+        background-repeat:no-repeat;
+    	background-position:center;
+    	background-size : 24px 36px;
+        &.first{
+        	background-image:url(../image/rank-first.png);
+        }
+        &.second{
+        	background-image:url(../image/rank-second.png);
+        }
+        &.third{
+        	background-image :url(../image/rank-third.png);
+        }
+    }
+    >img{
+    	vertical-align:center;
+        border-radius:50%;
+        float:left;
+        margin-left:5px;
+    }
+    >p{
+        float:right;
+        font-size:16px;
+        margin-right:15px;
+        line-height:40px;
+        color:#999
+    }
+    >.rl-other-second{
+        float:left;
+        font-size:14px;
+        color:@word;
+        width:40%;
+        margin-left:10px;
+        line-height:22px;
+        padding-top:9px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+}
+.ranklist-mine-div{
+    height:70px;
+    width:100%;
+    background:@primary-color;
+    position:fixed;
+    bottom:0;
+    color:@white;
+    >p{
+        font-size:14px;
+        float:right;
+        margin-right:15px;
+        margin-top:28px
+    }
+    >img{
+        border-radius:50%;
+        float:left;
+        margin-left:10px;
+        margin-top:10px
+    }
+    >.ranklist-me-span{
+        float:left;
+        font-size:14px;
+        margin-top:28px;
+        margin-left:10px
+    }
+    .ranklist-me-rank{
+        font-size:40px;
+        float:left;
+        margin-top:15px;
+        margin-left:10px
+    }
+    >.ranklist-last-span{
+        font-size:14px;
+        float:left;
+        margin-top:35px;
+        margin-left:3px
+    }
+}

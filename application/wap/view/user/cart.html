@@ -1,0 +1,153 @@
+{include file="header"}
+<link rel="stylesheet" href="__PUBLIC__/css/layer.css"/>
+</head>
+<body  ng-controller="goodsctrl" ng-cloak>
+  <div class="header">
+  	  <div class="wrapper">
+  	  	<span class="back" on-back-render-filters></span>
+  	  	<span class="title">购物车</span>
+  	  	<img ng-click="delete_cart()" src="__PUBLIC__/wap/image/del.png" class="header-btn right-btn" style="width:20px;height:20px;margin-top:3px">
+  	  </div>
+  </div>
+  <div class="container main-container" style="padding-bottom:105px" ng-cloak>
+  		<ul ng-if="orders.length > 0">
+  			<li ng-repeat="o in orders" class="cart-item-li">
+  				<div class="cart-item-order-div">
+  					<div class="cart-item-order-child">
+  						<img ng-click="select($index)" ng-if="o.is_selected != 1" src="__PUBLIC__/wap/image/noselect.png">
+  						<img ng-click="select($index);" ng-if="o.is_selected == 1" src="__PUBLIC__/wap/image/select.png">
+  						<span>订单号:{{o.order_sn}}</span>
+  					</div>
+  					<span class="cart-order-state-span">{{o.state}}</span>
+  				</div>
+  				<div class="cart-item-addr-div">
+  					<span class="cart-item_addr-name">{{o.name}}</span>
+  					<span class="cart-item_addr-phone">{{o.phone}}</span>
+  				</div>
+  				<div ng-repeat="g in o.goods" class="cart-order-detail-div">
+  					<div class="cart-order-detail-child">
+  						<img ng-src="{{g.image}}" image-resize width="80px" goods="1">
+  					</div>
+  					<div class="cart-order-detail-blank">
+  						<div class="cart-order-detail">
+  							<span class="cart-order-detail-first">{{g.name}}</span>
+  							<span class="cart-order-detail-second">¥{{g.price}}</span>
+  						</div>
+  						<span class="cart-order-detail-span">规格：{{g.option_name}}</span>
+  					</div>
+  				</div>
+  				<div class="cart-order-add-div">
+  					<p class="cart-add-first-p">共 <span>{{o.goods_count}}</span> 件商品，运费 <span>{{o.express_amount}}</span>元</p>
+  					<p class="cart-add-second-p">合计: <span>¥ {{o.order_amount}}</span></p>
+  				</div>
+  			</li>
+  		</ul>
+  		<div class="dt-gad-no-record" ng-if="orders.length == 0">
+			<img src="__PUBLIC__/wap/image/classify34.png"  />
+			<span>亲，您暂无购物车记录</span>
+		</div>
+  		<div class="cart-bottom-add-div">
+  			<div class="cart-bottom-add-child">
+  					<div class="cart-bottom-child-div">
+  						<img ng-click="select_all()" ng-if="is_selected != 1 " class="cart-bottom-radius-img" src="__PUBLIC__/wap/image/noselect.png">
+  						<img ng-click="select_all();" ng-if="is_selected == 1" class="cart-bottom-radius-img" src="__PUBLIC__/wap/image/select.png">
+  						<!-- 选中  __PUBLIC__/wap/image/select.png -->
+  						<span class="cart-bottom-all-select">全选</span>
+  						<span class="cart-bottom-all-add">合计:</span>
+  						<span class="cart-bottom-all-money">¥ {{total | number : 2}}</span>
+  					</div>
+  					<div class="cart-bottom-buy-div">
+  					<a ng-click="sub()" class="cart-bottom-buy-a">结算</a>
+  					</div>
+  				</div>
+  		</div>
+  </div>
+  
+    {include file="footer"}
+<script>
+	var app = angular.module("myapp",["back-filter","image-resize"]);
+	app.controller('goodsctrl',["$scope", function($scope) {
+		$scope.orders = {$orders | json_encode};
+		
+		$scope.select = function($index){
+			$scope.orders[$index].is_selected = $scope.orders[$index].is_selected == 1 ? 0 : 1;
+			$scope.all();
+		}
+		
+		$scope.select_all = function(){
+			var is_selected = $scope.is_selected == 1 ? 0 : 1;
+			
+			for(var i = 0; i< $scope.orders.length; i ++){
+				$scope.orders[i].is_selected = is_selected;
+			}
+			$scope.all();
+		}
+		$scope.all = function(){
+			var total = 0;
+			var is_selected = true;
+			for(var i = 0; i< $scope.orders.length; i ++){
+				var order = $scope.orders[i];
+				if(order.is_selected == 1){
+					total += order['order_amount'] * 1;
+				}else{
+					is_selected = false;
+				}
+			}
+			$scope.total = total;
+			$scope.is_selected = is_selected;
+		}
+		$scope.all();
+		
+		$scope.delete_cart = function(){
+			var order_sns = [];
+			var indexs = [];
+			for(var i = 0; i< $scope.orders.length; i ++){
+				if($scope.orders[i].is_selected == 1){
+					order_sns.push($scope.orders[i].order_sn);
+					indexs.push(i);
+				}
+			}
+			if(order_sns.length == 0){
+				pinet.alert("请先选择订单");
+				return;
+			}
+			
+			layer.open({'type' : 2});
+			var data = {
+					'access_token' : pinet.getCookie("access_token"),
+					'orders' : order_sns.join(",")
+			};
+			pinet.post("order/cancel",data, function(){
+				layer.closeAll();
+				indexs = indexs.reverse();
+				for(var i = 0 ; i < indexs.length ; i++){
+					$scope.orders.splice(indexs[i] , 1);
+				}
+				$(".cart-goods-number").css("display","none");
+				$scope.all();
+				$scope.$apply();
+			});
+		}
+		
+		$scope.sub = function(){
+			var order_sns = [];
+			for(var i = 0; i< $scope.orders.length; i ++){
+				if($scope.orders[i].is_selected == 1){
+					order_sns.push($scope.orders[i].order_sn);
+				}
+			}
+			if(order_sns.length == 0){
+				pinet.alert("请先选择订单");
+				return;
+			}
+			
+			location.href="{:U('order/pay_bal')}?orders=" + order_sns.join(",");
+		}
+		
+	}]);
+
+
+</script>
+
+</body>
+</html>

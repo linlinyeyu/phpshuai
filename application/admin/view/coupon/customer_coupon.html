@@ -1,0 +1,61 @@
+{include file="header" /}
+<link rel="stylesheet" hrerf="__PUBLIC__/js/artDialog/skins/default.css"/>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('coupon/customer_coupon')}">红包列表</a></li>
+		</ul>
+		<form name="form" method="get" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">昵称:</label>
+					<div class="controls">
+					<input type="text" name="customer_name" value="{:I('get.customer_name')}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">用户手机:</label>
+					<div class="controls">
+					<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+					</div>
+				</div>
+			</fieldset>	  
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>红包名称</th>
+						<th>红包价值</th>
+						<th>使用条件</th>
+						<th>使用范围</th>
+						<th>红包到期时间</th>
+						<th>用户</th>
+						<th>手机</th>
+					<tr>
+					{volist name="lists" id="vo"}
+					<tr>
+						<td>{$vo.name}</td>
+						<td>{$vo.amount}元</td>
+						<td>满{$vo.limit}元</td>
+						<td>{if condition="$vo.category_type eq 0"}全部分类{elseif condition="$vo.category_type eq 1" /}{$vo.category_name}{else /}高端洗{/if}</td>
+						<td><span style="color:#2fa4e7">{$vo.date_end | date='Y-m-d', ###}</span>到期</td>
+						<td><a href="{:U('customer/detail',['id' => $vo.customer_id])}" title="点击进入会员详情">{$vo.nickname}</a></td>
+						<td>{$vo.phone}</td>
+					</tr>
+					{/volist}
+				</thead>
+			</table>
+		</form>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+</body>
+</html>

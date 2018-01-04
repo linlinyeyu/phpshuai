@@ -1,0 +1,155 @@
+<div ng-controller="options">
+	<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">更改规格项后，请注意点击下方刷新操作，用以填写库存、金额等信息</p>
+	<div ui-sortable="sortableOptions" ng-model="specs" >
+		<div ng-repeat="s in specs" class="panel panel-default">
+			<div class="panel-body">
+				<div class="control-group">
+					<label class="control-label">规格名称</label>
+					<div class="controls">
+						<input type="text"  ng-model="s.name"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">规格项</label>
+					<div  ui-sortable="sortableOptions" ng-model="s.items" class="controls ">
+						<div ng-repeat="i in s.items" class="input-group" style="margin:10px 0">
+							<span class="input-group-addon">
+								<a href="javascript:;" style="cursor: move;" class="fa fa-move" title="拖动调整此显示顺序"><i class="fa fa-arrows"></i></a>&nbsp;
+	        					<a href="javascript:;" ng-click="delete_item($parent.$index,$index)" style="margin-top:10px;" title="删除"><i class='fa fa-remove'></i></a>
+							</span>
+							<input type="text" ng-model="i.name" />
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label"></label>
+					<div class="form-group">
+						<div ng-click="add_item($index)" class="btn btn-primary">添加规格项</div>
+						<div ng-click="delete_spec($index)" class="btn btn-danger">删除规格</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="btn btn-primary" ng-click="addline()">添加规格</div>
+	<div class="btn btn-primary" ng-click="refresh()">刷新</div>
+	<div ng-show="options.length > 0 " style="margin-top:20px;">
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th style="width:80px" ng-repeat="s in headSpecs">{{s.name}}</th>
+					<th>库存</th>
+					<th>销售价格</th>
+					<th>市场价格</th>
+					<th>商品编码</th>
+					<th>重量（千克）</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="o in options">
+					<td ng-repeat="i in o.items" ng-show="$parent.$index % i.length == 0" rowspan="{{i.length}}" >
+						{{i.name}}
+					</td>
+					<td ><input type="text" ng-model="o.stock" /></td>
+					<td ><input type="text" ng-model="o.sale_price" /></td>
+					<td ><input type="text" ng-model="o.market_price" /></td>
+					<td ><input type="text" ng-model="o.goods_sn" /></td>
+					<td ><input type="text" ng-model="o.weight" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<input type="hidden" name="specs" value="{{specs | json}}" />
+	<input type="hidden" name="changed" value="{{changed}}">
+	<input type="hidden" name="options" value="{{options | json}}" />
+</div>
+
+<script>
+	app.controller("options",["$scope",function($scope){
+		$scope.specs = {$goods.specs | json_encode};
+		
+		$scope.addline = function(){
+			$scope.changed = 1;
+			var data = {"id":new Date().getTime() + parseInt(Math.random() * 1000 ) , "name" : "", "items": []};
+			$scope.specs.push(data);
+		}
+		
+		$scope.add_item = function(index){
+			$scope.changed = 1;
+			var data = {"id" : new Date().getTime() + parseInt(Math.random() * 1000 ), "name" : ""};
+			$scope.specs[index].items.push(data);
+		}
+		
+		$scope.options = {$goods.options | json_encode};
+		
+		$scope.refresh =  function(){
+			if($scope.specs.length == 0 || $scope.specs[0].items.length == 0){
+				$scope.changed = 0;
+				$scope.options = [];
+				$scope.headSpecs = [];
+				return;
+			}
+			
+			var options = [];
+			//总行数
+			var totalRow = 1;
+			
+			var specs = [];
+			var rowArr = [];
+			for(var i = $scope.specs.length - 1; i >=0 ; i-- ){
+				var spec = $scope.specs[i];
+				if(spec.items.length == 0){
+					continue;
+				}
+				
+				rowArr.push(totalRow);
+				totalRow *= spec.items.length;
+				specs.push(spec);
+			}
+			specs = specs.reverse();
+			
+			rowArr = rowArr.reverse();
+			
+			for(var i = 0; i < totalRow ; i ++){
+				var raw = [];
+				var option = {"items":[], 'id' : 0};
+				for(var j = 0 ; j < specs.length; j++){
+					raw.push(specs[j].items[(parseInt(i / rowArr[j])) % (specs[j].items.length)].id);
+					if (i % rowArr[j] == 0) {
+                    	var index = (parseInt(i / rowArr[j])) % (specs[j].items.length);
+                    	var item = {"length" : rowArr[j], "name": specs[j].items[index].name };
+                    	option.items.push(item);
+                    }
+				}
+				option.specs = raw.join("_");
+				for(var j = 0; j < $scope.options.length ; j++){
+					if(option.specs == $scope.options[j].specs){
+						option.stock = $scope.options[j].stock;
+						option.sale_price = $scope.options[j].sale_price;
+						option.market_price = $scope.options[j].market_price;
+						option.goods_sn = $scope.options[j].goods_sn;
+						option.weight = $scope.options[j].weight;
+						option.id = $scope.options[j].id;
+					}
+				}
+				options.push(option);
+			}
+			$scope.changed = 0;
+			$scope.options = options;
+			$scope.headSpecs = specs;
+		};
+		
+		$scope.delete_spec = function(index){
+			$scope.changed = 1;
+			$scope.specs.splice(index,1);
+		}
+		
+		$scope.delete_item = function(spec_index,index){
+			$scope.changed = 1;
+			$scope.specs[spec_index].items.splice(index,1);
+		}
+		$scope.refresh();
+	}]);
+	
+	
+</script>

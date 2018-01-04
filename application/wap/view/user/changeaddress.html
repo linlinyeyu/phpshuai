@@ -1,0 +1,64 @@
+{include file="header"}
+</head>
+<body >
+	<div class="header">
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">修改资料</span>
+			    </div>
+	</div>
+	<div ng-controller="ctrl" ng-cloak class="container main-container">
+		<div class="changeaddress-right-nav">
+			<a href="#{{c.code}}" ng-repeat="c in city">{{c.code}}</a>
+		</div>
+		<div ng-if="customer.city != ''" >
+			<div class="changeaddress-first-div">
+				<p>当前位置</p>
+			</div>
+			<div  class="changeaddress-now-address">
+				<a href="{:U('user/personal_inform')}">{{customer.city}}</a>
+			</div>
+		</div>
+		
+		<div class="changeaddress-hot-city">
+			<p>国内热门城市</p>
+		</div>
+		<div class="changeaddress-hotcity-div">
+			<div>
+				<a ng-repeat="h in hotcity" ng-click="changecity(h.province, h.city)">{{h.city}}</a>
+			</div>
+		</div>
+		<div class="changeaddress-all-city">
+			<div class="city-part" ng-repeat="a in city" style="position:relative">
+				<div>
+					{{a.code}}
+				</div>
+				<a name="{{a.code}}" style="position:absolute;top: -50px"></a>
+				<div>
+					<div ng-click="changecity(x.pname, x.name)" ng-repeat="x in a.cities">
+						<a >{{x.name}}</a>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	 <script src="__PUBLIC__/wap/js/city.js?1234"></script>
+	 <script>	
+	 	
+	 	var app = angular.module("myapp",['back-filter']);
+   	  	app.controller('ctrl',["$scope",function($scope){
+   	  		$scope.customer = {$customer | json_encode};
+   	  		$scope.city= areas;
+   	  		$scope.hotcity = {$hotcity | json_encode};
+	   		$scope.changecity = function(province, city){
+	   			var data = {'access_token' : pinet.getCookie('access_token'), 'province' : province, city : city}
+	   			pinet.post("user/changeaddress", data, function(data){
+	   				location.href = "{:U('user/personal_inform')}";
+	   			})
+	   		}  
+   	  	}]);
+   	  	
+	   </script>
+</body>
+</html>

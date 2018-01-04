@@ -1,0 +1,24 @@
+<div class="control-group">
+	<label class="control-label">商品图文描述</label>
+	<div class="controls">
+		<div>
+			<script type="text/plain" id="myEditor" style="width:1000px;height:240px;">{$goods.description |html_entity_decode=###}</script>
+		</div>
+	</div>
+</div>
+
+	<script src="__PUBLIC__/umeditor/umeditor.config.js?3245"></script>
+    <script src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+    <script src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript">
+
+    //实例化编辑器
+    var um = UM.getEditor('myEditor');
+
+	$(".del").each(function(){
+		$(this).click(function(){
+			$(this).parent().remove();
+		});
+	})
+	
+    </script>

@@ -1,0 +1,73 @@
+{include file="header" /}
+<link rel="stylesheet" hrerf="__PUBLIC__/js/artDialog/skins/default.css"/>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="">红包详情</a></li>
+		</ul>
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td>红包名</td>
+					<td>大吉大利</td>
+				</tr>
+				<tr>
+					<td>使用条件</td>
+					<td>满1000元</td>
+				</tr>
+				<tr>
+					<td>红包金额</td>
+					<td>50</td>
+				</tr>
+				<tr>
+					<td>创建时间</td>
+					<td>2016-05-01</td>
+				</tr>
+				<tr>
+					<td>红包状态</td>
+					<td>已停用</td>
+				</tr>
+				<tr>
+					<td>使用范围</td>
+					<td>nike服饰</td>
+				</tr>
+				<tr>
+					<td>红包操作</td>
+					<td>
+						<a  class="give">发放</a> |
+						<a href="">停用</a> |
+						<a href="">启用</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="form-actions">
+				<a class="btn" href="index.html">返回</a>
+			</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+	<script>
+		$(document).ready(function(){
+			$(".give").each(function(){
+				$(this).click(function(){
+				var dialog=art.dialog({
+					title:'发放提示',
+					width:'400px',
+					height:'150px',
+					id:'shake-demo',
+					content:'发放对象用户名：<input type="text"/>',
+					ok:'确定',
+					cancel:'取消'
+				})
+
+
+			})
+
+			})
+
+		})
+	</script>
+</body>
+</html>

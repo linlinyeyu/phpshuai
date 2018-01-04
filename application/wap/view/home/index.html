@@ -1,0 +1,126 @@
+{include file="header"}
+<style>
+	.bx-default-pager a{
+		background:rgba(0,0,0,.3);
+	}
+	.bxslider li{
+		text-align:center;
+	}
+	.bxslider iframe{
+		display:inline-block;
+		margin: 0 auto;
+	}
+</style>
+	</head>
+	<body style="background:white" ng-cloak >
+		<!-- <div class="header">
+		   	<div class="wrapper">
+		     	<span class="title"><img src="__PUBLIC__/wap/image/logo.png" style="height:20px"></span>
+		    </div>
+		</div> -->
+		<div  ng-controller="ctrl" class="container bottom-container">
+			<ul class="bxslider" > 
+			     <li ng-repeat="b in banners " on-finish-render-filters>
+			     	<iframe ng-if="b.action_id == 10" image-resize width="90%" ratio="0.613" frameborder="0" ng-src="{{b.image}}" allowfullscreen></iframe>
+			     	<img ng-if="b.action_id != 10" image-resize ratio="0.613"  activity="1" ng-src="{{b.image}}" ng-click="jump(b.action)">
+			     </li>
+			</ul>
+			<div class="index-head-bar" >
+	     		<div ng-repeat="t in tags"  class="index-body-title" ng-click="jump(t.action)" >
+					<img  width="30%"  ng-src="{{t.image}}">
+					<p>{{t.name}}</p>
+	     		</div>
+			</div>
+			<div class="index-activity">
+				<div ng-repeat="a in activity" ng-click="jump(a.action)">
+					<img ng-if="a.action_id != 10" ng-src="{{a.image}}" activity="1" image-resize ratio="0.5" >
+					<iframe ng-if="a.action_id == 10" image-resize ratio="0.5" frameborder="0" ng-src="{{a.image}}" allowfullscreen></iframe>
+				</div>
+			</div>
+			
+	    	<div class="index-goods-container">
+          			<div  ng-repeat="g in seckills" class="index-box">
+           				<a href="{:U('goods/goodsinfo')}?goods_id={{g.goods_id}}" class="index-goods-image"  >
+           					<img ng-src="{{g.image}}"  goods="1" image-resize ratio="1" width="41%">
+           					<div class="index-goods-tip">
+           						<span ng-if="g.date_end < 0">活动已结束</span>
+           						<span ng-if="g.date_end >= 0 && g.out_sale == 1">产品已售罄</span>
+           						<span ng-if="g.date_end >= 0 && g.out_sale == 0" >剩余:{{g.date_end | date_count_down}}</span>
+           					</div>
+           				</a>
+           				<div class="index-goods-info">
+           					<div class="index-goods-name">{{g.name}}</div>
+           					<div class="index-goods-name">秒杀价</div>
+	             		    <div class="index-goods-price" >¥{{g.price | number:0}}</div>
+	             		    <div class="index-goods-market">
+	             		    	<del style="font-size:12px;color:#808080">市场价:¥{{g.market_price | number:0}}</del>
+	             		    </div>
+	             		    <a href="{:U('goods/goodsinfo')}?goods_id={{g.goods_id}}" class="index-goods-button" ng-class="{true:'active', false:'disabled'}[g.date_end >= 0 && g.out_sale == 0]" >
+	             		    	<span ng-if="g.date_end < 0 || g.out_sale == 1">活动结束</span>
+	             		    	<span ng-if="g.date_end >= 0 && g.out_sale == 0">立即秒杀</span>
+	             		    </a>
+           				</div>
+             		    
+					</div>
+		    </div> 		
+		</div>
+		
+		{include file="footer"}
+		 <script src="__PUBLIC__/wap/js/bxslider.min.js"></script>
+	 <script>		
+	 	var app = angular.module("myapp",['repeat-filter','image-resize','date-filter']);
+   	  	app.controller('ctrl',["$scope", "$interval","$sce",function($scope, $interval , $sce){
+   	  		$scope.banners = {$banners | json_encode};
+   	  		$scope.tags = {$tags | json_encode};
+   	  		$scope.activity = {$activity | json_encode};
+   	  		$scope.seckills = {$goods | json_encode};
+   	  		
+   	  		for(var i = 0; i < $scope.banners.length ; i++){
+   	  			if($scope.banners[i].action_id == 10){
+   	  				$scope.banners[i].image = $scope.banners[i].action.params[0].value;
+   	  				$scope.banners[i].image = $sce.trustAsResourceUrl($scope.banners[i].image);
+   	  			}
+   	  		}
+   	  		
+   	  	for(var i = 0; i < $scope.activity.length ; i++){
+	  			if($scope.activity[i].action_id == 10){
+	  				$scope.activity[i].image = $scope.activity[i].action.params[0].value;
+	  				$scope.activity[i].image = $sce.trustAsResourceUrl($scope.activity[i].image);
+	  			}
+	  		}
+   	  		$scope.jump = function(b){
+   	  			if(b.jump){
+   	  				var keys = [];
+   	  				if(b.jump == "tel" ){
+   	  					location.href="tel:" + b.params[0].value;
+   	  					return;
+   	  				}
+   	  				
+   	  				if(b.params){
+   	  					for(var i = 0; i < b.params.length ; i++){
+   	  						keys.push(b.params[i].key + "=" + b.params[i].value);
+   	  					}
+   	  				}
+   	  				location.href = "{$wap_url}" + b.jump + "?" + keys.join("&");
+   	  			}
+   	  		}
+   	  		$interval(function(){
+   	  			for(var i = 0; i < $scope.seckills.length ; i++){
+   	  				$scope.seckills[i].date_end --;
+   	  			}
+   	  		}, 1000);
+	   	  	$scope.$on("ngRepeatFinished",function(){
+		   	  	$('.bxslider').bxSlider({
+		   	  		infiniteLoop: true,
+		   	  		auto: true,
+		   	  		controls:false
+	   	  		});
+   	  		});
+   	  	}]);
+			   	  	
+			   	  	
+	   </script>
+	</body>
+    
+</html>
+  

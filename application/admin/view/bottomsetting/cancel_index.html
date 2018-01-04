@@ -1,0 +1,38 @@
+{include file="header" /}
+<link href="__PUBLIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('bottomsetting/cancel_index')}">取消订单</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">取消订单</label>
+                <div class="controls">
+                    <div>
+                        <script type="text/plain" id="myEditor" style="width:1000px;height:240px;">
+                            {$cancel |html_entity_decode=###}
+                        </script>
+                        </div>
+                        </div>
+                        </div>
+
+
+                        </fieldset>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+                        </div>
+                        </form>
+                        </div>
+                        <script src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+                        <script src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+                        <script src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+                        <script>
+                            var um = UM.getEditor('myEditor',{
+
+                            });
+                        </script>
+</body>
+</html>

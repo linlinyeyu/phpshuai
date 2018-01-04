@@ -1,0 +1,66 @@
+{include file="header" /} 
+</head>
+<body ng-controller="goods">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('payconfig/alipay_app_config')}">支付参数</a></li>
+			<!-- <li ><a href="{:U('payconfig/alipay_wap_config')}">H5参数</a></li>
+			<li ><a href="{:U('payconfig/alipay_web_config')}">网页端参数</a></li> -->
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">开启</label>
+					<div class="controls">
+						<input type="radio" {if condition="$settings.is_open eq 0"}checked{/if} name="is_open" value="0" >关闭
+						<input type="radio" {if condition="$settings.is_open eq 1"}checked{/if} name="is_open" value="1">开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">收款账户</label>
+					<div class="controls">
+						<input type="text" name="seller_email" value="{$settings.seller_email}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">合作者身份</label>
+					<div class="controls">
+						<input type="text" name="partner" value="{$settings.partner}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">商户公钥</label>
+					<div class="controls">
+						{if condition="$settings.is_set_public"}<label>已上传</label>{/if}
+						<input type="file" name="public_key" />
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">商户私钥(psk8)</label>
+					<div class="controls">
+						{if condition="$settings.is_set_private"}<label>已上传</label>{/if}
+						<input type="file" name="private_key" />
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">支付宝公钥</label>
+					<div class="controls">
+						{if condition="$settings.is_set_ali_public"}<label>已上传</label>{/if}
+						<input type="file" name="ali_public_key" />
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

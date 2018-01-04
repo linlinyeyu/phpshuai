@@ -1,0 +1,39 @@
+{include file="header" /}
+<style>
+.noclick{
+border-top:1px solid #cccccc;
+background-color:#f1f0f0;
+overflow:hidden;
+opacity: 0;
+height:0px;
+transition: all linear 1s;
+}
+.isclick{
+	height: auto ;
+	opacity: 1;
+}
+</style>
+</head>
+<body>
+	<div ng-app="myapp">
+		<ul style="list-style:none;margin-top:30px;">
+			{if condition="count($help) gt 0"}
+			{volist name="help" id="vo"}
+			<li style="border-bottom:1px solid #cccccc;margin-top:30px;">
+				<div style='height:40px;'>
+				<span style="margin-top:4px;display:inline-block;width:15px;height:15px;background:#326cc7;border-radius:50%;float:left"></span>
+				<span style="margin-left:10px;color:#000000;font-weight:bold;font-size:15px;">{$vo.title}</span>
+				<span style="display:inline-block;transform:rotate(90deg);font-size:30px;margin-left:10px;vertical-align: text-bottom;cursor:pointer;" ng-model="flag_{$vo.help_id}" ng-init="flag_{$vo.help_id} = false" ng-click="flag_{$vo.help_id} = !flag_{$vo.help_id}" >&raquo;</span>
+				</div>
+				<div ng-show="flag_{$vo.help_id}" ng-class={'isclick':flag_{$vo.help_id}} class='noclick' style='display:block !important;' ng-style='height:'>{$vo.content | html_entity_decode=###}</div>
+			</li>
+			{/volist}
+			{/if}
+		</ul>
+	</div>
+	<script>
+		var app = angular.module("myapp",[]);
+	</script>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+</body>
+</html>

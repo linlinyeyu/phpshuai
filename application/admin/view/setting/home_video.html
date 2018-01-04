@@ -1,0 +1,27 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/home_video')}">网页端视频</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">首页视频链接：</label>
+					<div class="controls">
+						<input placeholder="http://player.youku.com/xxxx" type="text" name="video" value="{$video}" style="outline:none">
+					</div>
+				</div>	
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">确定</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+
+	</script>
+</body>
+</html>

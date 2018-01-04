@@ -1,0 +1,280 @@
+{include file="header" /} 
+</head>
+<link rel="stylesheet" hrerf="__PUBLIC__/js/artDialog/skins/default.css"/>
+<style>
+	a:hover{text-decoration:none;}
+	.controls > span{
+		display:inline-block;
+		vertical-align:middle;
+		padding-top:5px;
+	}
+	.control-group{
+		overflow:hidden;
+		margin-bottom:10px !important;
+	}
+	#result td{
+		vertical-align:middle;
+	}
+	
+	
+</style>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('customer/index')}">会员列表</a></li>
+			<li class="active"><a href="{:U('customer/detail', array('id'=> $customer['customer_id']))}">会员详情</a></li>
+		</ul>
+				
+		<div class="panel panel-default">
+			<div class="panel-heading">会员详细信息</div>
+			<div class="panel-body">
+				<form  class="form-horizontal js-ajax-form" method="post" action="{:U('customer/edit')}" >
+					<fieldset>
+						<div style="float:right">
+							<!-- <input type="button" id="fine" value="罚款" style="float:right;margin:0;margin-bottom:5px;" class="btn btn-danger" number required/>
+							<input type="button" id="pay" value="充值" style="float:right;margin:0;margin-bottom:5px;margin-right:5px;" class="btn btn-success"number required/> -->
+						</div>
+						<div class="control-group">
+							<label class="control-label">用户:</label>
+							<div class="controls">
+								<img src="{$customer.avater}" style="width:40px ; height:40px" />
+								<span style="padding-left:10px;">{$customer.nickname? $customer.nickname : '未命名'}</span>
+							</div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">会员编号:</label>
+							<div class="controls"><span>{$customer.uuid}</span></div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">性别:</label>
+							<div class="controls"><span>{$customer.sex}</span></div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">手机号码:</label>
+							<div class="controls"><input name="phone" value="{$customer.phone}"  /></div>	
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">成交订单数:</label>
+							<div class="controls"><span>{$customer.order_count}</span></div>	
+						</div>
+						<div class="control-group">
+							<label class="control-label">成交金额:</label>
+							<div class="controls"><span>{$customer.order_amount}元</span></div>	
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">余额:</label>
+							<div class="controls"><input name="account" value="{$customer.account}"/></div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">可用积分:</label>
+							<div class="controls"><input name="integration" value="{$customer.integration}"/></div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">可用购物积分:</label>
+							<div class="controls"><input name="shopping_coin" value="{$customer.shopping_coin}"/></div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">鸿府积分</label>
+							<div class="controls"><input name="hongfu" value="{$customer.hongfu}"/></div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">奖励金</label>
+							<div class="controls"><input name="reward_amount" value="{$customer.reward_amount}"/></div>
+						</div>
+
+						<div class="control-group">
+							<label class="control-label">转账金</label>
+							<div class="controls"><input name="transfer_amount" value="{$customer.transfer_amount}"/></div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">注册日期:</label>
+							<div class="controls"><span>{$customer.date_add | date="Y-m-d H:i:s",###}</span></div>	
+						</div>
+					</fieldset>
+					
+					<div class="form-actions">
+						<input type="hidden" name="id" value="{:I('get.id')}">
+						<button type="submit" class="btn btn-primary js-ajax-submit">修改</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+	<script>
+		var needpwd = '{$need_pwd}';
+		$(document).ready(function(){
+
+			$("tr td:first").css("width","10%");
+			$("select").css("margin-right","10px")
+			$("input").css("margin-top","10px")
+			$("#change").click(function(){
+				var dialog=art.dialog({
+					width:'400px',
+					height:'150px',
+					lock:false,
+					id:'shake-deom',
+					title:'修改密码',
+					content:'新密码：<input type="password" name="newpwd" style="margin-left:27px;"/></br>重复新密码：<input type="password" name="repwd" />',
+					fixed:true,
+					cancel:'false',
+					ok: function () {
+                       	$.ajax({
+                       	  url: "{:U('customer/changepasswd')}",
+                       	  type : 'post',
+						  dataType: 'json',
+						  data: $("input[name=oldpwd],input[name=newpwd],input[name=repwd],input[name=cid]"),
+						  success: function(json){
+						  	alert(json.msg);
+						  }
+                       	});  
+                       }
+				})
+			})
+
+
+			$("#pay").click(function(){
+				if (needpwd == "1") {
+					safepwd();
+					return;
+				};
+				var dialog=art.dialog({
+					width:'400px',
+					height:'150px',
+					lock:false,
+					id:'shake-deom',
+					title:'充值提示',
+					content:'请输入充值金额：<input type="text" name="pay" id="payamount"/>',
+					fixed:true,
+					cancel:'false',
+					ok: function () {
+                       	$.ajax({
+                       	  url: "{:U('customer/pay')}",
+                       	  type : 'post',
+						  dataType: 'json',
+						  data: $("#payamount,input[name=cid]"),
+						  success: function(json){
+						  	alert(json.msg);
+						  	location.reload();
+						  }
+                       	});  
+                       }
+				})
+			})
+
+			$("#fine").click(function(){
+				if (needpwd == "1") {
+					safepwd();
+					return;
+				};
+				var dialog=art.dialog({
+					width:'400px',
+					height:'150px',
+					lock:false,
+					id:'shake-deom',
+					title:'罚款提示',
+					content:'请输入罚款金额：<input type="text" name="pay" id="fineamount"/>',
+					fixed:true,
+					cancel:'取消',
+					ok: function () {
+                       	$.ajax({
+                       	  url: "{:U('customer/fine')}",
+                       	  type : 'post',
+						  dataType: 'json',
+						  data: $("#fineamount,input[name=cid]"),
+						  success: function(json){
+						  	alert(json.msg);
+						  	location.reload();
+						  }
+                       	});  
+                       }
+				})
+			});
+
+			function safepwd(){
+				var dialog=art.dialog({
+					width:'400px',
+					height:'150px',
+					lock:false,
+					id:'shake-deom',
+					title:'请输入安全码',
+					content:'请输入安全码：<input type="password" name="pwd" id="safe_pwd"/>',
+					fixed:true,
+					cancel:'取消',
+					ok: function () {
+                       	$.ajax({
+                       	  url: "{:U('customer/verifypassword')}",
+                       	  type : 'post',
+						  dataType: 'json',
+						  data: $("#safe_pwd,input[name=pwd]"),
+						  success: function(json){
+						  	art.dialog(json.msg);
+						  	if(json.code == 1){
+						  		needpwd = "0";
+						  	}
+						  }
+                       	});  
+                       }
+				})
+			}
+
+
+		});
+		var dialog = null;
+		function edit_agent(){
+			dialog = art.dialog({
+				width:"600px",
+				'title' : "请选择会员",
+				'content' : '<input type="text" style="margin-bottom:0px;width:300px" id="agent" placeholder="请输入会员编号、昵称、手机号" /><span class="btn btn-primary" style="margin-left:10px;" onclick="search()">搜索</span> <table id="result" class="table table-hover" style="max-height:300px;width:500px;"></table>',
+				cancel : function(){
+				}
+			});
+			
+		}
+		var datas = [];
+		function search(){
+			var agent = $("#agent").val();
+			if(!agent){
+				return;
+			}
+			$("#result").html("搜索中");
+			$.ajax({
+				'url' : "{:U('customer/search')}",
+				'data' : {"term" : agent},
+				'dataType' : 'json',
+				success : function(data){
+					var s = "";
+					for(var i = 0; i < data.length ; i++){
+						var html = '<tr><td><img width="40" height="40" src="'+data[i].avater+'" />'+
+						'<span>'+data[i].nickname+'</span></td>' + 
+						'<td>'+data[i].uuid+'</td><td>' + data[i].phone + "</td><td width='100'><a onclick='select("+i+")' >选择</a></td>" + 
+						'</tr>';
+						s += html;
+					}
+					$("#result").html(s);
+					datas = data;
+				}
+			})
+			
+		}
+		function select(id){
+			var customer = datas[id];
+			$("#pid").val(customer.customer_id);
+			$("#pimage").attr("src" ,  customer.avater ).css("display","inline-block");
+			$("#pname").attr("href" , "{:U('customer/detail')}?id=" + customer.customer_id). html(customer.nickname);
+			dialog.close();
+		}
+		
+	</script>
+</body>
+</html>

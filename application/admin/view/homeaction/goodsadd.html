@@ -1,0 +1,88 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap" ng-controller="newctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('homeaction/goods',['home_category_id'=>$home_category_id])}">分类商品列表</a></li>
+			<li class="active"><a href="{:U('homeaction/goodsAdd',['home_category_id'=>$home_category_id])}">添加分类商品</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:U('homeaction/goodsAdd')}" method="post">
+			<div class="control-group">
+				<label class="control-label">商品ID:</label>
+				<div class="controls">
+					<input yzl-autocomplete label-key="goods_id" value="{$goods.goods_id}" url="/admin/goods/searchGoodsById" value-key="goods_id" callback="goods_callback">
+					<input type="hidden" name="goods_id" value="{{goods_id}}"/>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">商品:</label>
+				<div class="controls">
+					<input type="text" name="name" value="{$goods.name}" readonly="true" />
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">关联店铺:</label>
+				<div class="controls">
+				<input type="text" name="shop" value="{$goods.shop_name}" readonly="true" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">展示图</label>
+				<div class="controls">
+					<uploadimg cate="activity" image-url="{$goods.image}" width="250" height="420"></uploadimg>
+					<span>首页展示时添加 第一个建议尺寸:250*420 其余建议尺寸:180*210</span>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">排序</label>
+				<div class="controls">
+					<input type="text" name="sort" value="{$goods.sort}"/>
+				</div>
+			</div>
+			<input type="hidden" name="home_category_goods_id" value="{$goods.home_category_goods_id}"/>
+			<input type="hidden" name="home_category_id" value="{$home_category_id}" />
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+				<a class="btn" href="{:U('homeaction/goods',['home_category_id' => $home_category_id])}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+        var app = angular.module('myapp', ['uploadimg', "autocomplete"]);
+		app.controller("newctrl",function($scope,$http){
+            $scope.goods = {$goods | json_encode};
+            $scope.goods_id = $scope.goods.goods_id;
+            $scope.goods_callback = function(item){
+				$scope.goods_id = item.id;
+				$.ajax({
+					url:"{:U('homeaction/getshopname')}"+"?goods_id="+$scope.goods_id,
+					type:"GET",
+					datatype:"json",
+					success:function(data){
+						var res = JSON.parse(data);
+						$("input[name='shop']")[0].value = res.shop_name;
+					}
+				});
+                $.ajax({
+                    url:"{:U('homeaction/getgoodsname')}"+"?goods_id="+$scope.goods_id,
+                    type:"GET",
+                    datatype:"json",
+                    success:function(data){
+                        var res = JSON.parse(data);
+                        $("input[name='name']")[0].value = res.name;
+                    }
+                });
+				$scope.$apply();
+			}
+		});
+		
+		$(function() {
+			$( "#date_start" ).datetimepicker();
+			$( "#date_end").datetimepicker();
+		});
+</script>
+</body>
+</html>

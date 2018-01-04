@@ -1,0 +1,124 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">排行榜</span>
+			    </div>
+	</div>
+	<div ng-controller="ctrl" ng-cloak class="container main-container">
+		<ul class="bxslider" > 
+		     <li ng-repeat="b in banners " on-finish-render-filters>
+		     	<iframe ng-if="b.action_id == 10" image-resize width="90%" ratio="0.613" frameborder="0" ng-src="{{b.image}}" allowfullscreen></iframe>
+		     	<img image-resize ratio="0.613" width="100%" activity="1" ng-src="{{b.image}}" ng-click="jump(b.action)">
+		     </li>
+		</ul>
+		<div class="ranklist-first-div">
+			<div class="rl-first-child-div">
+				<div class="rl-rank-background" >
+					<span ng-click="current = 'week'" ng-class="{true:'active'}[current == 'week']" >周排行榜</span>
+				</div>
+			</div>
+			<div class="rl-first-child-div">
+				<div class="rl-rank-background">
+					<span ng-click="current = 'month'" ng-class="{true:'active'}[current == 'month']">月排行榜</span>
+				</div>
+			</div>
+			<div class="rl-first-child-div">
+				<div class="rl-rank-background">
+					<span ng-click="current = 'total'" ng-class="{true:'active'}[current == 'total']">总排行榜</span>
+				</div>
+			</div>
+		</div>
+		<div ng-if="current == 'week'" class="ranklist-second-div">
+			<ul instance="ins_week" bind="week_records" data="type=1" page="2" need_token="1" infinite url="rank/getRankList">
+				<li ng-repeat="r in week_records" class="ranklist-other-li">
+					<span ng-class="{'first' : $index == 0, 'second' : $index == 1, 'third' : $index == 2}"  class="rl-other-first " ><span ng-if="$index >= 3">{{($index + 1)}}</span></span>
+					<img class="ranklist-avater-img" image-resize ratio="1" avater="1" ng-src="{{r.image}}" width="40px" height="40px">
+					<span class="rl-other-second" ng-bind-html="r.nickname | emoji"></span>
+					<p>{{r.commission | number : 2}}</p>
+				</li>
+			</ul>
+		</div>
+		<div ng-if="current == 'month'" class="ranklist-second-div">
+			<ul instance="ins_month" bind="month_records" data="type=2" page="2" need_token="1" infinite url="rank/getRankList">
+				<li ng-repeat="r in month_records" class="ranklist-other-li">
+					<span ng-class="{'first' : $index == 0, 'second' : $index == 1, 'third' : $index == 2}"  class="rl-other-first " ><span ng-if="$index >= 3">{{($index + 1)}}</span></span>
+					<img class="ranklist-avater-img" image-resize ratio="1" avater="1" ng-src="{{r.image}}" width="40px" height="40px">
+					<span class="rl-other-second" ng-bind-html="r.nickname | emoji"></span>
+					<p>{{r.commission | number : 2}}</p>
+				</li>
+			</ul>
+		</div>
+		<div ng-if="current == 'total'" class="ranklist-second-div">
+			<ul instance="ins" bind="total_records" data="type=0" page="2" need_token="1" infinite url="rank/getRankList">
+				<li ng-repeat="r in total_records" class="ranklist-other-li">
+					<span ng-class="{'first' : $index == 0, 'second' : $index == 1, 'third' : $index == 2}"  class="rl-other-first " ><span ng-if="$index >= 3">{{($index + 1)}}</span></span>
+					<img class="ranklist-avater-img" image-resize ratio="1" avater="1" ng-src="{{r.image}}" width="40px" height="40px">
+					<span class="rl-other-second" ng-bind-html="r.nickname | emoji"></span>
+					<p>{{r.commission | number : 2}}</p>
+				</li>
+			</ul>
+		</div>
+		<div class="ranklist-mine-div">
+			<span class="ranklist-me-span">我</span>
+			<img image-resize ratio="1" ng-src="{{records.customer.image}}" avater="1" width="50px" height="50px">
+			<span class="ranklist-me-rank">{{records[current].count}}</span>
+			<span class="ranklist-last-span">名</span>
+			<p>我的积分:<span>{{records[current].commission | number :2}}</span></p>
+		</div>
+	</div>
+	 <script src="__PUBLIC__/wap/js/bxslider.min.js"></script>
+	 <script>		
+	 	var app = angular.module("myapp",['back-filter', 'repeat-filter','image-resize','emoji-filter', 'lazy-load']);
+   	  	app.controller('ctrl',["$scope", "$interval",function($scope, $interval){
+   	  		$scope.banners = {$banners | json_encode};
+   	  		$scope.current = "week";
+   	  		$scope.records = {$records | json_encode};
+   	  		
+   	  		$scope.week_records = $scope.records.week.record;
+
+   	  		$scope.records.week.record = [];
+   	  		
+   	  		$scope.month_records = $scope.records.month.record;
+   	  		
+   	  		$scope.records.month.record = [];
+   	  		
+   	  		$scope.total_records = $scope.records.total.record;
+   	  		
+   	  		$scope.records.total_record = [];
+   	  		
+   	  		$scope.jump = function(b){
+   	  			if(b.jump){
+   	  				var keys = [];
+   	  				if(b.params){
+   	  					for(var i = 0; i < b.params.length ; i++){
+   	  						keys.push(b.params[i].key + "=" + b.params[i].value);
+   	  					}
+   	  				}
+   	  				location.href = "{$wap_url}" + b.jump + "?" + keys.join("&");
+   	  			}
+   	  		}
+   	  		
+   	  		for(var i = 0; i < $scope.banners.length ; i++){
+	  			if($scope.banners[i].action_id == 10){
+	  				$scope.banners[i].image = $scope.banners[i].action.params[0].value;
+	  				$scope.banners[i].image = $sce.trustAsResourceUrl($scope.banners[i].image);
+	  			}
+	  		}
+   	  		
+	   	  	$scope.$on("ngRepeatFinished",function(){
+		   	  	$('.bxslider').bxSlider({
+		   	  		infiniteLoop: true,
+		   	  		auto: true,
+		   	  		controls:false
+	   	  		});
+   	  		});
+   	  	}]);
+			   	  	
+			   	  	
+	   </script>
+	   {include file="base_footer"}
+</body>
+</html>

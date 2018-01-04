@@ -1,0 +1,35 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('setting/website_setting')}">网站参数</a></li>
+			<li class="active"><a href="{:U('setting/test_setting')}">测试参数</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">苹果审核：审核模式下，支付页面会跳转至safari浏览器，以满足苹果审核要求</p>
+				<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">金额设置：调试模式，所有订单金额全部变为0.01元</p>
+				<div class="control-group">
+					<label class="control-label">苹果审核</label>
+					<div class="controls">
+						<input type="radio" value="0" name="audit_test" {if condition="$audit_test eq 0"}checked{/if} />正常模式
+						<input type="radio" value="1" name="audit_test" {if condition="$audit_test eq 1"}checked{/if} />审核模式
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">金额设置</label>
+					<div class="controls">
+						<input type="radio" value="0" name="money_test" {if condition="$money_test eq 0"}checked{/if} />正常模式
+						<input type="radio" value="1" name="money_test" {if condition="$money_test eq 1"}checked{/if} />调试模式
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

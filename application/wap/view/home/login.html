@@ -1,0 +1,110 @@
+{include file="header"}
+
+</head>
+<body  ng-controller="signctrl" style="background:white">
+	<div class="header">
+		<div class="wrapper">
+			<span class="back" on-back-render-filters></span>
+			<span class="title">用户登录</span>
+		</div>
+	</div>
+	<div class="container top-container">
+		<div class="login-logo-div">
+			<img src="__PUBLIC__/wap/image/login_logo.png">
+			<p>零 美 云 合</p>
+		</div>
+		<div ng-if="is_weixin" class="login-weixin-div">
+			<p class="login-weixin-p">微信登录</p>
+			<div>
+				<img ng-click="weixin_login()" src="__PUBLIC__/wap/image/login_weixin.png" >
+				<p>点击进入微信授权</p>
+			</div>
+		</div>
+		<form class="login-number-div">
+			<p class="login-number-word-p">已有账号登录</p>
+			<div class="login-number-child-div">
+				<div class="login-phone-code-div">
+					<div class="login-phone-div">
+						<input ng-model="phone" type="number" placeholder="手机号码">
+					</div>
+					<div class="login-code-div">
+						<input type="text" ng-model="verify_code" placeholder="验证码">
+						<a ng-click="send()" ng-init="verify_code_text='发送验证码'">{{verify_code_text}}</a>
+					</div>
+				</div>
+			</div>
+			<a ng-click="login()" class="login-bottom" ng-init="is_finish = false" ng-class="{true:'active',false:'negative'}[is_finish]" >登录</a>
+		</form>
+		
+	</div>
+	<script>
+	var app = angular.module("myapp",['back-filter']);
+	app.controller('signctrl',function($scope,$interval){
+		$scope.is_finish = true;
+    $scope.signdata={};
+    
+    $scope.is_weixin = is_weixin();
+    $scope.weixin_login = function(){
+    	if(is_weixin()){
+    		location.href ="{:U('user/improve_data')}?weixin_login=1"
+    	}else{
+    		layer.open({'content': '请使用微信内登录','time' : {$tips_time_out}});
+    	}
+    	
+    }
+    $scope.$watch("phone", function(){
+    	var is_finish = !!( $scope.phone && $scope.verify_code);
+    	$scope.is_finish = is_finish;
+    });
+    
+    $scope.$watch("verify_code", function(){
+    	var is_finish = !!( $scope.phone && $scope.verify_code);
+    	$scope.is_finish = is_finish;
+    });
+    $scope.send=function(){
+		var phone = $scope.phone;
+		if(!phone){
+			layer.open({content:"请输入手机号",time:3});
+			return;
+		}
+		if($scope.stop){
+			return;
+		}
+		$scope.time = 60;
+		$scope.stop = $interval(function(){
+			if($scope.time > 0){
+				$scope.time --;
+				$scope.verify_code_text = $scope.time + "秒重发";
+			}else{
+				$scope.verify_code_text = "发送验证码";
+				$interval.cancel($scope.stop);
+				$scope.stop = null;
+			}
+		}, 1000);
+		
+		pinet.post('User/SendCode',{"phone":$scope.phone,"state":2},function(data){
+			pinet.toast(data.message);
+			$scope.$apply();
+		})
+	};
+	
+	$scope.login = function(){
+		var phone = $scope.phone;
+		var verify_code = $scope.verify_code;
+		if(!phone || !verify_code){
+			return;
+		}
+		
+		pinet.post("User/OauthLogin",{'oauth':'Sms','phone' : phone , 'verify_code' : verify_code}, function(data){
+			pinet.setCookie("access_token",data.content.access_token,"/", 365 * 24 * 60 * 60 );
+			location.href = "{:U('user/improve_data')}";
+		});
+		
+	}
+    
+});
+
+</script>
+	
+</body>
+</html>

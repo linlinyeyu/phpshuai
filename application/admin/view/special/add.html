@@ -1,0 +1,166 @@
+{include file="header" /} 
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('special/index',['special_id' => $special_id])}">专题列表</a></li>
+			<li class="active"><a href="{:U('special/add',['special_id' => $special_id])}">添加专题图片</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form" action="{:U('special/add')}" method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">图片名称</label>
+					<div class="controls">
+						<input type="text" name="picture_name" value="{$special.name}" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">专题图片</label>
+					<div class="controls">
+						<uploadimg cate="banner" image-url="{$special.image}" width="1250" height="500"></uploadimg>
+					</div>
+				</div>
+				
+				<div>
+				{if condition="$special_id neq 7"}
+				<div class="control-group">
+					<label class="control-label">点击事件</label>
+					<div class="controls">
+						<select name="action_id" ng-model="action_id" id="action">
+							<option value="0">请选择事件</option>
+							<option value="2">商品详情</option>
+						</select>
+					</div>
+				</div>
+				{/if}
+				
+				{if condition="$special_id eq 7"}
+				<div class="control-group">
+					<label class="control-label">点击事件</label>
+					<div class="controls">
+						<select name="action_id" ng-model="action_id" id="action">
+							<option value="0">请选择事件</option>
+							<option value="7">店铺详情</option>
+						</select>
+					</div>
+				</div>
+				{/if}
+				
+				
+				
+				<div class="control-group" {if condition="$special.action_id eq 2"}ng-show="true"{else}ng-show="action_id == 2"{/if} id="goods">
+				    <div>
+				    	<label class="control-label">商品名称</label>
+					<div class="controls">
+						<input yzl-autocomplete label-key="name" value="{$special.goods_name}" url="/admin/goods/searchGoods" value-key="goods_id" callback="goods_callback">
+					<input type="hidden" name="goods_id" {if condition="$special.goods_id neq ''"}ng-init="goods_id={$special.goods_id}"{/if} value="{{goods_id}}"/>
+					</div>
+				    </div>
+					<div style='margin-top:10px;'><label class="control-label">关联店铺</label>
+						<div class="controls">
+							<input type="text" name="shop" value="{$special.seller_name}" readonly="true" />
+						</div>
+					</div>	
+						
+				</div>
+				
+				<div class="control-group" {if condition="$special.action_id eq 7"}ng-show="true"{else}ng-show="action_id == 7"{/if} id="shop">
+					<label class="control-label">店铺名称</label>
+					<div class="controls">
+						<input yzl-autocomplete label-key="shop_name" value="{$special.shop_name}" url="/admin/seller/searchShop" value-key="seller_id" callback="shop_callback" />
+						<input type="hidden" name="seller_id" {if condition="$special.seller_id neq ''"}ng-init="seller_id={$special.seller_id}"{/if} value="{{seller_id}}"/>
+					</div>
+				</div>
+				
+				</div>
+				
+				<div class="control-group">
+		        <label class="control-label">是否开启：</label>
+		        <div class="controls">
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$special['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$special['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		          </div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">排序</label>
+					<div class="controls">
+						<input type="text" name="sort" value="{$special.sort}"/>
+					</div>
+				</div>
+				<input type="hidden" name="special_id" value="{$special_id}" />
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="special_images_id" value="{$special.special_images_id}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+		$(function(){
+			if({$special.action_id} == 0){
+				$("#action").val(0);
+				$("#goods").hide();
+				$("#shop").hide();
+			}
+			if({$special.action_id} == 2){
+				$("#action").val(2);
+				$("#goods").show();
+				$("#shop").hide();
+			}
+			if({$special.action_id} == 7){
+				$("#action").val(7);
+				$("#goods").hide();
+				$("#shop").show();
+			}
+			$("#action").change(function(){
+				var action = $(this).children('option:selected').val();
+				if(action == 0){
+					$("#goods").hide();
+					$("#shop").hide();
+				}
+				if(action == 2){
+					$("#goods").show();
+					$("#shop").hide();
+				}
+				if(action == 7){
+					$("#goods").hide();
+					$("#shop").show();
+				}
+			});
+		});
+		
+		app.controller("myctrl",function($scope){
+			$scope.goods_callback = function(item){
+				$scope.goods_id = item.id;
+				$scope.seller_id = null;
+				$.ajax({
+					url:"{:U('homeaction/getshopname')}"+"?goods_id="+$scope.goods_id,
+					type:"GET",
+					datatype:"json",
+					success:function(data){
+						var res = JSON.parse(data);
+						$("input[name='shop']")[0].value = res.shop_name;
+					}
+				});
+				$scope.$apply();
+			}
+			
+			$scope.shop_callback = function(item){
+				$scope.seller_id = item.id;
+				$scope.goods_id = null;
+				$scope.$apply();
+			}
+		});
+	</script>
+</body>
+</html>

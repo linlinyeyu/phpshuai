@@ -1,0 +1,103 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/message_template')}">消息模板</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">签名</label>
+					<div class="controls">
+						<input name="sign" value="{$sign}"><span class="form-required">*</span>
+					</div>
+				</div>
+			
+				<div class="control-group">
+					<label class="control-label">签名位置</label>
+					<div class="controls">
+						<input type="radio" value="0" name="sign_position" {if condition="$sign_position eq 0"} checked{/if} /> 前置
+						<input type="radio" value="1" name="sign_position" {if condition="$sign_position eq 1"} checked{/if} /> 后置
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">验证码过期时间</label>
+					<div class="controls">
+						<input name="validate" value="{$validate}"><span class="form-required">分钟</span>
+					</div>
+				</div>
+				
+				
+				<div class="control-group">
+					<label class="control-label">注册账号</label>
+					<div class="controls">
+						<textarea style="width : 500px" name="reg_message" >{$reg_message}</textarea>
+						<span>%code为6为数字的验证码</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">短信登陆</label>
+					<div class="controls">
+						<textarea style="width : 500px" name="sms_message" >{$sms_message}</textarea>
+						<span>%code为6为数字的验证码</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">找回密码</label>
+					<div class="controls">
+						<textarea style="width : 500px" name="find_message" >{$find_message}</textarea>
+						<span>%code为6为数字的验证码</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">绑定手机号</label>
+					<div class="controls">
+						<textarea style="width : 500px" name="bind_message" >{$bind_message}</textarea>
+						<span>%code为6为数字的验证码</span>
+					</div>
+				</div>
+				
+				<!--<div class="control-group">-->
+					<!--<label class="control-label">中奖通知</label>-->
+					<!--<div class="controls">-->
+						<!--<textarea style="width : 500px" name="win_message" >{$win_message}</textarea>-->
+						<!--<span>%goods为中奖的商品</span>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="control-group">-->
+					<!--<label class="control-label">发送物流通知</label>-->
+					<!--<div class="controls">-->
+						<!--<textarea style="width : 500px" name="send_message" >{$send_message}</textarea>-->
+						<!--<span>%goods为中奖的商品, %company为发送的快递名称,%number 为发送的运单号</span>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="control-group">-->
+					<!--<label class="control-label">发送虚拟物品通知</label>-->
+					<!--<div class="controls">-->
+						<!--<textarea style="width : 500px" name="send_virtual_message" >{$send_virtual_message}</textarea>-->
+						<!--<span>%goods为中奖的商品</span>-->
+					<!--</div>-->
+				<!--</div>-->
+				
+				<!--<div class="control-group">-->
+					<!--<label class="control-label">申请提现通知</label>-->
+					<!--<div class="controls">-->
+						<!--<textarea style="width : 500px" name="withdraw_message" >{$withdraw_message}</textarea>-->
+					<!--</div>-->
+				<!--</div>-->
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

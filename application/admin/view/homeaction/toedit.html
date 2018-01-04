@@ -1,0 +1,68 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('homeaction/activityindex')}">首页活动列表</a></li>
+			<li class="active"><a href="{:U('homeaction/toedit')}">添加首页活动</a></li>
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:U('homeaction/editactivity')}" method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">活动类别</label>
+					<div class="controls">
+						<select name="special_id" {if condition="$activity.home_activity_id eq '0'"}{/if}>
+							<option value="0">请选择分类</option>
+							{volist name="categories" id="category"}
+							<option value="{$category['special_id']}" {if condition="$category['special_id'] eq $activity['special_id']"} selected{/if}>{$category.name}</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">点击跳转</label>
+					<div class="controls">
+						<select name="action_id" {if condition="$activity.home_activity_id eq 0"}{/if}>
+							<option value="0">请选择跳转事件</option>
+							{volist name="actions" id="action"}
+							<option value="{$action.action_id}" {if condition="$action.action_id eq $activity.action_id"} selected{/if}>{$action.name}</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+		        <table class="table table-hover table-striped table-bordered wst-form">
+		           <tr>
+		           	<th width="150" align="right">首页活动图标</th>
+		           	<td>
+		           		<uploadimg image-url="{$activity.img}" width="600" height="40" image-name="image"></uploadimg>
+		           	</td>
+		           </tr>
+		           
+		           <tr>
+		             <th align='right'>是否开启<font color='red'>*</font>：</th>
+		             <td>
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$activity['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$activity['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		             </td>
+		           </tr>
+		        </table>
+		        <input type="hidden" value="{$activity['home_activity_id']}" name="home_activity_id" />
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+				<a class="btn" href="{:U('homeaction/activityindex')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp", ['uploadimg']);
+	</script>
+	<script type="text/javascript">
+	</script>
+</body>
+</html>

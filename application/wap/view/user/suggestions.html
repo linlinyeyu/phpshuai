@@ -1,0 +1,36 @@
+{include file="header"}
+</head>
+<body ng-controller="myctrl">
+	<div class="header">
+		<div class="wrapper">
+			<span class="back" on-back-render-filters></span>
+			<span class="title">意见反馈</span>
+			<span class="right-btn" ng-click="submit()">发送</span>
+		</div>
+	</div>
+	<div class="container main-container"> 
+		<div class="suggestion_textarea_div">
+			<textarea class="suggestion_textarea" ng-model="text" placeholder="请输入关于产品的意见反馈"></textarea>
+		</div>	
+	</div>
+	<script>
+		app.controller("myctrl",function($scope,$http){
+			$scope.submit=function(){
+				pinet.post("User/feedback",{access_token:pinet.checkUserAccount(),content:$scope.text},function(response){
+					if($scope.text!=null){
+						layer.open({content:'反馈成功', time:{$tips_time_out}});
+						location.href="{:U('User/more')}";
+					}else{
+						layer.open({content:'请输入反馈意见', time:{$tips_time_out}});
+					}
+					
+					
+				})
+			}
+			$scope.cancel=function(){
+				location.href="{:U('User/more')}";
+			}
+		})
+	</script>
+</body>
+</html>

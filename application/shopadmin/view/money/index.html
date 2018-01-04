@@ -1,0 +1,164 @@
+{include file="header" /}
+<style>
+#container{
+
+    display: inline-block;
+}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="">资金详情</a></li>
+		</ul>
+		<form method="get" name="form" action="{:U('money/excel')}" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<button type="submit" class="btn btn-primary" style="float:right;width:150px;height:30px;float:left;text-align:center;margin-right:20px">导出excel</button>
+			</fieldset>
+		</form>
+	
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td width="17%">今日收入</td>
+					<td width="17%">{$today_income}</td>
+                    <td width="17%">今日支付宝</td>
+                    <td width="17%">{$today_alipay_income}</td>
+                    <td width="17%">今日微信</td>
+                    <td width="17%">{$today_weixin_income}</td>
+				</tr>
+				<tr>
+					<td width="17%">昨日收入</td>
+                    <td width="17%">{$yes_income}</td>
+                    <td width="17%">昨日支付宝</td>
+                    <td width="17%">{$yes_alipay_income}</td>
+                    <td width="17%">昨日微信</td>
+                    <td width="17%">{$yes_weixin_income}</td>
+				</tr>
+				<tr>
+					<td>充值总人数</td>
+					<td>{$customer_count}</td>
+					<td>二次充值人数</td>
+					<td>{$twice_count}</td>
+					<td>单次充值最高金额</td>
+					<td>{$max_money}</td>
+				</tr>
+				<tr>
+					<td>累计金额</td>
+					<td colspan="5">{$total_money}</td>
+				</tr>
+				<tr>
+					<td>注册用户APRU值</td>
+					<td colspan="5">{$reg_apru}</td>
+				</tr>
+				<tr>
+					<td>充值用户APRU值</td>
+					<td colspan="5">{$pay_apru}</td>
+				</tr>
+				<tr>
+					<td style="line-height:360px;">近30日收入折线图</td>
+					<td colspan="5">
+						<div id="incomeday" style="width:800px;height:350px;"></div>
+					</td>
+				</tr>
+				<tr>
+					<td >本年度月收入折线图</td>
+					<td colspan="5">
+						<div id="incomemonth" style="width:800px;height:350px;"></div>
+					</td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+    <script src="__PUBLIC__/js/common.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/highcharts.js"></script> 
+ 	<script type="text/javascript" src="__PUBLIC__/js/exporting.js"></script>
+ 	<script>
+ 		$(function () {
+    $('#incomeday').highcharts({
+        title: {
+            text: '近30日收入折线图',
+            x: -20 //center
+        },
+       
+        xAxis: {
+            categories: {$days30_income.xAxis | json_encode}
+        },
+        yAxis: {
+            title: {
+                text: '元'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '元'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: [{
+            name: '总收入',
+            data: {$days30_income.yAxis | json_encode}
+        },{
+            name : '微信收入',
+            data : {$days30_weixin_income.yAxis | json_encode}
+        },{
+            name : '支付宝收入',
+            data : {$days30_alipay_income.yAxis | json_encode}
+        }]
+    });
+});
+
+ 		$(function () {
+    $('#incomemonth').highcharts({
+        title: {
+            text: '近12月收入',
+            x: -20 //center
+        },
+       
+        xAxis: {
+            categories: {$month12_income.xAxis | json_encode}
+        },
+        yAxis: {
+            title: {
+                text: '元'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '元'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: [{
+            name: '总收入',
+            data: {$month12_income.yAxis | json_encode}
+        },{
+            name: '微信收入',
+            data: {$month12_weixin_income.yAxis | json_encode}
+        },{
+            name: '支付宝收入',
+            data: {$month12_alipay_income.yAxis | json_encode}
+        }]
+    });
+});
+				
+				
+ 	</script> 
+</body>
+</html>

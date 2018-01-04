@@ -1,0 +1,94 @@
+{include file="header"}
+</head>
+<body >
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title">管理收货地址</span>
+			    </div>
+		     </div>
+	<div class="container main-container" ng-controller="goodsctrl" ng-cloak>
+		<div id="gad-content">
+			<ul   class="dt-gad-content" ng-show="address.length > 0">
+				<li ng-repeat="a in address" class="dt-gad-li-top" >
+					<div class="gad-li-div">
+						<span class="gad-li-first-span">{{a.name}}</span>
+						<span class="gad-li-second-span">{{a.phone}}</span>
+					</div>
+					<div class="gad-li-div-second">
+						<span class="gad-li-address">{{a.province}}{{a.city}}{{a.district}}{{a.address}}</span>
+					</div>
+					<div class="gad-li-div">
+						<div  ng-click="change_status($index)" class="gad-li-default">
+							<img ng-if="a.status == 1" src="__PUBLIC__/wap/image/default.png">
+							<img ng-if="a.status != 1" src="__PUBLIC__/wap/image/nodefault.png">
+							<span>默认地址</span>
+						</div>
+						<a href="{:U('address/addaddress')}?id={{a.address_id}}"  class="gad-edit-delete-div">
+							<img src="__PUBLIC__/wap/image/edit.png">
+							<span>编辑</span>
+						</a>
+						<a ng-click="delete_address($index)" class="gad-edit-delete-div">
+							<img src="__PUBLIC__/wap/image/delete.png">
+							<span>删除</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+			<div class="dt-gad-no-record" ng-if="address.length == 0">
+				<img src="__PUBLIC__/wap/image/classify34.png"  />
+				<span>亲，您暂无地址记录</span>
+			</div>
+		</div>
+		<div class="footer">
+		    <a href="{:U('address/addaddress')}" class="footer-btn footer-full-btn footer-primary">
+		    	+ 添加收货地址
+		    </a>
+		</div>
+	</div>
+	<script src="__PUBLIC__/wap/js/LArea.js"></script>
+	<script src="__PUBLIC__/wap/js/LAreaData.js?165"></script>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+	  	app.controller('goodsctrl',["$scope", function($scope) {
+  			$scope.address = {$address | json_encode};
+  			$scope.change_status = function(index){
+  				if($scope.address[index].status == 1){
+  					return;
+  				}else{
+  					for(var i = 0; i < $scope.address.length; i++){
+  						if(index != i){
+  							$scope.address[i].status = 0;
+  						}else{
+  							$scope.address[i].status = 1;
+  						}
+  					}
+  					var data = {
+  							"address_id": $scope.address[index].address_id,
+  							"access_token" : pinet.getCookie("access_token")	
+  					};
+  					pinet.post("address/editStatus",data,function(){
+  						
+  					})
+  				}
+  			}
+  			
+  			$scope.delete_address = function(index){
+  				var id = $scope.address[index].address_id;
+  				pinet.confirm("确认要删除吗？", function(){
+  					var data = {
+							"address_id": $scope.address[index].address_id,
+							"access_token" : pinet.getCookie("access_token")	
+					};
+	  				$scope.address.splice(index,1);
+	  				$scope.$apply();
+	  				pinet.toast("删除成功");
+	  				pinet.post("address/Delete", data, function(){
+	  				});
+  				});
+  				
+  			}
+	}]);
+	  
+</script>
+</body>

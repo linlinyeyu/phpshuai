@@ -1,0 +1,74 @@
+<div ng-controller="sell">
+	<div class="control-group">
+		<label class="control-label">是否分销
+			<span class="form-required"style="color:red;">*</span>
+		</label>
+		<div class="controls">
+			<label class="radio-inline" >
+				<input type="radio" ng-model="s.has_commission"  value="0" /> 不分销
+			</label>
+			<label class="radio-inline" >
+				<input  type="radio" ng-model="s.has_commission" value="1" /> 参与分销
+			</label>
+			
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<label class="control-label">独立佣金
+			<span class="form-required"style="color:red;">*</span>
+		</label>
+		<div class="controls">
+			<label class="checkbox-inline" >
+				<input type="checkbox" ng-true-value="1" ng-false-value="0"  ng-model="s.unique_commission" />独立规则
+			</label>
+		</div>
+	</div>
+	
+	<div ng-show="s.unique_commission != 0">
+		<div class="control-group">
+			<label class="control-label">一级分销</label>
+			<div class="controls">
+				百分比：<input type="text"  class="form-control" ng-model="s.commission1_rate">%
+				固定额度：<input type="text"  class="form-control" ng-model="s.commission1_pay">元
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">二级分销</label>
+			<div class="controls">
+				百分比：<input type="text"  class="form-control" ng-model="s.commission2_rate">%
+				固定额度：<input type="text" class="form-control" ng-model="s.commission2_pay">元
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">三级分销</label>
+			<div class="controls">
+				百分比：<input type="text"  class="form-control" ng-model="s.commission3_rate">%
+				固定额度：<input type="text"  class="form-control" ng-model="s.commission3_pay">元
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="sell" value="{{s | json}}">
+</div>
+<script>
+	app.controller("sell",['$scope', function($scope){
+		var s = {$goods | json_encode};
+		$scope.s = {'has_commission' : s.has_commission,
+				'unique_commission' : s.unique_commission,
+				'commission1_rate' : s.commission1_rate,
+				'commission1_pay' : s.commission1_pay,
+				'commission2_rate' : s.commission2_rate,
+				'commission2_pay' : s.commission2_pay,
+				'commission3_rate' : s.commission3_rate,
+				'commission3_pay' : s.commission3_pay};
+		if(!$scope.s.has_commission){
+			$scope.s.has_commission = 0;
+		}
+		if(!$scope.s.unique_commission){
+			$scope.s.unique_commission = 0;
+		}else if($scope.s.unique_commission == 1){
+			$scope.s.unique_commission = 1;
+		}
+		
+	}]);
+</script>

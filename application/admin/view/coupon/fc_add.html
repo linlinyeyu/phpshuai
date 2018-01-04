@@ -1,0 +1,82 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>#ui-datepicker-div{width:212px;}</style>
+</head>
+<body ng-app="myapp">
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('coupon/fc_index')}">满减列表</a></li>
+        <li class="active"><a href="{:U('coupon/fc_add')}">添加满减</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form" ng-controller="coupon" name="form1" ng-cloak action="">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">
+                    满减名
+                </label>
+                <div class="controls">
+                    <input type="text" name="name"/>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">
+                    满减价值
+                </label>
+                <div class="controls">
+                    <input type="text" name="amount"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">
+                    使用条件
+                </label>
+                <div class="controls">
+                    <input type="text" name="limit"/> 例如:满500.00元
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">
+                    是否发布
+                </label>
+                <div class="controls" >
+                    <input type="radio" style="margin: 0;" name="is_publish" value="1" ng-model="is_publish" />发布
+                    <input type="radio" style="margin: 0;" name="is_publish" value="0" ng-model="is_publish"/>不发布
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+            <a class="btn" href="fc_index.html">返回</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/plugins/autocomplete.js"></script>
+<script>
+    var app = angular.module('myapp',['autocomplete']);
+    app.controller('coupon',function($scope){
+        $scope.type = '5';
+        $scope.is_publish = '1';
+        $scope.bindcategory = function(item){
+            $scope.categorys = item.value;
+            $scope.category_id = item.id;
+        }
+
+    });
+    $(function() {
+        $( "#datepicker" ).datepicker();
+        $( "#datepicker" ).change(function() {
+            $( "#datepicker" ).datepicker( "option", "showAnim","slideDown" );
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $.datepicker.regional['zh-CN'] = datepickeroptions;
+        $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+    });
+</script>
+</body>
+</html>

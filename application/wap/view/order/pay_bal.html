@@ -1,0 +1,131 @@
+{include file="header"}
+<link rel="stylesheet" href="__PUBLIC__/css/layer.css"/>
+</head>
+<body ng-app="myapp" ng-controller="myctrl" ng-cloak>
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">订单支付</span>
+			    </div>
+	</div>
+	<div class="container main-container">
+		<div class="pb-order-money-div">
+			<span class="pb-order-money-span">订单总价</span>
+			<span class="pb-order-money-second">¥{{total | number : 2}}</span>
+		</div>
+		<div class="pb-order-cancel-div">
+			<span class="pb-order-cancel-span">请尽快完成付款，{$expire}分钟后订单自动取消</span>
+		</div>
+		<div class="pb-order-time-div">
+			<span class="pb-order-time-span">
+				<span ng-if="date_end > 0">剩余时间:{{date_end | date_count_down:'hh:mm:ss'}}</span>
+				<span ng-if="date_end <= 0">订单已过期，请重新下单</span>
+			</span>
+		</div>
+		<div class="pb-order-money-div">
+			<span class="pb-order-money-span">支付方式</span>
+		</div>
+		<div ng-click="type = 5" ng-show="in_array(5)" class="pb-order-state-div">
+			<img src="__PUBLIC__/wap/image/alipay.png" class="pd-order-state-img">
+			<div class="pb-order-state-leftdiv">
+				<p class="pb-order-state-p">支付宝</p>
+				<p class="pb-order-state-second">推荐已安装支付宝的用户使用</p>
+			</div>
+			<div class="pb-order-state-rightdiv">
+			<img ng-if="type == 5" src="__PUBLIC__/wap/image/select.png">
+			<img ng-if="type != 5" src="__PUBLIC__/wap/image/nodefault.png">
+			</div>
+		</div>
+		<div ng-click="type = 4" ng-show="in_array(4)"  class="pb-order-state-div">
+			<img src="__PUBLIC__/wap/image/weixin.png" class="pd-order-state-img">
+			<div class="pb-order-state-leftdiv">
+				<p class="pb-order-state-p">微信</p>
+				<p class="pb-order-state-second">推荐已安装微信的用户使用</p>
+			</div>
+			<div class="pb-order-state-rightdiv">
+				<img ng-if="type == 4" src="__PUBLIC__/wap/image/select.png">
+				<img ng-if="type != 4" src="__PUBLIC__/wap/image/nodefault.png">
+			</div>
+		</div>
+	    <div class="footer">
+	    <div class="footer-btn footer-full-btn footer-primary" ng-click="yes()">确认支付</div>
+	</div>
+    </div>
+<script>
+	var app = angular.module("myapp",['back-filter','date-filter']);
+	app.controller('myctrl',["$scope","$interval", function($scope,$interval){
+		$scope.orders = {$orders | json_encode};
+		
+		var total = 0;
+		
+		$scope.date_end = 30 * 60 * 60;
+		
+		$scope.order_sns = [];
+		
+		for( var i = 0; i < $scope.orders.length; i ++){
+			total += $scope.orders[i].order_amount * 1;
+			$scope.order_sns.push($scope.orders[i].order_sn);
+			if($scope.orders[i].date_end < $scope.date_end){
+				$scope.date_end = $scope.orders[i].date_end;
+			}
+		}
+		
+		$scope.total = total;
+		
+		$interval(function(){
+			$scope.date_end--;
+		},1000);
+		
+		$scope.type=0;
+		$scope.pay_ids = {$pay_ids | json_encode};
+	   	
+	   	if($scope.pay_ids.length > 0){
+	   		$scope.type = $scope.pay_ids[0];
+	   	}
+	   	
+	   	$scope.in_array = function(i){
+	   		for(var j = 0; j < $scope.pay_ids.length ; j++){
+	    		if($scope.pay_ids[j] == i ){
+	    			return true;
+	    		}
+	    	}
+	    	return false;
+	   	}
+	   	
+	   	$scope.yes=function(){
+	   		if($scope.date_end < 0){
+	   			pinet.alert("订单已过期，请重新下单");
+	   			return;
+	   		}
+	   		layer.open({'type': 2});
+			pinet.post('Order/payorder',{
+				type:$scope.type,
+				access_token:pinet.getCookie("access_token"),
+				openid : pinet.getCookie("openid"),
+				orders:$scope.order_sns.join(","),
+				},
+				function(data){
+					layer.closeAll();
+					data = data.content;
+					if(data.type == 4 && data.timeStamp){
+						wx.chooseWXPay({
+		  				    timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+		  				    nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
+		  				    package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+		  				    signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+		  				    paySign: data.paySign, // 支付签名
+		  				    success: function (res) {
+		  				    	location.replace("{:U('order/my_order')}");
+		  				    }
+		  				});
+					}else if(data.type == 1){
+						location.href="{:U('order/my_order')}" ;
+					}else if(data.type == 5){
+						document.write(data.html_text);
+					}
+				});
+		};
+	}]);
+</script>
+</body>
+</html>

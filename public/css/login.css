@@ -1,0 +1,80 @@
+.login-phone-container {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 15px;
+  background: #ffffff;
+  border-bottom: 1px solid #dcdcdc;
+}
+.login-phone-container img {
+  width: 16px;
+  height: 14px;
+  vertical-align: middle;
+}
+.login-phone-container input {
+  font-size: 14px;
+  display: inline-block;
+  border: none;
+  outline: none;
+  background: #ffffff;
+  vertical-align: middle;
+}
+.login-get {
+  float: right;
+  font-size: 14px;
+  display: inline-block;
+  padding: 5px 10px;
+  color: #d93a56;
+  border: 1px solid #d93a56;
+  border-radius: 5px;
+}
+.login-enter {
+  margin: 0 15px;
+  margin-top: 15px;
+  padding: 10px 0;
+  background: #d93a56;
+  color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+}
+.login-point p {
+  padding: 10px 15px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #808080;
+}
+.login-point a {
+  color: #d93a56;
+}
+.login-point p span {
+  color: #d93a56;
+}
+.login-line {
+  margin-top: 100px;
+  text-align: center;
+}
+.login-line span {
+  color: #dcdcdc;
+  font-size: 12px;
+}
+.login-line p {
+  width: 20%;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  vertical-align: middle;
+}
+.login-enter-style {
+  padding: 15px;
+  text-align: center;
+}
+.login-enter-style a {
+  display: inline-block;
+}
+.login-enter-style img {
+  width: 40px;
+  margin: 0 10px;
+}
+.login-enter-style p {
+  font-size: 12px;
+  margin-top: 8px;
+  color: grey;
+}

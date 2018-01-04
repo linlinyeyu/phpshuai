@@ -1,0 +1,99 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('goods/keyword')}">关键字列表</a></li>
+			<li><a href="{:U('goods/keywordedit')}">添加关键字</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" >
+			 	<div class="control-group">
+					<label class="control-label">关键字编号：</label>
+					<div class="controls">
+						<input type="text" name="keyword_id" value="{:I('keyword_id')}"/>
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">关键字：</label>
+					<div class="controls">
+						<input type="text" name="keyword" value="{:I('keyword')}"/>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">添加日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">关键字状态</label>
+					<div class="controls">
+						<select name="status">
+							<option value="-1" {if condition="I('status') eq -1"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('status') eq 1"}selected{/if}>已使用</option>
+							<option value="2" {if condition="I('status') eq 2"}selected{/if}>未使用</option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>关键字编号</th>
+						<th width="300">关键字名</th>
+						<th>状态</th>
+						<th>排序</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($lists) gt 0"}
+					{volist name="lists" id="vo"}
+					<tr>
+						<td>{$vo.keyword_id}</td>
+						<td>{$vo.keyword}</td>					
+						
+						<td>{if condition="$vo.status eq '1'"}
+							<a  href="{:U('goods/keyword_offsale',['keyword_id'=>$vo.keyword_id])}" class="js-ajax-dialog-btn btn btn-primary" data-msg="">使用</a>
+							{else }
+							<a href="{:U('goods/keyword_onsale',['keyword_id'=>$vo.keyword_id])}" class="js-ajax-dialog-btn btn btn-danger" data-msg="">未使用</a>{/if}
+					</td>
+					<td>{$vo.sort}</td>
+					<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('goods/keyword_edit',['keyword_id'=>$vo.keyword_id])}">编辑</a> |
+							<a href="{:U('goods/keyword_delete', ['keyword_id' => $vo.keyword_id])}"class="js-ajax-dialog-btn">删除</a> 
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script>
+	$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	</script>
+</body>
+</html>

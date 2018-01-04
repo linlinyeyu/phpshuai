@@ -1,0 +1,202 @@
+{include file="header" /}
+<style>
+#container{
+
+    display: inline-block;
+}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="">用户统计</a></li>
+		</ul>
+
+		<table class="table table-hover table-bordered">
+			<tbody>
+				<tr>
+					<td >注册总人数</td>
+					<td colspan="5">{$total_reg}</td>
+                    
+				</tr>
+				<tr>
+					<td width="17%">手机注册人数</td>
+                    <td width="17%">{$phone_reg}</td>
+					<td width="17%">微信注册人数</td>
+                    <td width="17%">{$weixin_reg}</td>
+                    <td width="17%">QQ注册人数</td>
+                    <td width="17%">{$qq_reg}</td>
+                    
+				</tr>
+				<tr>
+					<td >今日注册人数</td>
+                    <td >{$today_reg}</td>
+                    <td >昨日注册人数</td>
+                    <td >{$yes_reg}</td>
+                    
+				</tr>
+				<tr>
+					<td >本周注册人数</td>
+                    <td>{$week_reg}</td>
+                    <td>上周注册人数</td>
+					<td>{$last_week_reg}</td>
+				</tr>
+				<tr>
+					<td>本月注册人数</td>
+					<td>{$month_reg}</td>
+					<td>上月注册人数</td>
+					<td>{$last_month_reg}</td>
+				</tr>
+				<tr>
+					<td>流失用户</td>
+					<td colspan="5">{$loss}</td>
+				</tr>
+				
+					<td style="line-height:360px;">活跃用户</td>
+					<td colspan="5">
+						<div id="active_user" style="width:800px;height:350px;"></div>
+					</td>
+				</tr>
+				<tr>
+					<td >近30天用户增长速率</td>
+					<td colspan="5">
+						<div id="days_rate" style="width:800px;height:350px;"></div>
+					</td>
+				</tr>
+				<tr>
+					<td >近12月用户增长速率</td>
+					<td colspan="5">
+						<div id="month_rate" style="width:800px;height:350px;"></div>
+					</td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+    <script src="__PUBLIC__/js/common.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/highcharts.js"></script> 
+ 	<script type="text/javascript" src="__PUBLIC__/js/exporting.js"></script>
+ 	<script>
+ 		$(function () {
+    $('#active_user').highcharts({
+    	chart: {
+            type: 'column'
+        },
+        title: {
+            text: '活跃用户',
+            x: -20 //center
+        },
+       
+        xAxis: {
+            categories: {$count_axis | json_encode}
+        },
+        yAxis: {
+            title: {
+                text: '人'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '人'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: [{
+            name: '购买1次',
+            data: {$count_1 | json_encode}
+        },{
+            name : '购买2次',
+            data : {$count_2 | json_encode}
+        },{
+            name : '购买3次',
+            data : {$count_3 | json_encode}
+        },{
+            name : '购买5次',
+            data : {$count_5 | json_encode}
+        },{
+            name : '购买10次以上',
+            data : {$count_10 | json_encode}
+        }]
+    });
+});
+
+ 		$(function () {
+    $('#days_rate').highcharts({
+        title: {
+            text: '近30天用户增长率',
+            x: -20 //center
+        },
+       
+        xAxis: {
+            categories: {$days_rate.xAxis | json_encode}
+        },
+        yAxis: {
+            title: {
+                text: '%'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: [{
+            name: '用户增长率',
+            data: {$days_rate.yAxis | json_encode}
+        }]
+    });
+    $('#month_rate').highcharts({
+        title: {
+            text: '近12月用户增长率',
+            x: -20 //center
+        },
+       
+        xAxis: {
+            categories: {$month_rate.xAxis | json_encode}
+        },
+        yAxis: {
+            title: {
+                text: '%'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: [{
+            name: '用户增长率',
+            data: {$month_rate.yAxis | json_encode}
+        }]
+    });
+});
+				
+				
+ 	</script> 
+</body>
+</html>

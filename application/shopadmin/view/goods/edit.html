@@ -1,0 +1,68 @@
+{include file="header" /} 
+<style>
+.btn1{
+	display: inline-block;
+	border-radius:5px;
+	border:1px solid #ddd;
+	padding: 3px 10px;
+	text-decoration: none;
+	margin-top: 5px;
+	cursor:pointer !important;
+}
+.btn1:hover{
+	background-color:#eee;
+	text-decoration: none !important;
+}
+#thumbnails{
+	width:800px;
+	overflow: hidden;
+	text-align: center;
+}
+#thumbnails>div{
+	width:30%;
+	margin-right:2%;
+	float: left;
+}
+#thumbnails>div>img{
+	margin:0 auto;
+	width:260px;height:138px;
+}
+</style>
+<link href="__PUBLIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script>
+	var app = angular.module("myapp", ['uploadimg','ui.sortable']);
+</script>
+</head>
+<body ng-app="myapp">
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{$url}">商品列表</a></li>
+			<li class="active"><a href="{:U('goods/edit',['goods_id' => I('goods_id'),'goods_type' => $goods_type])}">添加商品</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form cmxform" action="" id="commentForm">
+		<div class="panel panel-default">
+			<div class="panel-heading">编辑商品</div>
+			<div class="panel-body">
+				<div class="tab-content js-tabs-content">
+					{include file="goods/goods/basic" /}
+					{include file="goods/goods/desc" /}
+					{include file="goods/goods/param" /}
+					{include file="goods/goods/option" /}
+				</div>
+				<input type="hidden" value="{:I('goods_id')}" name="goods_id" />
+				<input type="hidden" value="{$goods_type}" name="goods_type">
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+					<a class="btn" href="index.html">返回</a>
+				</div>
+			</div>
+		</div>
+			
+		</form>
+	</div>
+	
+	
+
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.table-tr td{
+	vertical-align: middle;
+	text-align: center;
+}
+.table th{
+	text-align:center;
+}
+a:hover{text-decoration:none;}
+.ui-datepicker{width:214px;}
+</style>
+</head>
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li  class="active" ><a href="{:U('comment/index')}">查看评论</a></li>
+		</ul>
+		<form name="form" method="get" class="js-ajax-form form-horizontal" action="{:U('comment/index')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">商品:</label>
+					<div class="controls">
+						<input yzl-autocomplete label-key="name" url="/shopadmin/goods/searchGoods" value-key="goods_id" callback="goods_callback" />
+						<input type="hidden" name="goods_id" value="{{goods_id}}" />
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">订单编号:</label>
+					<div class="controls">
+						<input type="text" name="order_number" value="{:I('get.order_number')}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">昵称:</label>
+					<div class="controls">
+					<input type="text" name="customer_name" value="{:I('get.customer_name')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">评分:</label>
+					<div class="controls">
+						<select name="score">
+							<option value="-1" {if condition="$score eq -1"}selected{/if} >全部</option>
+							<option value="5" {if condition="$score eq 5"}selected{/if} >五星</option>
+							<option value="4" {if condition="$score eq 4"}selected{/if} >四星</option>
+							<option value="3" {if condition="$score eq 3"}selected{/if} >三星</option>
+							<option value="2" {if condition="$score eq 2"}selected{/if} >二星</option>
+							<option value="1" {if condition="$score eq 1"}selected{/if} >一星</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">用户手机:</label>
+					<div class="controls">
+					<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">订单日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+					</div>
+				</div>
+			</fieldset>	  
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="200px;">订单编号</th>
+						<th>商品</th>
+						<th>买家</th>
+						<th>评分</th>
+						<th>评论内容</th>
+						<th>回复信息</th>
+						<th>发布日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="table-tbody">
+					{volist name="comments" id="vo"}
+					<tr>
+						<td >{$vo.order_sn}</td>
+						<td width="150px">{$vo.goods_name}<br/>规格：{$vo.option_name}</td>
+						<td>{$vo.nickname}</td>
+						<td width="40px">{if condition="$vo.score eq 5"}<span>五星</span>{elseif condition="$vo.score eq 4"}<span>四星</span>{elseif condition="$vo.score eq 3"}<span>三星</span>
+						{elseif condition="$vo.score eq 2"}<span>二星</span>{else}<span>一星</span>{/if}
+						</td>
+						<td width="200px"><pre>{$vo.content}</pre></td>
+						<td width="200px">{if condition="$vo.reply_content"}
+						回复人：{$vo.username}
+						<br/>
+						回复时间：{$vo.date_reply | date="Y-m-d H:i:s ", ###}
+						<br/>
+						<pre>{$vo.reply_content}</pre>
+						
+						{else}<span style="color:red">暂未回复</span>{/if}</td>
+						<td>{$vo.date_add | date="Y-m-d H:i:s",###}</td>
+						<td>
+							{if condition="!$vo.reply_content"}
+							<a onclick="reply({$vo.id})">回复</a>
+							{/if}
+							<!--<a href="{:U('comment/deleted', array('id' => $vo.id))}" class="js-ajax-delete">删除</a>-->
+
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</form>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script>
+	var app = angular.module("myapp",['autocomplete']);
+	app.controller("myctrl",function($scope){
+		$scope.goods_callback = function(item){
+			$scope.goods_id = item.id;
+			$scope.$apply();
+		}
+	});
+	$(function() {
+		$( "#min_date" ).datetimepicker();
+		$( "#max_date").datetimepicker();
+	});
+	
+	
+	function reply(id){
+		var dialog=art.dialog({
+			id:"shake-deom",
+			title:'请输入回复内容',
+			content:'<textarea style="width:300px;height:200px;" name="reply"></textarea>',
+			cancel:'取消',
+			ok: function()
+			{
+               	$.ajax({
+               	  url: "{:U('comment/reply')}",
+               	  type : 'post',
+				  dataType: 'json',
+				  data: 'id='+id + "&reply=" + $("textarea[name=reply]").val(),
+				  success: function(json){
+				  	alert(json.msg);
+				  	if(json.code == 1){
+				  		location.reload();
+				  	}
+				  }
+               	}); 
+			}
+		})
+	}
+	
+	</script>
+</body>
+</html>

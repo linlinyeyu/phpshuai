@@ -1,0 +1,61 @@
+		<div ng-controller="action">
+			<div class="control-group">
+				<label class="control-label">点击事件</label>
+				<div class="controls">
+					<select id="action" name="action_id" ng-model="action_id">
+						<option value="1">无动作</option>
+						<option value="2">商品详情</option>
+						<option value="3">一元抢购</option>
+						<option value="4">舌尖美食</option>
+						<option value="5">中国智造</option>
+						<option value="6">家居百货</option>
+						<option value="7">店铺详情</option>
+						<option value="8">百城万店</option>
+						<option value="9">每日上新</option>
+						<option value="10">新人有礼</option>
+						<option value="11">国产品牌</option>
+						<option value="12">活动广告</option>
+						<option value="13">积分专享</option>
+						<option value="14">购物积分</option>
+						<option value="15">手机充值</option>
+						<option value="20">奖励商品</option>
+						<option value="21">积分购买</option>
+						<option value="22">鸿府购买</option>
+						<option value="23">线下提货</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="control-group" ng-show="action_id == 2">
+				<label class="control-label">商品详情</label>
+				<div class="controls">
+					<input yzl-autocomplete label-key="name" value="{$goods_name}" url="/admin/goods/searchGoods" value-key="goods_id" callback="goods_callback">
+					<input type="hidden" name="goods_id" value="{{goods_id}}"/>
+				</div>
+			</div>
+			<!--{$goods_name}-->
+			<input type="hidden" name="params" value="{{params | json}}">
+			</div>
+			<script>
+			app.controller("action",function($scope){
+				$scope.action_id = "{$action_id}";
+				$scope.params = {$params | json_encode};
+				$scope.params.type = "{$action_id}";
+				
+				if(!$scope.params || $scope.params.length == 0){
+					$scope.params = {type : "{$action_id}"};
+				}
+				
+				$scope.i = 0;
+				$scope.$watch("action_id", function(){
+					if($scope.i > 0){
+						$scope.params = {type : $("#action option:selected").val()};
+					}
+					$scope.i ++;
+				})
+				$scope.goods_callback = function(item){
+					$scope.params.goods_id = item.id;
+					$scope.$apply();
+				}
+			});
+			</script>

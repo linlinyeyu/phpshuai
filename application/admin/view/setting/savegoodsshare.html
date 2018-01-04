@@ -1,0 +1,54 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('setting/savewxshare')}">微信界面</a></li>
+			<li class="active"><a href="{:U('setting/savegoodsshare')}">商品分享</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form"  submit-check="checked">
+		<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">此页面设置是APP商品页面分享的标题和介绍</p>
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">分享标题</label>
+					<div class="controls">
+						<input id="share_title" name="share_title" value="{$settings.share_title}"><span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">分享内容</label>
+					<div class="controls">
+						<input name="share_desc" id="share_desc" value="{$settings.share_desc}" /><span class="form-required">*</span>
+						<span>使用%goods%来代表商品名</span>
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js?324=23"></script>
+
+	<script>
+		function checked(){
+			if($("#share_title").val().trim() == "" ){
+				art.dialog("请输入分享标题");
+				return false;
+			} 
+			if($("#share_title").val().trim().length > 10 ){
+				art.dialog("分享标题字数不能大于10");
+				return false;
+			} 
+			
+			if($("#share_desc").val().trim() == ""){
+				art.dialog("请输入分享介绍");
+				return false;
+			}
+			
+		}
+	</script>
+</body>
+</html>

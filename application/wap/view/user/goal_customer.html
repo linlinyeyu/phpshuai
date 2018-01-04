@@ -1,0 +1,44 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">目标客户</span>
+			    </div>
+	</div>
+	<div ng-controller="ctrl" ng-cloak class="container main-container" >
+		<div class="mc-top-div">
+			<span>目标客户({$count})</span>
+		</div>
+		<div infinite url="user/get_goal_customer" bind="customer" instance="ins" need_token="1" class="mc-part-div">
+			<a href="{:U('home/customer_detail')}?uuid={{c.uuid}}" ng-repeat="c in customer" class="mc-child-div">
+				<div class="gc-child-avater">
+					<img avater="1" width="40px" ng-src="{{c.image}}" image-resize>
+				</div>
+				<div class="gc-child-name">
+					<p ng-bind-html="c.nickname | emoji"></p>
+					<p class="gc-phone-p">{{c.phone}}</p>
+				</div>
+			</a>	
+		</div>
+		<div class="dt-gad-no-record" ng-if="ins.busy !=  true && customer.length == 0">
+			<img src="__PUBLIC__/wap/image/classify34.png"  />
+			<span>亲，暂无目标用户</span>
+		</div>
+		
+		<!-- <div ng-if="!ins.busy && !ins.finish" class="mc-last-div">
+			上拉加载更多
+		</div> -->
+	</div>
+	 <script>		
+	 	var app = angular.module("myapp",['back-filter','image-resize','lazy-load', 'emoji-filter']);
+   	  	app.controller('ctrl',["$scope",function($scope){
+   	  		
+   	  	}]);
+			   	  	
+			   	  	
+	   </script>
+</body>
+{include file="base_footer"}
+</html>

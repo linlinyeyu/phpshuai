@@ -1,0 +1,144 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap" ng-controller="newctrl">
+		<ul class="nav nav-tabs">
+			{if condition="$special_id neq 1"}
+			<li><a href="{:U('special/goods',['special_id' => $special_id])}">专题商品列表</a>
+			<li class="active"><a href="{:U('special/goodsAdd',['special_id' => $special_id])}">添加专题商品</a>
+			{/if}
+		</ul>
+		<form class="form-horizontal js-ajax-form" action="{:U('special/goodsAdd')}" method="post">
+			<div class="control-group">
+				<label class="control-label">商品ID:</label>
+				<div class="controls">
+					<input yzl-autocomplete label-key="goods_id" value="{$goods.goods_id}" url="/admin/goods/searchGoodsById" value-key="goods_id" callback="goods_callback">
+					<input type="hidden" name="goods_id" value="{{goods_id}}"/>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">商品:</label>
+				<div class="controls">
+					<input type="text" name="name" value="{$goods.name}" readonly="true" />
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">关联店铺:</label>
+				<div class="controls">
+				<input type="text" name="shop" value="{$goods.shop_name}" readonly="true" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">展示图</label>
+				<div class="controls">
+					<uploadimg cate="activity" image-url="{$goods.image}" width="400" height="400"></uploadimg>
+					<span>首页展示时添加</span>
+				</div>
+			</div>
+			
+			{if condition="$special_id eq 5"}
+			<div class="control-group">
+				<label class="control-label">使用积分:</label>
+				<div class="controls">
+				<input type="text" name="integral" value="{$goods.integral}" />
+				</div>
+			</div>
+			{/if}
+			
+			{if condition="$special_id eq 6"}
+			<div class="control-group">
+				<label class="control-label">所在类型:</label>
+				<div class="controls">
+				<select name="shopping_type">
+					<option value="0">请选择类型</option>
+					<option value="1" {if condition="$goods.shopping_type eq 1"}selected{/if}>帅柏优选</option>
+					<option value="2" {if condition="$goods.shopping_type eq 2"}selected{/if}>私人定制</option>
+					<option value="3" {if condition="$goods.shopping_type eq 3"}selected{/if}>饮食</option>
+					<option value="4" {if condition="$goods.shopping_type eq 4"}selected{/if}>服饰</option>
+					<option value="5" {if condition="$goods.shopping_type eq 5"}selected{/if}>居家</option>
+					<option value="6" {if condition="$goods.shopping_type eq 6"}selected{/if}>出行</option>
+				</select>
+				</div>
+			</div>
+			{/if}
+			
+			{if condition="$special_id eq 9"}
+			<div class="control-group">
+				<label class="control-label">满减内容:</label>
+				<div class="controls">
+				<input type="text" name="new_full_cut" value="{$goods.new_full_cut}" />
+				</div>
+			</div>
+			{/if}
+
+			
+			<div class="control-group">
+		        <label class="control-label">是否开启：</label>
+		        <div class="controls">
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$goods['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$goods['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		          </div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">排序</label>
+				<div class="controls">
+					<input type="text" name="sort" value="{$goods.sort}"/>
+				</div>
+			</div>
+			<input type="hidden" name="special_goods_id" value="{$goods.special_goods_id}"/>
+			<input type="hidden" name="special_id" value="{$special_id}" />
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+				<a class="btn" href="{:U('special/goods',['special_id' => $special_id])}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script>
+        var app = angular.module('myapp', ['uploadimg', "autocomplete"]);
+		app.controller("newctrl",function($scope,$http){
+            $scope.goods = {$goods | json_encode};
+            $scope.goods_id = $scope.goods.goods_id;
+            $scope.goods_callback = function(item){
+				$scope.goods_id = item.id;
+				$.ajax({
+					url:"{:U('homeaction/getshopname')}"+"?goods_id="+$scope.goods_id,
+					type:"GET",
+					datatype:"json",
+					success:function(data){
+						var res = JSON.parse(data);
+						$("input[name='shop']")[0].value = res.shop_name;
+					}
+				});
+                $.ajax({
+                    url:"{:U('homeaction/getgoodsname')}"+"?goods_id="+$scope.goods_id,
+                    type:"GET",
+                    datatype:"json",
+                    success:function(data){
+                        var res = JSON.parse(data);
+                        $("input[name='name']")[0].value = res.name;
+                    }
+                });
+				$scope.$apply();
+			}
+		});
+		
+		$(function() {
+			$( "#date_start" ).datetimepicker();
+			$( "#date_end").datetimepicker();
+		});
+</script>
+</body>
+</html>
+
+<!--<div class="control-group">-->
+	<!--<label class="control-label">商品库存:</label>-->
+	<!--<div class="controls">-->
+		<!--<input type="text" name="quantity" value="{$goods.quantity}" />-->
+	<!--</div>-->
+<!--</div>-->

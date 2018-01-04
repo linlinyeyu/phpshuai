@@ -1,0 +1,55 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/qiniu')}">七牛配置</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">开启</label>
+					<div class="controls">
+						<input type="radio" {if condition="$settings.is_open eq 0"}checked{/if} name="is_open" value="0" >关闭
+						<input type="radio" {if condition="$settings.is_open eq 1"}checked{/if} name="is_open" value="1">开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">secretKey</label>
+					<div class="controls">
+						<input  name="secretKey" value="{$settings.driverConfig.secretKey}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">accessKey</label>
+					<div class="controls">
+						<input  name="accessKey" value="{$settings.driverConfig.accessKey}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">domain</label>
+					<div class="controls">
+						<input  name="domain" value="{$settings.driverConfig.domain}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">bucket</label>
+					<div class="controls">
+						<input  name="bucket" value="{$settings.driverConfig.bucket}">
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

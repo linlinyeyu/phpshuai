@@ -1,0 +1,62 @@
+.member-rank-div{
+    background-size:100% 100%;
+    width:90%;
+    height:135px;
+    margin-top:10px;
+    margin-left:5%;
+    position:relative;
+    background-image:url(../image/nomember.png);
+    >.member-right-rank-div{
+        float:right;
+        width:100%;
+        height:100px;
+        overflow:hidden;
+        >.member-right-img-div{
+            width:100%;
+            height:60px;
+            >.member-right-level{
+            	color:#a4a4a4;
+            	font-size:16px;
+                float:right;
+                height:30px;
+                margin-top:20px;
+                margin-right:25px;
+                span{
+                	font-size:25px;
+                }
+            }
+        }
+        >.member-right-rank-p{
+            float:right;
+            color:#a4a4a4;
+            margin-right:25px;
+            font-size:12px
+        }
+    }
+    >.member-bottom-word-div{
+        width:100%;
+        height:35px;
+        position:absolute;
+        bottom:0;
+        >.member-bottom-word-p{
+            color:@white;
+            font-size:12px;
+            margin-top:11px;
+            margin-left:20px
+        }
+    }
+    
+    &.active{
+    	background-image:url(../image/member.png);
+    	.member-right-level{
+    		color:@white !important;
+    		>span{
+    			color:yellow;
+    		}
+    	}
+    	.member-right-rank-p{
+    		color:@white !important;
+    	}
+    	
+    }
+}

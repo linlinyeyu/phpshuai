@@ -1,0 +1,102 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('homeaction/catindex')}">首页分类列表</a></li>
+			<li><a href="{:U('homeaction/cattoedit')}">添加首页分类</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>首页分类编号</th>
+						<th width="300">分类名</th>
+						<th>首页分类图片</th>
+						<th>是否开启</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($categories) gt 0"}
+					{volist name="categories" id="vo"}
+					<tr>
+						<td>{$vo.home_category_id}</td>
+						<td>{$vo.name}</td>
+						<td><img style="wdith:40px;height:40px;" src="{:C('img_url')}{$vo.img}" /></td>
+						<td>
+						<div class="dropdown">
+			               {if condition="$vo['status']==0 "}
+			                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+								     关闭
+								  <span class="caret"></span>
+							   </button>
+			               {else /}
+			                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+								     开启
+								  <span class="caret"></span>
+							   </button>
+			               {/if}
+			                   <ul class="dropdown-menu" role="menu">
+								  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['home_category_id']})">开启</a></li>
+								  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['home_category_id']})">关闭</a></li>
+							   </ul>
+			               </div>
+			            </td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('homeaction/cattoedit',['home_category_id'=>$vo.home_category_id])}">编辑</a> |
+							<a href="{:U('homeaction/cattodel',['home_category_id'=>$vo.home_category_id])}" class="js-ajax-dialog-btn">删除</a> |
+							<a href="{:U('homeaction/goods',['home_category_id'=>$vo.home_category_id])}">分类商品</a>
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+		function toggleIsShow(t,v){
+			$.ajax({
+				url: "{:U('homeaction/isCatOpen')}",
+				type: "POST",   //请求方式
+				dataType: 'json',
+				data: {id:v,is_open:t},
+				success: function(json)
+				{
+					if(json.status==1){
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作成功',
+							ok: function () {
+								location.reload();
+							}
+						});
+					}else{
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作失败',
+							ok: function () {
+							}
+						});
+					}
+				}
+			})
+
+   		}
+	</script>
+</body>
+</html>

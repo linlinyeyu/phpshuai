@@ -1,0 +1,57 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('orders/refund_code')}">退款码</a></li>
+		</ul>
+			<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">生成的退款码在{$expire}分钟内有效，请注意使用时间</p>
+		
+				<a style="display:block; margin: 30px auto;width:100px;" class="btn btn-primary" onclick="add_code()">生成退款码</a>
+			<table style="margin-top:30px;" class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">ID</th>
+						<th>退款码</th>
+						<th width="90">状态</th>
+						<th>添加日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="refund_code" id="vo"}
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.code}</td>
+						<td >{if condition="$vo.state eq 0"}未使用{elseif condition="$vo.state eq 1"}已使用{elseif condition="$vo.state eq 2"}已过期{/if}</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+	</div>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+	<script type="text/javascript">
+		var stop = 0;
+		function add_code(){
+			console.log("adasd");
+			if(stop == 0){
+				stop = 1;
+				$.ajax({
+					url : "{:U('orders/add_refund_code')}",
+					type : 'json',
+					success : function(data){
+						stop = 0;
+						$.dialog({
+							'title': '生成成功',
+							'content' : '退款码为：' + data.data
+						})
+					},error: function(){
+						stop = 0;
+					}
+				})
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{include file="header" /}
+<link href="__PUBLIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+</head>
+<body ng-app="myapp">
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('homeaction/information')}">优惠资讯</a></li>
+        <li><a href="{:U('homeaction/information_index')}">优惠资讯列表</a></li>
+        <li class="active"><a href="{:U('homeaction/information_add')}">添加优惠资讯</a></li>
+    </ul>
+    <form method="post" class="form-horizontal js-ajax-form">
+        <fieldset>
+            <input type="hidden" name="id">
+            <div class="control-group">
+                <label class="control-label">资讯名称</label>
+                <div class="controls">
+                    <input value="{$infomation.name}" type="text" name="name" />
+                    <span class="form-required">*</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">资讯图片</label>
+                <div class="controls">
+                    <uploadimg cate="activity" image-url="{$infomation.image}"  width="400" height="300"></uploadimg>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">资讯简介</label>
+                <div class="controls">
+                    <textarea name="mini_content">{$infomation.mini_content}</textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">详细描述</label>
+                <div class="controls">
+                    <div>
+                        <script type="text/plain" id="myEditor" style="width:1000px;height:240px;">
+                            {$infomation.content |html_entity_decode=###}
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="hidden" name="id" value="{:I('get.id')}">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+</script>
+<script src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+<script src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+<script src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+<script>
+    var um = UM.getEditor('myEditor',{
+
+    });
+</script>
+</body>
+</html>

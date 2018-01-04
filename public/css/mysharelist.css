@@ -1,0 +1,27 @@
+.sharelist {
+  background-color: #fff;
+  border-bottom: 1px solid #f4f4f4;
+}
+.goods_image {
+  height: 14vh;
+}
+.mysharelist_btn {
+  color: #fff;
+  background-color: #E72450;
+  margin-right: 20px;
+  border: 1px solid #E72450;
+  border-radius: 5px;
+  padding: 4px 5px;
+}
+.sharelist td {
+  vertical-align: middle;
+}
+.goodsinfo {
+  width: 100%;
+}
+.goodsinfo h1 {
+  margin-top: 9px;
+}
+.goodsinfo p {
+  margin-top: 22px;
+}

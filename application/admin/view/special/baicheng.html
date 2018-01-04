@@ -1,0 +1,174 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('special/index',['special_id' => $special_id])}">专题列表</a></li>
+			<li><a href="{:U('special/add',['special_id' => $special_id])}">添加专题图片</a></li>
+			{if condition="!in_array($special_id,[1,7,8])"}
+			<li><a href="{:U('special/goods',['special_id' => $special_id])}">专题商品列表</a></li>
+			<li><a href="{:U('special/goodsAdd',['special_id' => $special_id])}">添加专题商品</a></li>
+			{/if}
+			{if condition="$special_id eq 5"}
+			<li><a href="{:U('special/shop',['special_id' => $special_id])}">优选店铺列表</a></li>
+			<li><a href="{:U('special/shopAdd',['special_id' => $special_id])}">添加优选店铺</a></li>
+			{/if}
+			{if condition="$special_id eq 7"}
+			<li class="active"><a href="{:U('special/baicheng',['special_id' => $special_id])}">百城店铺列表</a></li>
+			<li><a href="{:U('special/baichengArea',['special_id' => $special_id])}">区域地区馆</a></li>
+			{/if}
+		</ul>
+		<form method="get" class="form-horizontal" action="{:U('special/baicheng')}">
+				<div class="control-group">
+					<label class="control-label">店铺状态</label>
+					<div class="controls">
+						<select name="status">
+							<option value="-1" {if condition="I('status') eq -1"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('status') eq 1"}selected{/if}>待审核</option>
+							<option value="2" {if condition="I('status') eq 2"}selected{/if}>已通过</option>
+							<option value="3" {if condition="I('status') eq 3"}selected{/if}>已拒绝</option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">店铺名:</label>
+						<div class="controls">
+							<input yzl-autocomplete label-key="shop_name" url="/admin/seller/searchShop" value-key="seller_id" callback="shop_callback" />
+							<input type="hidden" name="seller_id" value="{{seller_id}}"/>
+						</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">优秀店铺:</label>
+						<div class="controls">
+						<select name="is_youxiu">
+							<option value="-1" {if condition="I('is_youxiu') eq -1"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('is_youxiu') eq 1"}selected{/if}>是</option>
+							<option value="2" {if condition="I('is_youxiu') eq 2"}selected{/if}>否</option>
+						</select>
+					</div>	
+				</div>
+				
+				<input type="hidden" name="special_id" value="{$special_id}" />
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>店铺id</th>
+						<th width="300">店铺名</th>
+						<th>店铺logo</th>
+						<th>申请状态</th>
+						<th>优秀店铺</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($shop) gt 0"}
+					{volist name="shop" id="vo"}
+					<tr>
+						<td>{$vo.seller_id}</td>
+						<td>{$vo.shop_name}</td>
+						<td><img style="wdith:40px;height:40px;" src="{:C('img_url')}{$vo.shop_logo}" /></td>
+						<td>
+						{if condition="$vo.baicheng_apply eq '1'"}
+							<div class="dropdown">
+								<button class="btn btn-success dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+									     待审核
+									  <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+										  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(2,{$vo['seller_id']})">通过</a></li>
+										  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(3,{$vo['seller_id']})">拒绝</a></li>
+								</ul>
+							</div>
+						{elseif condition="$vo.baicheng_apply eq 2"}
+						已通过
+						{else}
+						已拒绝
+						{/if}
+						</td>
+						
+						<td>
+						{if condition="$vo.is_youxiu eq 1 and $vo.is_baicheng eq 1"}
+						是
+						{else}
+						否
+						{/if}
+						</td>
+						
+						<td>
+							{if condition="$vo.is_baicheng eq 1 and $vo.is_youxiu eq 1"}
+								<a href="{:U('special/cancelYouxiu', ['seller_id' => $vo.seller_id,'special_id' => $special_id])}"class="js-ajax-dialog-btn">取消优秀店铺</a>
+							{elseif condition="$vo.is_baicheng eq 1 and $vo.is_youxiu eq 0"}
+								<a href="{:U('special/setYouxiu',['seller_id' => $vo.seller_id,'special_id' => $special_id])}" class="js-ajax-dialog-btn">设置优秀店铺</a>
+							{/if}
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp",["autocomplete"]);
+		app.controller("myctrl",function($scope){
+			$scope.shop_callback = function(item){
+				$scope.seller_id = item.id;
+				$scope.$apply();
+			}
+		});
+		
+		function toggleIsShow(t,v){
+			$.ajax({
+				url: "{:U('special/baichengApply')}",
+				type: "POST",   //请求方式
+				dataType: 'json',
+				data: {id:v,active:t},
+				success: function(json)
+				{
+					if(json.status==1){
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作成功',
+							ok: function () {
+								location.reload();
+							}
+						});
+					}else{
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作失败',
+							ok: function () {
+							}
+						});
+					}
+				}
+			})
+
+   		}
+	$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	</script>
+</body>
+</html>

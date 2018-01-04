@@ -1,0 +1,73 @@
+.pocarsh_headbar {
+  width: 50%;
+  float: left;
+  text-align: center;
+  padding-top: 10px;
+  background-color: #fff;
+}
+.pocarsh_headbar h1 {
+  border-bottom: 2px solid #fff;
+  padding-bottom: 5px;
+}
+.pocarsh_headbar .active {
+  border-bottom: 2px solid #e72450;
+  padding-bottom: 5px;
+}
+.pocarsh_red-packet {
+  clear: both;
+}
+.pocarsh_on-red-active {
+  border-bottom: 5px solid #E72450;
+  color: #E72450;
+}
+.pocarsh_pocket-cash-record {
+  clear: both;
+  border-top: 1px solid #e7e7e7;
+  background-color: #FFF;
+  height: 120px;
+  padding-top: 10px;
+}
+.pocarsh_pocket-cash-record img {
+  width: 70px;
+  margin-left: 15px;
+  display: block;
+}
+.pocarsh_pocket-cash-record p {
+  margin-left: 15px;
+  margin-top: 5px;
+}
+.pocarsh_pocket-cash-record h3 {
+  margin-left: 15px;
+}
+.pocarsh_red_packet_content {
+  overflow: hidden;
+}
+.pocarsh_no-packet img {
+  display: block;
+  margin: 80px auto 0 ;
+  width: 100px;
+}
+.pocarsh_no-packet p {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+.pocarsh_no-packet-btn {
+  border: 1px solid #E72450;
+  padding: 4px 5px;
+  color: #FFF;
+  background-color: #e72450;
+  border-radius: 5px;
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+  width: 100px;
+}
+.pocket_back {
+  line-height: 22px!important;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  content: "\f053";
+}

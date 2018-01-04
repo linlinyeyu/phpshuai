@@ -1,0 +1,119 @@
+.pt-ald-left {
+  float: left;
+  margin-left: 4vw;
+  background-position: center;
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+  height: 80px;
+}
+.pt-ald-right {
+  float: right;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+.pt-ald-red {
+  color: #e72450;
+}
+.pt-ald-gray {
+  color: #979797;
+}
+.pt-ald-top {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 14px;
+  color: #ffffff;
+  background: #e72450;
+  position: fixed;
+  top: 0;
+}
+.pt-ald-top span {
+  margin-left: -5vw;
+}
+.pt-ald-top img {
+  width: 4vw;
+}
+.pt-ald-content {
+  display: inline-block;
+  width: 100%;
+}
+.pt-ald-goods li {
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 5px;
+  background: #ffffff;
+  padding: 0 0 5px 0;
+}
+.pt-ald-goods li,
+.pt-ald-goods {
+  display: inline-block;
+  width: 100%;
+}
+.pt-ald-goods li img {
+  width: 30%;
+}
+.pt-ald-goods li a {
+  font-size: 12px;
+  color: #e72450;
+  text-decoration: underline;
+}
+.pt-ald-goods li .pt-ald-li-bottom a {
+  display: inline-block;
+  float: right;
+  color: #ffffff;
+  padding: 5px 10px;
+  background: #e72450;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+.pt-ald-goods li {
+  font-size: 14px;
+}
+.pt-ald-goods li span {
+  display: inline-block;
+  margin-top: 5px;
+}
+.pt-ald-goods .pt-ald-top-p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.pt-ald-goods .pt-ald-small {
+  font-size: 12px;
+}
+.pt-ald-goods .pt-ald-left {
+  width: 30%;
+  margin: 0px;
+}
+.pt-ald-goods .pt-ald-right {
+  width: 66%;
+}
+li .pt-ald-li-bottom {
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+li .pt-ald-li-bottom {
+  font-size: 14px;
+}
+li .pt-ald-li-bottom .pt-ald-first {
+  margin-left: 10px;
+}
+.pt-ald-li-bottom span {
+  font-size: 12px;
+}
+.pt-ald-li-bottom span,
+.pt-ald-li-bottom a {
+  margin-top: 0;
+}
+.pt-ald-goods .pt-ald-span-right {
+  float: right;
+  margin-right: 10px;
+}
+.pt-ald-top-fill {
+  height: 45px;
+}
+.pt-ald-color {
+  color: #0681ff;
+}

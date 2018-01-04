@@ -1,0 +1,249 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+a{
+	cursor:pointer;
+}
+body{
+	position: relative;
+}
+#mask{
+	visibility: hidden;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: rgba(0,0,0,.3);
+}
+#mask iframe{
+	width: 1300px;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+}
+#close{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-size: 16px;
+	color:#fff;
+	cursor: pointer;
+}
+</style>
+<script>
+    var app = angular.module("myapp",["autocomplete"]);
+    app.controller("myctrl",function($scope){
+        $scope.shop_callback = function(item){
+            $scope.seller_id = item.id;
+            $scope.$apply();
+        }
+        // 效果页面
+        $scope.mask = false;
+        $scope.check = function (id){
+            $('#mask').css('visibility',"visible");
+            var goods_id = '/admin/goods/goodsdetail?goods_id='+id ;
+            $("#preview").attr('src',goods_id);
+        }
+    });
+</script>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('goods/index')}">商品列表</a></li>
+			<li><a href="{:U('goods/edit',['goods_type' => 1])}">添加商品</a></li>
+		</ul>
+		<form method="get" class="form-horizontal" >
+				<div class="control-group">
+					<label class="control-label">商家分类：</label>
+					<div class="controls">
+						<select name="seller_cat_id">
+							<option value="0">请选择</option>
+							{$select_categorys}
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">平台分类：</label>
+					<div class="controls">
+						<select name="category_id">
+							<option value="0">请选择</option>
+							{$categories}
+						</select>
+					</div>	
+				</div>
+
+			 	<div class="control-group">
+					<label class="control-label">商品编号：</label>
+					<div class="controls">
+						<input type="text" name="goods_number" value="{:I('goods_number')}"/>
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">商品名：</label>
+					<div class="controls">
+						<input type="text" name="goods_name" value="{:I('goods_name')}"/>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">创建日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<label class="control-label">商品状态</label>
+					<div class="controls">
+						<select name="goods_state">
+							<option value="-1" {if condition="I('goods_state') eq -1"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('goods_state') eq 1"}selected{/if}>已上架</option>
+							<option value="2" {if condition="I('goods_state') eq 2"}selected{/if}>已下架</option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">审核状态</label>
+					<div class="controls">
+						<select name="apply_status">
+							<option value="-1" {if condition="I('apply_status') eq -1"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('apply_status') eq 1"}selected{/if}>待审核</option>
+							<option value="2" {if condition="I('apply_status') eq 2"}selected{/if}>已通过</option>
+							<option value="3" {if condition="I('apply_status') eq 3"}selected{/if}>已拒绝</option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>商品id</th>
+						<th width="150">商品名</th>
+						<th>商品图片</th>
+						<th>商家分类</th>
+						<th>平台分类</th>
+						<th>商品金额</th>
+						<th>市场价</th>
+						<th>积分</th>
+						<th>销售数量</th>
+						<th>库存</th>
+						<th>管理费比例</th>
+						<th>pv比例</th>
+						<th>审核状态</th>
+						<th>是否上架</th>
+						<th>是否推荐</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($lists) gt 0"}
+					{volist name="lists" id="vo"}
+					<tr>
+						<td>{$vo.goods_id}</td>
+						<td ng-click='check({$vo.goods_id})'><a>{$vo.name}</a></td>
+						<td><img style="wdith:40px;height:40px;" src="{:C('img_url')}{$vo.image_url}" /></td>
+						<td>{$vo.seller_cat_name}</td>
+						<td>{$vo.category_name}</td>
+						<td>￥{$vo.shop_price}</td>
+						<td>￥{$vo.market_price}</td>
+						<td>{$vo.max_integration}</td>
+						<td>{$vo.sale_count}</td>
+						<td>{if condition="$vo.stock_type eq '1'"}不减库存{else /} {$vo.quantity}{/if}</td>
+						<td>{$vo.manage_fee}</td>
+						<td>{$vo.pv}</td>
+						<td>
+							{if condition="$vo.apply_status eq 1"}待审核{elseif condition="$vo.apply_status eq 2"}已通过{elseif condition="$vo.apply_status eq 3"}已拒绝<br/>拒绝理由：{$vo.apply_reply}{/if}
+						</td>
+						<td>{if condition="$vo.on_sale eq '1'"}
+							<a  href="{:U('goods/offsale',['goods_id'=>$vo.goods_id])}" class="js-ajax-dialog-btn btn btn-primary" data-msg="">已上架</a>
+							{else }
+							<a href="{:U('goods/onsale',['goods_id'=>$vo.goods_id])}" class="js-ajax-dialog-btn btn btn-danger" data-msg="">已下架</a>{/if}
+						</td>
+						<td>{if condition="$vo.is_recommend eq 1"}
+							<a href="{:U('goods/unrecommend',['goods_id' => $vo.goods_id])}" class="js-ajax-dialog-btn btn btn-primary" data-msg="">已推荐</a>	
+						{else}
+							<a href="{:U('goods/recommend',['goods_id' => $vo.goods_id])}" class="js-ajax-dialog-btn btn btn-danger" data-msg="">未推荐</a>
+							{/if}
+						</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('goods/edit',['goods_id'=>$vo.goods_id])}">编辑</a> |
+							<a href="{:U('goods/delete', ['goods_id' => $vo.goods_id])}"class="js-ajax-dialog-btn">删除</a> |
+							<a data-id="{$vo.goods_id}" class="stock">添加库存</a>
+							{if condition="$vo.apply_status eq 3"}
+							| <a href="{:U('goods/apply', ['goods_id' => $vo.goods_id])}"class="js-ajax-dialog-btn">重新审核</a>
+							{/if}
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+		<div id="mask">
+			<span id='close'>关闭</span>
+			<iframe id="preview" src=''></iframe>
+		</div>
+	</div>
+
+</body>
+<script>
+    $(".stock").each(function(){
+        var rid = $(this).attr('data-id');
+        $(this).click(function(){
+
+            var dialog=art.dialog({
+                id:"shake-deom",
+                title:'添加库存',
+                content:'添加库存数：<input type="text" name="stock"/>',
+                width:'400px',
+                height:'150px',
+                cancel:'取消',
+                cancel:true,
+                ok: function()
+                {
+                    $.ajax({
+                        url: "{:U('goods/addstock')}",
+                        type : 'post',
+                        dataType: 'json',
+                        data: 'rid='+rid+'&addcount='+$("input[name=stock]").val(),
+                        success: function(json){
+                            alert(json.msg);
+                            location.reload();
+                        }
+                    });
+                }
+            })
+
+        })
+    })
+    $(function() {
+        $( "#min_date" ).datetimepicker();
+        $( "#max_date").datetimepicker();
+    });
+    $('#close').click(function () {
+        $('#mask').css('visibility','hidden');
+    })
+</script>
+</html>

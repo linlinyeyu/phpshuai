@@ -1,0 +1,65 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('user/index')}">{:L('ADMIN_USER_INDEX')}</a></li>
+			<li><a href="{:U('user/add')}">{:L('ADMIN_USER_ADD')}</a></li>
+		</ul>
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th width="50">ID</th>
+					<th>{:L('USERNAME')}</th>
+					<th>{:L('USER_TYPE')}</th>
+					<th>{:L('REMARK')}</th>
+					<th>{:L('LAST_LOGIN_IP')}</th>
+					<th>{:L('LAST_LOGIN_TIME')}</th>
+					<th>{:L('STATUS')}</th>
+					<th width="120">{:L('ACTIONS')}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{volist name="users" id="vo"}
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.username}</td>
+					<td>{$roles[$vo.role]}</td>
+					<td>{$vo.remark}</td>
+					<td>{$vo.last_login_ip}</td>
+					<td>
+						{if condition="$vo['last_login_time'] eq 0"}
+							{:L('USER_HAVENOT_LOGIN')}
+						{else /}
+							{:get_color_date($vo.last_login_time)}
+						{/if}
+					</td>
+					<td>{$status[$vo.status]}</td>
+					<td>
+						{if condition="$vo['role'] eq 1"}
+						<font color="#cccccc">{:L('EDIT')}</font> | <font color="#cccccc">{:L('DELETE')}</font> |
+							{if condition="$vo['status'] eq 1"}
+								<font color="#cccccc">{:L('BLOCK_USER')}</font>
+							{else /}
+								<font color="#cccccc">{:L('ACTIVATE_USER')}</font>
+							{/if}
+						{else /}
+							<a href='{:U("user/edit",array("id"=>$vo.id))}'>{:L('EDIT')}</a> | 
+							<a class="js-ajax-delete" href="{:U('user/del',array('id'=>$vo.id))}">{:L('DELETE')}</a> | 
+							{if condition="$vo['status'] eq 1"}
+								<a href="{:U('user/disable',array('id'=>$vo.id))}" class="js-ajax-dialog-btn" data-msg="{:L('BLOCK_USER_CONFIRM_MESSAGE')}">{:L('BLOCK_USER')}</a>
+							{else /}
+								<a href="{:U('user/able',array('id'=>$vo.id))}" class="js-ajax-dialog-btn" data-msg="{:L('ACTIVATE_USER_CONFIRM_MESSAGE')}">{:L('ACTIVATE_USER')}</a>
+							{/if}
+						
+						{/if}
+					</td>
+				</tr>
+				{/volist}
+			</tbody>
+		</table>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{include file="header"}
+</head>
+<body ng-controller="myctrl" ng-cloak style="background:white">
+	<div class="header">
+	    <div class="wrapper">
+	    		<span class="back" on-back-render-filters></span>
+		     	<span class="title">修改资料</span>
+		</div>
+	</div>
+	<div  class="container top-container">
+		<div class="changephone-first-div">
+			<p class="changephone-first-change-p">更换手机号前先完成验证，请发送验证码到</p>
+			<p class="changephone-first-phone">{{phone}}</p>
+		</div>
+		<div class="changephone-verify-div">
+			<div class="changephone-verify-left-div">
+				<p class="changephone-verify-p">验证码</p>
+				<input ng-model="verify_code" class="changephone-verify-input" type="text" placeholder="请输入验证码">
+			</div>
+			<div class="changephone-verify-send-div">
+				<a ng-click="send()" ng-init="verify_code_text='发送验证码'" class="changephone-verify-send-a">{{verify_code_text}}</a>
+			</div>
+		</div>
+	</div>
+	<div class="footer" >
+	    <div class="footer-btn footer-full-btn footer-primary" ng-click="changephonenext()">
+	    	<span >下一步</span>
+	    </div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+		app.controller('myctrl',function($scope,$interval){
+			$scope.customer = {$customer | json_encode};
+			$scope.phone = {$phone | json_encode};
+			$scope.send=function(){
+				var phone = $scope.customer.phone;
+				if($scope.stop){
+					return;
+				}
+				$scope.time = 60;
+				$scope.stop = $interval(function(){
+					if($scope.time > 0){
+						$scope.time --;
+						$scope.verify_code_text = $scope.time + "秒重发";
+					}else{
+						$scope.verify_code_text = "发送验证码";
+						$interval.cancel($scope.stop);
+						$scope.stop = null;
+					}
+				}, 1000);
+				
+				pinet.post('User/SendCode',{"phone":$scope.customer.phone,"state":3},function(data){
+					pinet.toast(data.message);
+					$scope.$apply();
+				})
+			};
+			$scope.changephonenext = function(){
+				layer.open({"type" : 2});
+				pinet.post('User/changephone_first',{"phone":$scope.customer.phone,
+					"verify_code":$scope.verify_code,
+					"access_token":pinet.getCookie("access_token")},function(data){
+						layer.closeAll();
+					if(data.errcode==0){
+						location.href="{:U('User/changephone_2')}";
+					}
+				})
+			}
+		});
+	</script>
+</body>
+{include file="base_footer"}
+</html>

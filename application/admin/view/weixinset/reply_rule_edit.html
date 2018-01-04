@@ -1,0 +1,105 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('weixinset/reply_list')}">我的规则</a></li>
+			<li class="active"><a href="{:U('weixinset/reply_rule_edit')}">添加规则</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" ng-controller="info">
+
+
+			<fieldset>
+                <div class="control-group">
+                    <div class="control-label">规则名:</div>
+                    <div class="controls"><input style="margin-bottom: 20px;" name="group_name" ng-model="info.group_name"/></div>
+                </div>
+				<div ng-controller="param">
+
+                    <div class="controller"></div>
+					<div class="btn btn-primary" ng-click="addline()">增加关键字</div>
+					<table class="table">
+						<thead>
+						<tr>
+							<th style='width:50px;'></th>
+							<th>关键字</th>
+							<th>匹配方式</th>
+						</tr>
+						</thead>
+						<tbody ui-sortable="sortableOptions" ng-model="keyword_line">
+						<tr ng-repeat="p in keyword_line">
+							<td >
+								<a href="javascript:;" ng-click="deleteParam($index)" style="margin-top:10px;" title="删除"><i class='fa fa-remove'></i></a>
+							</td>
+
+							<td>
+								<input ng-model="p.keyword"/>
+							</td>
+							<td>
+								<label class="radio inline" >
+									<input type="radio" ng-model="p.match_rule" value="1">精确查询
+								</label>
+
+								<label class="radio inline" >
+									<input type="radio" ng-model="p.match_rule" value="3">模糊查询
+								</label>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<input type="hidden" name="params" value="{{keyword_line | json}}" />
+				</div>
+			</fieldset>
+
+			<fieldset>
+				<p style="line-height:30px;background-color:#f8f0c8; text-align:left;padding-left: 20px;">以上关键字对应的回复内容:</p>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<ul class="nav nav-tabs js-tabs-nav" id="myTab">
+							<li class="active"><a href="#tab_text">文字回复</a></li>
+							<li style="display: none;   "><a href="#tab_textpicture">图文回复</a></li>
+						</ul>
+						<div class="tab-content js-tabs-content">
+								<div class="tab-pane active" id="tab_text">
+								{include file="weixinset/reply/text" /}
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+			<div class="form-actions">
+ 				<input type="hidden" name="group_id" value="{:I('group_id')}">
+				<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+			</div>
+		</form>
+	</div>
+</body>
+<script>
+	var app=angular.module("myapp",[]);
+	app.controller("info",["$scope",function($scope){
+		$scope.info = {$info | json_encode};
+	}]);
+	app.controller("param",["$scope",function($scope){
+		$scope.keyword_line = {$info.keyword_group | json_encode};
+
+		$scope.addline = function(){
+			var data = {"id":0, "keyword" : "", 'match_rule' : "3"};
+			$scope.keyword_line.push(data);
+		}
+
+		$scope.deleteParam = function(index){
+			$scope.keyword_line.splice(index,1);
+		}
+
+		if($scope.keyword_line.length==0)
+		{
+			$scope.addline();
+		}
+
+	}]);
+
+</script>
+
+</html>

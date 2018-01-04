@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*(?<!\.jpg))$ index.php [L,E=PATH_INFO:$1]
+RewriteRule ^upload/(.+)/(.+)_w=([0-9]+)&h=([0-9]+).jpg$ image.php?dir=$1&name=$2&w=$3&h=$4
+</IfModule>

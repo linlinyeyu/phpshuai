@@ -1,0 +1,436 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,legend,button
+form,fieldset,input,textarea,p,blockquote,th,td {
+    box-sizing: border-box;
+}
+/* 酌情修改 */
+body {
+    background:#fff;
+    color:#333;
+    font-size:12px; 
+    margin-top:5px;
+    // font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    font-family: 'Microsoft Yahei', arial, sans-serif ;
+}
+body,div,dl,dt,dd,ul,li,p,h4,h1,h2,p{
+  margin: 0px;
+  padding: 0px;
+}
+/* 短引用的内容可取值：''或"" */
+q:before,q:after {content:'';}  
+
+/* 缩写，图片等无边框 */
+fieldset,img,abbr,acronym {border:none;}
+abbr,acronym {font-variant: normal;}
+legend {color:#000;}
+
+em,i,strong{
+	font-style: normal;
+}
+/* 上下标 */
+sup {vertical-align: text-top;}
+sub {vertical-align: text-bottom;}
+
+/* 设置表格的边框被合并为一个单一的边框, 指定分隔边框模型中单元格边界之间的距离为0*/
+table {   
+　　border-collapse: collapse;   
+　　border-spacing: 0;   
+}   
+
+/* 表格标题及内容居左显示 */
+caption,th {text-align: left;}
+input,img,select {vertical-align:middle;}
+
+/* 清除列表样式 */
+ol,ul {list-style: none;}  
+
+/* 输入控件字体 */
+input,button,textarea,select,optgroup,option {
+    font-family:inherit;
+    font-size:inherit;
+    font-style:inherit;
+    font-weight:inherit;
+}
+
+/* 标题元素样式清除 */ 
+h1,h2,h3,h4,h5,h6 {   
+　　font-weight: normal;   
+　　font-size: 100%;   
+}   
+
+/* 链接样式，颜色可酌情修改 */
+del,ins,a {text-decoration:none;}
+a{
+	color: #000;
+}
+
+/* 鼠标样式 */
+input[type="submit"] {cursor: pointer;}
+button {cursor: pointer;background: transparent;}
+input::-moz-focus-inner { border: none; padding: 0px;}
+
+.clear {clear:both;}
+@media screen and (max-width: 1250px){
+    body{
+      width: 1250px;
+    }
+  }
+
+
+
+.goodswrap{
+	width: 1280px;
+	margin: 0px auto;
+}
+.headWrap{
+	width: 100%;
+	height: 370px;
+	background: url('../images/goodsDetail/head_bg.png') no-repeat ;
+}
+.text{
+    color: #666;
+}
+.primary{
+    color: #f24450;
+}
+.el-button.el-button-primary{
+    color: #fff;
+    background-color: #f24450;
+}
+.el-button.el-button-text{
+    color: #f24450;
+}
+.el-button{
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #d9c1bf;
+    color: #3d211f;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+/* 商品*/
+.goodsBox{
+    width: 100%;
+    height: 530px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+.goodsInfo{
+	float: left;
+    width: 420px;
+}
+.goodsInfo dt{
+	width: 420px;
+	height: 420px;
+}
+.goodsInfo dt img{
+	width: 100%;
+	height: 100%;
+}
+.goodsInfo dd {
+    margin-top: 30px;
+    overflow: hidden;
+}
+.imgList{
+	float: left;
+    width: 400px;
+    margin-left: 12px;
+    margin-right: 12px;
+    overflow: hidden;
+}
+.imgList li img {
+	width: 78px;
+    height: 78px;
+    cursor: pointer;
+}
+
+/* 购物信息 */
+.shopInfo{
+    float: left;
+    width: 570px;
+    margin: 0 30px;
+}
+.goodsName{
+    margin-top: -6px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    color: #333;
+    margin-bottom: 10px;
+}
+.shopInfo dl{
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+.shopInfo  dt ,.shopInfo dd{
+    float: left;
+}
+.shopInfo  dt{
+    width: 60px;
+    color: #666;
+}
+.shopInfo  dd{
+    width: 320px;
+}
+.priceInfo{
+    overflow: hidden;
+    margin-bottom: 26px;
+    padding: 20px 30px 4px 16px;
+    background-color: #f9f9f9;
+}
+.totalEval em {
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 10px;
+    color: #f24450;
+}
+.vipInfo li{
+    margin-bottom: 10px;
+}
+.full{
+    display: inline-block;
+    width: 40px;
+    padding: 3px 6px;
+    text-align: center;
+    border: 1px solid #c71724;
+    border-radius: 2px;
+    margin-right: 16px;
+    color: #c71724;
+}
+.delivery{
+    padding-left: 20px;
+}
+.chooseNum button{
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    margin-left: -1px;
+    float: left;
+    outline: none;
+    border: 1px solid #ccc;
+}
+.chooseNum input{
+    float: left;
+    width: 50px;
+    height: 28px;
+    text-align: center;
+    margin-left: -1px;
+}
+.buyBtn{
+    float: left;
+    margin-top: 40px;
+    margin-left: 58px;
+}
+.buyBtn button{
+    width: 160px;
+    height: 40px;
+    margin-right: 10px;
+    border: 1px solid #c71724;
+}
+/*店铺信息*/
+.storeInfo{
+    float: left;
+    width: 200px;
+    border: 1px solid #ccc;
+}
+.storeInfo .title{
+    width: 198px;
+    height: 40px;
+    padding-top: 10px;
+    overflow: hidden;
+    background: -webkit-linear-gradient(top,#cd2b2d,#cd4b2a);
+}
+.storeInfo .titleContent{
+    width: 156px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+.storeInfo .slider{
+    float: left;
+    width: 28px;
+    height: 1px;
+    margin-top: 12px;
+    background-color: #fff;
+}
+.storeInfo .name{
+    float: left;
+    width: 100px;
+    padding: 0 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.storeInfo .storeContent{
+    width: 198px;
+    padding: 0 10px;
+}
+.storeContent .storeName{
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+.storeContent .eval{
+    padding: 16px 0px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+}
+.eval dl{
+    float: left;
+    width: 33.33%;
+    border-right: 1px solid #ccc;
+}
+.eval dt{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 14px
+}
+.eval dd{
+    font-size: 16px;
+    color: #f24450;
+}
+.storeContent .online{
+    padding: 8px 0 16px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.online img{
+    vertical-align: -2px;
+}
+.online dt {
+    height: 40px;
+    line-height: 40px
+}
+.qqkf,.wxkf{
+    width: 80px;
+    height: 24px;
+    margin: 0 auto 10px;
+    line-height: 24px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.qqkf{
+    background-color: #38b8fc;
+    color: #fff;
+}
+.wxkf{
+    background-color: #fff;
+    border: 1px solid #38b8fc;
+    color: #38b8fc;
+}
+.storeInfo .collectBtn{
+    margin: 12px 0 10px;
+    text-align: center;
+}
+.el-button--small{
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #f24450;
+    padding: 6px;
+    color: #f24450;
+}
+
+/* 商品详情信息*/ 
+.goodsDetail{
+    width: 100%;
+    overflow: hidden;
+    background: url('../images/goodsDetail/slider.png') no-repeat;
+}
+.sliderBox{
+    float: left;
+    width: 250px;
+    height: 2640px;
+}
+.detailCon{
+    float: left;
+    width: 1000px;   
+}
+.detailCon .infoBox{
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.infoBox dd{
+    padding: 10px;
+}
+.infoBox button {
+    width: 100px;
+    height: 36px;
+    text-align: center;
+    color: #999;
+    background-color: transparent;
+    border: none;
+    border: 1px solid transparent;
+    outline: none;
+}
+.infoBox .infoTabChecked{
+    color: #c71724;
+    background-color: #fff;
+    border-right: 1px solid #ccc;
+}
+.goodsQuery{
+    color: #ccc;
+}
+.detailTitle{
+    line-height: 24px;
+    font-weight: 600;
+    padding-left: 12px;
+    margin-bottom: 10px;
+    color:#999;
+}
+.productInfo{
+    width: 672px;
+    padding-left: 12px;
+    overflow: hidden;
+}
+.productInfo  li {
+    float: left;
+    line-height: 30px;
+    width: 214px;
+    margin-right: 10px;
+    overflow: hidden;
+}
+.productInfo li dt,.productInfo li dd{
+    float: left;
+}
+.productInfo li dt{
+    width: 54px;
+}
+.productInfo li dd{
+    width: 158px;
+    padding: 0px;
+}
+.storeImg{
+    margin-top: 20px;
+    text-align: center;
+}
+/*底部信息*/
+.footerWrap{
+    width: 1250px;
+    height: 1930px;
+    margin: 0px auto;
+    background: url('../images/goodsDetail/recommend.png') no-repeat;
+}

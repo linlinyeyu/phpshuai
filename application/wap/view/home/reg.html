@@ -1,0 +1,117 @@
+{include file="header"}
+
+<link rel="stylesheet" href="__PUBLIC__/css/layer.css"/>
+</head>
+<body ng-controller="regctrl">
+	<div class="header">
+		<div class="wrapper">
+			<span class="left back" on-back-render-filters></span>
+			<span class="title">注册</span>
+		</div>
+	</div>
+	<div class="container top-container" ng-cloak>
+		<div class="content">
+			<form class="row-container">
+				<div class="row row-bordered">
+					<div class="row-content">
+						<div class="row-left row-icon">
+							<img src="__PUBLIC__/images/new/dianhua.png"/>
+						</div>
+						<div class="row-left row-input">
+							<input type="number" placeholder="请输入手机号码" name="phone" ng-model="regdata.phone"/>
+						</div>
+					</div>
+				</div>
+				<div class="row row-bordered">
+					<div class="row-content">
+						<div class="row-left row-icon">
+							<img src="__PUBLIC__/images/new/sms.png"/>
+						</div>
+						<div class="row-left row-input">
+							<input type="number" placeholder="请输入验证码" name="verify_code" ng-model="regdata.verify_code" />
+						</div>
+						<div class="row-right ">
+							<span class="btn btn-white" ng-click="verify_code();"  id="send">{{verify_code_text}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="row row-bordered">
+					<div class="row-content">
+						<div class="row-left row-icon">
+							<img src="__PUBLIC__/images/new/password.png"/>
+						</div>
+						<div class="row-left row-input">
+							<input type="password" placeholder="请输入密码" name="password" ng-model="regdata.password"/>
+						</div>
+					</div>
+				</div>
+				<p class="reg-agreement">我已阅读并同意<a href="{:U('home/agreement')}">用户注册协议</a></p>
+				<div ng-click="regform()" class="btn btn-light-big btn-primary btn-full" style="margin-top:20px">注册</div>
+			</form>
+			<div class="login-pdenter-line">
+				<p></p>
+				<span>如已注册，请登录</span>
+				<p></p>
+			</div>
+		 <div class="login-pdenter-enter-style">
+			<a href="{:U('home/login')}">
+				<img src="__PUBLIC__/images/new/password.png"/>
+				<p>密码登录</p>
+			</a>
+		</div> 
+			
+		</div>
+	</div>
+	<script>
+		app.controller("regctrl",function($scope,$http, $interval){
+			$scope.verify_code_text = "点击获取";
+			$scope.regdata={};
+			$scope.regform=function(){
+			pinet.post('User/Register',{
+				"phone":$scope.regdata.phone,
+				"password":$scope.regdata.password,
+				uuid:pinet.getCookie("bear_uuid"),
+				"verify_code":$scope.regdata.verify_code,
+				openid : pinet.getCookie("openid"), unionid : pinet.getCookie("unionid")},
+					function(data){
+					if(data.errcode == 0){
+						pinet.setCookie("access_token",data.content.access_token,"/");
+						pinet.setCookie("refresh_token", data.content.refresh_token, "/");
+						location.href = "{:U('normal/share_app')}";
+						return;
+					}else{
+						layer.open({content:data.message});
+					}
+					$scope.$apply();
+				})
+
+			};
+				
+			$scope.verify_code=function(){
+				if($scope.stop){
+					return;
+				}
+				$scope.time = 60;
+				$scope.stop = $interval(function(){
+					if($scope.time > 0){
+						$scope.time --;
+						$scope.verify_code_text = $scope.time + "秒重发";
+					}else{
+						$scope.verify_code_text = "点击获取";
+						$interval.cancel($scope.stop);
+						$scope.stop = null;
+					}
+				}, 1000);
+
+				pinet.post('User/SendCode',{"phone":$scope.regdata.phone,"state":0},function(data){
+					pinet.toast(data.message);
+					$scope.$apply();
+				})
+					
+			};
+
+
+		});
+	</script>
+</body>
+</html>

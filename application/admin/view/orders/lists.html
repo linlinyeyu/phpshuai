@@ -1,0 +1,434 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.table-tr td{
+	vertical-align: middle;
+	text-align: center;
+}
+.table th{
+	text-align:center;
+}
+a:hover{text-decoration:none;}
+.ui-datepicker{width:214px;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li {if condition="$state eq 0"} class="active" {/if}><a href="{:U('orders/lists')}">全部订单({$count})</a></li>
+			{volist name="states" id="s"}
+				<li  {if condition="$state == $s.id"} class="active" {/if}><a href="{:U('orders/lists', ['state' => $s.id])}">{$s.name}({$s.count})</a></li>
+			{/volist}
+		</ul>
+		<form name="form" method="get" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">商品:</label>
+					<div class="controls">
+						<select name="goods_id">
+							<option value="0">全部</option>
+							{volist name="goods" id="g"}
+								<option {if condition=" I('goods_id') eq $g.goods_id "}selected {/if} value="{$g.goods_id}">{$g.name}</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+				<input type="hidden" name="state" value="{:I('state')}">
+				
+				
+				<div class="control-group">
+					<label class="control-label">订单编号:</label>
+					<div class="controls">
+						<input type="text" name="order_number" value="{:I('get.order_number')}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">姓名:</label>
+					<div class="controls">
+					<input type="text" name="customer_name" value="{:I('get.customer_name')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">支付方式:</label>
+					<div class="controls">
+						<select name="pay_id">
+							<option value="0" >全部</option>
+							<option {if condition="I('pay_id') eq 2"} selected {/if}value="2">支付宝支付</option>
+							<option {if condition="I('pay_id') eq 3"} selected {/if} value="3">微信APP支付</option>
+							<option {if condition="I('pay_id') eq 4"} selected {/if} value="4">微信公众号支付</option>
+							<option {if condition="I('pay_id') eq 5"} selected {/if} value="5">支付宝网页支付</option>
+							<option {if condition="I('pay_id') eq 6"} selected {/if} value="6">后台支付</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">用户编号:</label>
+					<div class="controls">
+					<input type="text" name="uuid" value="{:I('get.uuid')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">用户手机:</label>
+					<div class="controls">
+					<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">收货人:</label>
+					<div class="controls">
+					<input type="text" name="address_name" value="{:I('get.address_name')}">
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">收货人手机:</label>
+					<div class="controls">
+					<input type="text" name="address_phone" value="{:I('get.address_phone')}">
+					</div>
+				</div>
+				
+				
+				<div class="control-group">
+					<label class="control-label">订单日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+						<input type="submit" class="btn btn-primary"  onClick="click_second()" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						
+					</div>
+				</div>
+			</fieldset>	  
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="400px;">商品</th>
+						<th >买家</th>
+						<th width="100">支付方式</th>
+						<th width="200">价格</th>
+						<th>状态</th>
+						<th>订单操作</th>
+					</tr>
+				</thead>
+				<tbody class="table-tbody">
+					{volist name="lists" id="list"}
+					<tr >
+						<td colspan="8" style="border-bottom:1px solid #ccc;background:#efefef;">
+							<b>订单编号：</b><span>{$list.order_sn}</span>
+							<b>下单时间：</b><span>{:get_color_date($list.date_add)}</span>
+						</td>
+					</tr>
+					{volist name="list.goods" id="g" key="i"}
+					<tr class="table-tr">
+						<td style="vertical-align: middle;">
+							
+								<img src="{$img_url}{$g.image}" width="50" height="50">
+								<span style=" width:200px; display:inline-block;overflow: hidden;white-space: nowrap;">{$g.goods_name}<br/>规格:{$g.option_name}<br/>{if condition="$g.refund_state gt 0"}<span style="color: red">售后:{$g.refund_state_name}</span>{/if}</span>
+								<div style="margin-left:30px; display:inline-block;width: 100px;">
+									价格：{$g.price}
+									<br/>
+									数量：{$g.quantity}
+								</div>
+						</td>
+						{if condition="$i eq 1"}
+						<td rowspan="{$list.goods | count}" style="text-align: center;">
+							<a href="{:U('customer/detail',['id' => $list.customer_id])}" title="点击进入会员详情">
+							{$list.uuid} <br />
+							{$list.nickname}</a>
+							<br/>
+							{$list.address_name}
+							<br/>
+							{$list.phone}
+						</td>
+						<td rowspan="{$list.goods | count}">{$list.pay_name}</td>
+						<td rowspan="{$list.goods | count}" style="text-align: left;">
+							<div style="display:inline-block;width: 100px;">商品金额：</div>{$list.goods_amount}
+							<br/>
+							<div style="display:inline-block;width: 100px;">运费：</div>{$list.express_amount}
+							{if condition="$list.change_amount neq 0"}
+							<br/>
+							<div style="display:inline-block;width: 100px;">卖家改价：</div>{$list.change_amount}
+							{/if}
+							
+							<br/>
+
+							
+							<div style="display:inline-block;width: 100px;">订单金额：</div>{$list.order_amount}
+
+							<br/>
+
+
+							<div style="display:inline-block;width: 100px;">支付金额：</div>{$list.pay_amount}
+							
+							{if condition="$list.order_state eq 1"}
+								<br/>
+								<div style="display:inline-block;width: 100px;"></div> <a style="font-size:15px;" onclick="changeprice({$list.id},{$list.org_amount},{$list.change_amount})">修改价格</a>
+							{/if}
+						</td>
+						<td rowspan="{$list.goods | count}">
+							{if condition="$list.order_state eq 2"}
+							<span style="color: red">{if condition="$list.remind_order_id gt 0"}已提醒发货{/if}</span>
+							{/if}
+							{if condition="$list.order_state gt 2"}
+							{if condition="$list.express_type eq 1"}快递{elseif condition="$list.express_type eq 2"}自提{else}无需提货{/if}
+							{/if}
+							<br/>
+							{$list.state}
+							<br/>
+							<a href="{:U('orders/details',['number'=>$list.order_sn])}" >查看详情</a>
+						</td>
+						<td rowspan="{$list.goods | count}">
+							{if condition="$list.order_state eq 1"}
+							<a style="cursor:pointer;" onclick="confirm_pay({$list.id})">确认付款</a> |
+							{/if}
+							{if condition="$list.order_state eq 2"}
+							<a style="cursor:pointer;" onclick="send({$list.id},'{$list.address_name}','{$list.phone}','{$list.address}','{$list.express_id}','{$g.address}')">确认发货</a> |
+							{/if}
+							{if condition="$list.order_state eq 3"}
+							<a style="cursor:pointer;" onclick="confirm({$list.id})">确认收货</a> |
+							{/if}
+							{if condition="$list.order_state lt 4"}
+							<a style="cursor:pointer;" onclick="closeOrder({$list.id})">关闭订单</a>
+							{/if}
+						</td>
+						{/if}
+					</tr>
+					{/volist}
+					{/volist}
+				</tbody>
+			</table>
+		</form>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script>
+	function click_first(){
+		document.form.action="{:U('orders/lists')}";
+		document.form.submit();
+	}
+	function click_second(){
+		document.form.action="{:U('orders/excel')}";
+		document.form.submit();
+	}
+	
+	$(function() {
+		$( "#min_date" ).datetimepicker();
+		$( "#max_date").datetimepicker();
+	});
+	
+	function changeprice(id,order_amount, price){
+		var dialog=art.dialog({
+			id:"shake-deom",
+			title:'修改价格',
+			content:'<span style="margin-bottom:10px;display:inline-block;">订单金额为：<b style="color:#3daae9">'+order_amount+'</b>元</span><br/>加价或减价：<input type="text" name="price"/><br/><span>用户实付：总金额+涨价或降价</span>',
+			width:'400px',
+			height:'150px',
+			cancel:'取消',
+			cancel:true,
+			ok: function()
+			{
+               	$.ajax({
+               	  url: "{:U('orders/changeprice')}",
+               	  type : 'post',
+				  dataType: 'json',
+				  data: 'id='+id+'&price='+$("input[name=price]").val(),
+				  success: function(json){
+				  	alert(json.msg);
+				  	if(json.code == 1){
+				  		location.reload();
+				  	}
+				  }
+               	}); 
+			}
+		})
+	}
+	function confirm_pay(id){
+		var dialog=art.dialog({
+			id:"shake-deom",
+			title:'确认付款',
+			content:'您确认此订单付款吗',
+			cancel:'取消',
+			cancel:true,
+			ok: function()
+			{
+               	$.ajax({
+               	  url: "{:U('orders/confirm_pay')}",
+               	  type : 'post',
+				  dataType: 'json',
+				  data: 'id='+id,
+				  success: function(json){
+				  	alert(json.msg);
+				  	if(json.code == 1){
+				  		location.reload();
+				  	}
+				  }
+               	}); 
+			}
+		})
+	}
+
+	
+	function send(id,name,phone,address,express_id,offaddress){
+		var data = {
+			'id':id,
+			'type':'',
+			'carrier':'',
+			'shipping':'',
+			'address':''
+		};
+        var html = '<div>收件人：'+name+'/'+phone+'</div><div style="margin:10px 0;">地址信息：'+address+' </div>';
+        if (offaddress == '') {
+        	html+= '类  型：<select name="type" class="type" >';
+	        html+="<option value='0' selected>请选择</option>"
+	        html+="<option value='1' >快递</option>"
+	        html+="<option value='3' >无需发货</option>"
+	        html+= '</select><br/>';
+		        html+= '快递名：<select name="carrier" class="carrier" >';
+	        {volist name="express" id="vo"}
+			var vo_express_id = "{$vo.express_id}";
+	       	html+="<option value='{$vo.express_id}'";
+			if(express_id==vo_express_id){
+	            html+=" selected";
+			}
+	        html+=">{$vo.express_name}</option>";
+
+	        {/volist}
+	        html+= '</select>';
+	        html+= '</br>运单号：<input type="text" name="shipping"/>';
+
+	        var dialog=art.dialog({
+			id:"shake-deom",
+			title:'发货提示',
+			content:html,
+			width:'400px',
+			height:'150px',
+			cancel:'取消',
+			cancel:true,
+			ok: function()
+			{	
+				data.type = $("select[name=type]").val();
+				data.carrier = $("select[name=carrier]").val();
+				data.shipping = $("input[name=shipping]").val();
+               	$.ajax({
+               	  url: "{:U('orders/send_carrier')}",
+               	  type : 'post',
+				  dataType: 'json',
+				  data: data,
+				  success: function(json){
+				  	alert(json.msg);
+				  	if(json.code == 1){
+				  		location.reload();
+				  	}
+				  	
+				  	}
+               		}); 
+				}
+			})
+
+	        $(".carrier").find("option[text='申通快递']").attr("selected",true);
+        }else{
+        	html+= '<div>类  型：<span>自提</span><input type="hidden" name="type" value="2"/></div>';
+        	html+='<div>自提地址: <input type="text" name="address" /></div>';
+
+        	var dialog=art.dialog({
+			id:"shake-deom",
+			title:'发货提示',
+			content:html,
+			width:'400px',
+			height:'150px',
+			cancel:'取消',
+			cancel:true,
+			ok: function()
+			{	
+				data.address = $("input[name=address]").val();
+				data.type = $("input[name=type]").val();
+               	$.ajax({
+               	  url: "{:U('orders/send_carrier')}",
+               	  type : 'post',
+				  dataType: 'json',
+				  data: data,
+				  success: function(json){
+				  	alert(json.msg);
+				  	if(json.code == 1){
+				  		location.reload();
+				  	}
+				  	
+				  	}
+               		}); 
+				}
+			})
+        }
+
+
+	}
+
+    function confirm(id){
+        var dialog=art.dialog({
+            id:"shake-deom",
+            title:'确认收货',
+            content:'您确认此订单收货吗',
+            cancel:'取消',
+            cancel:true,
+            ok: function()
+            {
+                $.ajax({
+                    url: "{:U('orders/confirm')}",
+                    type : 'post',
+                    dataType: 'json',
+                    data: 'id='+id,
+                    success: function(json){
+                        alert(json.msg);
+                        if(json.code == 1){
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    function closeOrder(id){
+        var dialog=art.dialog({
+            id:"shake-deom",
+            title:'确认关闭',
+            content:'您确认此订单关闭吗',
+            cancel:'取消',
+            cancel:true,
+            ok: function()
+            {
+                $.ajax({
+                    url: "{:U('orders/closeorder')}",
+                    type : 'post',
+                    dataType: 'json',
+                    data: 'id='+id,
+                    success: function(json){
+                        alert(json.msg);
+                        if(json.code == 1){
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        })
+    }
+	
+	</script>
+</body>
+</html>

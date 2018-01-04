@@ -1,0 +1,70 @@
+{include file="header" /}
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('orders/recharge_list')}">充值</a></li>
+    </ul>
+    <form method="get" class="form-horizontal" action="{:U('orders/recharge_list')}">
+        <div class="control-group">
+            <label class="control-label">订单编号:</label>
+            <div class="controls">
+                <input type="text" name="order_number" value="{:I('get.order_number')}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">订单状态</label>
+            <div class="controls">
+                <select name="state">
+                    <option value="0" {if condition="I('state') eq 0"}selected{/if}>全部</option>
+                    <option value="2" {if condition="I('state') eq 2"}selected{/if}>充值成功</option>
+                    <option value="1" {if condition="I('state') eq 1"}selected{/if}>充值失败</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+            </div>
+        </div>
+    </form>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th >订单编号</th>
+                <th >昵称</th>
+                <th >充值金额</th>
+                <th >支付方式</th>
+                <th >下单时间</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody class="table-tbody">
+            {volist name="lists" id="list"}
+            <tr class="table-tr">
+                <td style="vertical-align: middle;">{$list.order_sn}</td>
+                <td style="text-align: center;">
+                    <a href="{:U('customer/detail',['id' => $list.customer_id])}" title="点击进入会员详情">
+                        {$list.nickname}
+                    </a>
+                </td>
+                <td>{$list.order_amount}元</td>
+                <td>{$list.pay_name}</td>
+                <td>{:get_color_date($list.date_add)}</td>
+                <td style="text-align: left;">
+                    {if condition="$list.state eq 2"}
+                    <div style="display:inline-block;width: 100px;">充值成功</div>
+                    {else /}
+                    <div style="display:inline-block;width: 100px;">充值失败</div>
+                    {/if}
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="pagination">{$page}</div>
+</div>
+</body>
+</html>

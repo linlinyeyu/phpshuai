@@ -1,0 +1,118 @@
+.pt-all-left {
+  float: left;
+  background-position: center;
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+  height: 80px;
+}
+.pt-all-right {
+  float: right;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+.pt-all-red {
+  color: #e72450;
+}
+.pt-all-gray {
+  color: #979797;
+}
+.pt-all-top {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 14px;
+  color: #ffffff;
+  background: #e72450;
+  position: fixed;
+  top: 0px;
+}
+.pt-all-content {
+  display: inline-block;
+  width: 100%;
+}
+.pt-all-goods li {
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 5px;
+  background: #ffffff;
+}
+.pt-all-goods li,
+.pt-all-goods {
+  display: inline-block;
+  width: 100%;
+}
+.pt-all-goods li img {
+  width: 30%;
+}
+.pt-all-goods li a {
+  font-size: 12px;
+  color: #d93a56;
+  text-decoration: underline;
+}
+.pt-all-goods li .pt-all-li-bottom span {
+  font-size: 12px;
+}
+.pt-all-goods li .pt-all-li-bottom a {
+  float: right;
+  color: #ffffff;
+  padding: 5px 10px;
+  background: #d93a56;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.pt-all-goods li {
+  font-size: 14px;
+}
+.pt-all-goods li span {
+  display: inline-block;
+}
+.pt-all-icy {
+  margin-top: 5px;
+}
+.pt-all-li-bottom .pt-all-first,
+.pt-all-span-right {
+  line-height: 24px;
+}
+.pt-all-goods .pt-all-top-p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.pt-all-goods .pt-all-small {
+  font-size: 12px;
+  border: none;
+  text-decoration: none;
+}
+.pt-all-goods .pt-all-left {
+  width: 30%;
+  margin: 0px;
+}
+.pt-all-goods .pt-all-right {
+  width: 66%;
+}
+.pt-all-color {
+  color: #0681ff;
+}
+.pt-all-goods li .pt-all-li-bottom {
+  border-top: 1px solid #dcdcdc;
+  padding: 10px 0;
+  width: 100%;
+  display: inline-block;
+}
+.pt-all-prosses {
+  height: 12px;
+  background: #dcdcdc;
+  display: inline-block;
+  margin-top: 6px;
+  width: 50%;
+}
+.pt-all-goods li .pt-all-li-bottom {
+  font-size: 14px;
+  padding-left: 10px;
+}
+.pt-all-goods .pt-all-span-right {
+  margin-left: 10px;
+}
+.pt-all-top-fill {
+  height: 45px;
+}

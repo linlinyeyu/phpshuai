@@ -1,0 +1,103 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('homeaction/activityindex')}">首页活动列表</a></li>
+			<li><a href="{:U('homeaction/toedit')}">添加首页活动</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>首页活动编号</th>
+						<th width="300">活动名</th>
+						<th>点击动作</th>
+						<th>首页活动图片</th>
+						<th>是否开启</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($activities) gt 0"}
+					{volist name="activities" id="vo"}
+					<tr>
+						<td>{$vo.home_activity_id}</td>
+						<td>{$vo.name}</td>
+						<td>{$vo.action_name}</td>
+						<td><img style="wdith:40px;height:40px;" src="{:C('img_url')}{$vo.img}" /></td>
+						<td>
+						<div class="dropdown">
+			               {if condition="$vo['status']==0 "}
+			                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+								     关闭
+								  <span class="caret"></span>
+							   </button>
+			               {else /}
+			                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+								     开启
+								  <span class="caret"></span>
+							   </button>
+			               {/if}
+			                   <ul class="dropdown-menu" role="menu">
+								  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['home_activity_id']})">开启</a></li>
+								  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['home_activity_id']})">关闭</a></li>
+							   </ul>
+			               </div>
+			            </td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('homeaction/toedit',['home_activity_id'=>$vo.home_activity_id])}">编辑</a>
+							<a href="{:U('homeaction/todel',['home_activity_id'=>$vo.home_activity_id])}" class="js-ajax-dialog-btn">删除</a> |
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+		function toggleIsShow(t,v){
+			$.ajax({
+				url: "{:U('homeaction/isOpen')}",
+				type: "POST",   //请求方式
+				dataType: 'json',
+				data: {id:v,is_open:t},
+				success: function(json)
+				{
+					if(json.status==1){
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作成功',
+							ok: function () {
+								location.reload();
+							}
+						});
+					}else{
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作失败',
+							ok: function () {
+							}
+						});
+					}
+				}
+			})
+
+   		}
+	</script>
+</body>
+</html>

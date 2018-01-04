@@ -1,0 +1,132 @@
+body {
+  background-color: #f2f2f2;
+}
+input {
+  outline: none;
+}
+.get-cash-limit {
+  color: #757575;
+  font-size: 12px;
+  padding: 20px 15px 20px 15px;
+}
+.get-cash-way-div {
+  background-color: white;
+  height: 160px;
+}
+.get-cash-way {
+  padding: 20px 15px 20px 15px;
+  color: #757575;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+.get-cash-way-item-first {
+  padding: 18px 15px 18px 20px;
+  border-bottom: 1px solid #eee;
+}
+.cash-to-account-image {
+  height: 15px;
+}
+.cash-to-account-word {
+  color: #757575;
+  font-size: 14px;
+  margin-left: 10px;
+}
+.cash-click-image-first {
+  height: 20px;
+  float: right;
+  margin-right: 10px;
+}
+.cash-click-image-second {
+  height: 20px;
+  float: right;
+  margin-right: 10px;
+}
+.get-cash-way-item-second {
+  padding: 18px 15px 18px 20px;
+}
+.get-cash-account-div {
+  margin-top: 10px;
+  background-color: white;
+  padding: 20px 15px 20px 15px;
+}
+.get-cash-account-word {
+  color: #757575;
+}
+.get-cash-input {
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.rmb-mark {
+  font-size: 20px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.get-cash-input-text {
+  border: none;
+  background: none;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  font-size: 20px;
+}
+.cash-prompt-image {
+  height: 20px;
+  margin-left: 25px;
+  position: relative;
+  top: 6px;
+}
+.posi-cash-input {
+  margin-top: 20px;
+  width: 100%;
+}
+.cash-avail {
+  color: #999;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.cash-prompt-word {
+  font-size: 12px;
+  color: #e9274a;
+}
+.get-cash-confirm-button {
+  border: none;
+  width: 90%;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #dcdcdc;
+  padding: 10px;
+}
+.get-cash-confirm-div {
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+.get-cash-confirm-active {
+  background-color: #ea264c;
+  color: #fff;
+}
+.get-cash-confirm-unactive {
+  background-color: #dcdcdc;
+}
+.alipay-div {
+  margin-top: 10px;
+  background-color: white;
+}
+.alipay-username-p {
+  padding: 20px 15px 20px 15px;
+  border-bottom: 1px solid #eee;
+  color: #757575;
+}
+.alipay-name-p {
+  padding: 20px 15px 20px 15px;
+  color: #757575;
+}
+.alipay_username {
+  border: none;
+  font-size: 20px;
+}
+.alipay_name {
+  border: none;
+  font-size: 20px;
+}

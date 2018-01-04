@@ -1,0 +1,104 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<form method="get" name="form" class="form-horizontal">
+		<fieldset>
+				<div class="control-group">
+					<label class="control-label">店铺名:</label>
+						<div class="controls">
+							<input yzl-autocomplete label-key="shop_name" id="shop_name" value="{$shop_name}" url="/admin/seller/searchShop" value-key="seller_id" callback="shop_callback" />
+							<input id="seller_id" type="hidden" name="seller_id" {if condition="I('get.seller_id') neq ''"}ng-init="seller_id = {:I('get.seller_id')}"{/if} value="{{seller_id}}"/>
+						</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="button" onclick="clearShop();" value="清空店铺名" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;"/>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">订单日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+					</div>	
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="search()" style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+						<input type="submit" class="btn btn-primary"  onClick="exportExcel()" style="margin-left:30px;width:100px;height:30px;float:left;text-align:center;" value="导出excel"/>
+					</div>
+				</div>
+				</fieldset>
+		</form>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th width="300">店铺名称</th>
+						<th>店家电话</th>
+						<th>销售额</th>
+						<th>总佣金</th>
+						<th>已提现佣金</th>
+						<th>可提现佣金</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($settlement) gt 0"}
+					{volist name="settlement" id="vo"}
+					<tr>
+						<td>{$vo.shop_name}</td>
+						<td>{$vo.phone}</td>
+						<td>{$vo.amount}</td>
+						<td>{$vo.real_amount}</td>
+						<td><a href="{:U('finance/withdrawals_history',['customer_id' => $vo.customer_id,'shop_name' => $vo.shop_name,'phone' => $vo.phone])}">{$vo.withdrawals_amount}</a></td>
+						<td>{$vo.available_amount}</td>
+						<td><a href="{:U('finance/commission',['customer_id' => $vo.customer_id])}">佣金明细</a></td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp",["autocomplete"]);
+		app.controller("myctrl",function($scope){
+			$scope.shop_callback = function(item){
+				$scope.seller_id = item.id;
+				$scope.$apply();
+			}
+		});
+		
+		function clearShop(){
+			$("#seller_id").val('');
+			$("#shop_name").val('');
+		}
+		
+		$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+		
+		function exportExcel(){
+			document.form.action="{:U('finance/settlement_excel')}";
+			document.form.submit();
+		}
+		
+		function search(){
+			document.form.action="{:U('finance/settlement')}";
+			document.form.submit();
+		}
+	</script>
+</body>
+</html>

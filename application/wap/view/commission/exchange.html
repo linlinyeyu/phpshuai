@@ -1,0 +1,253 @@
+{include file="header"}
+</head>
+
+<body ng-controller="ctrl" ng-cloak>
+	<div class="header">
+		    <div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title">我要兑换</span>
+			</div>
+	</div>
+	<div  class="container top-container">
+		<div class="exchange-score-all-div" style="margin-top:10px;">
+			<div>
+				<span class="exchange-score-span">兑换积分</span>
+			</div>
+			<div class="exchange-money">
+				<img src="__PUBLIC__/wap/image/nomoney.png">
+				<span  class="exchange-score-number">{{score}}</span>
+			</div>
+		</div>
+		<div class="exchange-second-div">
+			<p>温馨提醒:<span>兑换积分不得小于{{withdraw.min_withdraw}}</span></p>
+		</div>
+		
+		<div class="row-container">
+			<div class="row row-bordered">
+				<div class="row-content">
+					<div class="row-left row-text">
+						到账时间
+					</div>
+					<div class="row-right row-text" style="color:#808080;">
+						{{pay_time}}
+					</div>
+				</div>
+			</div>
+			
+			<div class="row row-bordered">
+				<div class="row-content">
+					<div class="row-left row-text">
+						提现至
+					</div>
+					<div class="row-right row-text exchange-pay" ng-class="{true : 'weixin', false : 'alipay'}[type != 2]" >
+						{{pay_name}}
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div ng-if="type == 2" class="row-container" style="margin-top:10px;">
+			<div class="row row-bordered">
+				<div class="row-content">
+					<div class="row-left row-text">
+						支付宝账号
+					</div>
+					<div class="row-left row-input" style="color:#808080;" >
+						<input ng-model="account" type="text" placeholder="请输入支付宝账号" /> 
+					</div>
+				</div>
+			</div>
+			
+			<div class="row row-bordered">
+				<div class="row-content">
+					<div class="row-left row-text">
+						收款人真实姓名	
+					</div>
+					<div class="row-left row-input" style="color:#808080" >
+						<input ng-model="realname" type="text" placeholder="请输入支付宝真实姓名" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+		    <div class="footer-btn footer-primary footer-full-btn" ng-click="apply();">
+		    	申请兑换
+		    </div>
+		</div>
+	</div>
+	<!-- 绑定手机弹出框  -->
+	<div class="modal ng-hide" ng-show="modalActive">
+		<div class="modal-dialog">
+			<div class="modal-content" ng-show="modalActive" >
+				<div class="modal-close" ng-click="modalActive = false;"></div>
+				<div class="modal-body" >
+					<div style="margin-top:10px;">下单前请先完善用户信息</div>
+					<input class="goodsinfo-modal-input" ng-show="customer.agent_id == 0" ng-model="uuid" type="text" placeholder="请输入推荐人ID(选填)" >
+					<input class="goodsinfo-modal-input" ng-model="realname" type="text" placeholder="请输入真实姓名" >
+					<input class="goodsinfo-modal-input" ng-model="phone" type="number" placeholder="请输入手机号" >
+					<div class="goodsinfo-modal-input-group">
+						<input class="goodsinfo-modal-input" ng-model="verify_code" type="text" placeholder="请输入验证码" >
+						<div class="goodsinfo-modal-verify" ng-click="send()">{{verify_code_text}}</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a class="modal-btn modal-primary-btn  modal-full-btn" ng-click="bind_phone()">确认</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+		app.controller("ctrl",['$scope','$interval', function($scope, $interval){
+			$scope.withdraw = {$withdraw | json_encode};
+			
+			$scope.type = 1;
+			$scope.pay_time = "为立即到账";
+			$scope.pay_name = "微信钱包";
+			$scope.score = {$available};
+			$scope.verify_code_text = "获取验证码";
+			
+			$scope.modalActive = false;
+			
+			$scope.customer = {$customer | json_encode};
+			
+			$scope.$watch("score", function(){
+				if($scope.type != 2){
+					$scope.pay_time = $scope.score > $scope.withdraw.min_audit ? "大于"+ $scope.withdraw.min_audit + "元为1~3个工作日" : "为立即到账";
+				}
+				
+			});
+			
+			//处理业务逻辑，ajax请求
+			$scope.send=function(){
+				var phone = $scope.phone;
+				if(!phone){
+					layer.open({content:"请输入手机号",time:3});
+					return;
+				}
+				if($scope.stop){
+					return;
+				}
+				$scope.time = 60;
+				$scope.stop = $interval(function(){
+					if($scope.time > 0){
+						$scope.time --;
+						$scope.verify_code_text = $scope.time + "秒重发";
+					}else{
+						$scope.verify_code_text = "获取验证码";
+						$interval.cancel($scope.stop);
+						$scope.stop = null;
+					}
+				}, 1000);
+				
+				pinet.post('User/SendCode',{"phone":$scope.phone,"state":0},function(data){
+					pinet.toast(data.message);
+					$scope.$apply();
+				});
+			};
+			
+			$scope.bind_phone = function(){
+				var phone = $scope.phone ;
+				var verify_code = $scope.verify_code;
+				var realname = $scope.realname;
+				var uuid = $scope.uuid ? $scope.uuid : "";
+				if(!phone){
+					pinet.alert("请输入手机号");
+					return;
+				}
+				if(!verify_code) {
+					pinet.alert("请输入验证码");
+					return;
+				}
+				
+				if(!realname){
+					pinet.alert("请输入真实姓名");
+					return;
+				}
+				
+				var data = {"phone" : phone , 
+						"verify_code" : verify_code,
+						"realname" : realname,
+						"uuid" : uuid,
+						'access_token' : pinet.getCookie("access_token")};
+				layer.open({type:2});
+				pinet.post('User/BindPhone', data, function(data){
+					layer.closeAll();
+					location.reload();
+				});
+			}
+			
+			$scope.apply = function(){
+				if(!$scope.customer.phone){
+					$scope.modalActive = true;
+					return;
+				}
+				var score = $scope.score ;
+				var type = $scope.type;
+				var account = $scope.account ? $scope.account : "" ;
+				
+				var realname = $scope.realname ? $scope.realname : "";
+				
+				
+				if(!score){
+					pinet.toast("请输入兑换积分");
+					return;
+				}
+				
+				if(score < $scope.withdraw.min_withdraw){
+					pinet.toast("提现金额不得小于" + $scope.withdraw.min_withdraw);
+					return;
+				}
+				
+				if(!account && type == 2){
+					pinet.toast("请输入支付宝账号");
+					return;
+				}
+				
+				if(!realname && type == 2){
+					pinet.toast("请输入真实姓名");
+					return;
+				}
+				
+				var data = {
+			            'access_token' : pinet.getCookie("access_token"),
+			            'realname' : realname,
+			            'account' : account,
+			            'type' : type,
+			            'goods_id' : "{:I('goods_id')}",
+			            'score' : score
+				};   
+				layer.open({'type' : 2});
+				pinet.post("commission/withdraw", data, 
+						function(data){
+					layer.closeAll();
+					if(data.errcode == 1){
+						layer.open({
+							'title' : '兑换失败',
+							'content' : '微信兑换暂时关闭，请使用支付宝兑换',
+							'btn' : ['使用支付宝兑换', '暂不兑换'],
+							'yes' : function(){
+								layer.closeAll();
+								$scope.type = 2;
+								$scope.pay_time = "支付宝到账时间为1~3个工作日";
+								$scope.pay_name = "支付宝";
+								$scope.$apply();
+							}
+						});
+						return;
+					}
+					
+					
+					var content = {'content' : data.message,'btn' : ['我知道了'] , 'yes' : function(){
+						location.href = "{:U('commission/exchange_record')}?goods_id={:I('goods_id')}";
+					}};
+					if(data.title){
+						content.title = data.title;
+					}
+					layer.open(content);
+				});
+			}
+		}]);
+	</script>
+</body>
+</html>

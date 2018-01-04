@@ -1,0 +1,62 @@
+{include file="header" /} 
+	<link href="__PUBLIC__/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript">
+	var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+	</script>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('essay/index')}">活动列表</a></li>
+			<li class="active"><a href="{:U('essay/add')}">添加活动</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				
+				<div class="control-group">
+					<label class="control-label">活动标题</label>
+					<div class="controls">
+						<input type="text" name="title" value="{$essay.title}" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">活动封面</label>
+					<div class="controls">
+						<uploadimg cate="essay" image-url="{$essay.cover}" width="400" height="400"></uploadimg>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">内容</label>
+					<div class="controls">
+						<div>
+							<script type="text/plain" id="myEditor" style="width:1000px;height:360px;">{$essay.content |html_entity_decode=###}</script>
+						</div>
+					</div>
+				</div>
+					<script src="__PUBLIC__/umeditor/umeditor.config.js?122"></script>
+				    <script src="__PUBLIC__/umeditor/umeditor.js?12312"></script>
+				    <script src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+					<script type="text/javascript">
+				
+				    //实例化编辑器
+				    var um = UM.getEditor('myEditor');
+				
+					
+					
+				    </script>
+				
+				
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="id" value="{:I('id')}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+
+</body>
+</html>

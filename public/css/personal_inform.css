@@ -1,0 +1,68 @@
+.pt-info-right {
+  float: right;
+  margin-right: 15px;
+}
+.pt-info-right img {
+  width: 50px;
+  border-radius: 100%;
+  height: 50px;
+}
+.perinfo-dis {
+  line-height: 70px;
+}
+.pt-info-content li {
+  display: inline-block;
+  width: 100%;
+  padding: 2vw 0;
+  border-bottom: 1px solid #dcdcdc;
+  font-size: 4vw;
+  background: #ffffff;
+}
+.pt-info-content li a {
+  display: inline-block;
+  width: 100%;
+}
+.pt-info-lh {
+  line-height: 50px!important;
+}
+.pt-info-content .pt-info-head {
+  line-height: 15vw;
+}
+.pt-info-content li span {
+  margin-left: 4vw;
+}
+.pt-info-content li img {
+  width: 6vw;
+}
+.pt-info-content .pt-info-head img {
+  width: 6vw;
+  float: right;
+  margin: 5vw 4vw 0 0;
+}
+.pt-info-content .pt-info-head div {
+  display: inline-block;
+  float: right;
+}
+.pt-info-content .pt-info-head div img {
+  width: 15vw;
+  margin: 0;
+}
+.pt-info-sort {
+  margin-top: 4vw;
+}
+@charset "UTF-8";
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+.row-container > .row > .row-content > .row-text-only {
+  line-height: 70px;
+}

@@ -1,0 +1,76 @@
+{include file="header" /}
+<link rel="stylesheet" hrerf="__PUBLIC__/js/artDialog/skins/default.css"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('coupon/fc_index')}">满减列表</a></li>
+        <li><a href="{:U('coupon/fc_add')}">添加满减</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>满减名称</th>
+                <th>满减价值</th>
+                <th>使用条件</th>
+                <th>状态</th>
+                <th>操作</th>
+            <tr>
+                {volist name="lists" id="vo"}
+            <tr>
+                <td>{$vo.name}</td>
+                <td>{$vo.amount}元</td>
+                <td>满{$vo.limit}元</td>
+                <td>{if condition="$vo.is_publish eq 0"}未发布{else /}已发布{/if}</td>
+                <td>
+                    <a href="{:U('coupon/fc_edit',array('id'=>$vo['id']))}" >编辑</a> |
+                    <a href="{:U('coupon/fc_del',array('id'=>$vo['id']))}" class="js-ajax-delete">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </thead>
+        </table>
+    </form>
+    <div class="pagination">{$page}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+<script>
+
+</script>
+<script>
+    $(document).ready(function(){
+        $(".give").each(function(){
+            $(this).click(function(){
+                var cid = $(this).attr('data-c-id');
+                var dialog=art.dialog({
+                    title:'发放提示',
+                    width:'400px',
+                    height:'150px',
+                    id:'shake-demo',
+                    content:'UUID或用户名：<input type="text" name="user"/>',
+                    cancel:'取消',
+                    ok: function ()
+                    {
+                        $.ajax({
+                            url: "{:U('coupon/send')}",
+                            type : 'post',
+                            dataType: 'json',
+                            data: 'cid='+cid+'&username='+$("input[name=user]").val(),
+                            success: function(json){
+                                alert(json.msg);
+                            }
+                        });
+                    }
+                })
+
+
+            })
+
+        })
+
+    })
+</script>
+</body>
+</html>

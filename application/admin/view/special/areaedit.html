@@ -1,0 +1,58 @@
+{include file="header" /} 
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('special/baichengArea',['special_id' => $special_id])}">区域地区馆</a></li>
+			<li class="active"><a href="{:U('special/areaEdit')}">编辑区域</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form" action="{:U('special/areaEdit')}" method="post">
+			<fieldset>	
+				<div class="control-group">
+					<label class="control-label">区域名称</label>
+					<div class="controls">
+						<input type="text" name="area_name" value="{$area.area_name}"/>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">区域图片</label>
+					<div class="controls">
+						<uploadimg cate="banner" image-url="{$area.image}" width="750" height="460"></uploadimg>
+					</div>
+				</div>	
+				
+				<div class="control-group">
+		        <label class="control-label">是否开启：</label>
+		        <div class="controls">
+		             <label>
+		             <input type='radio' id='isShow1' value='1' name='status' {if condition="$area['status'] ==1 "}checked{/if}/>开启
+		             </label>
+		             <label>
+		             <input type='radio' id='isShow0' value='0' name='status' {if condition="$area['status'] ==0 "}checked{/if}/>关闭
+		             </label>
+		          </div>
+				</div>
+				<input type="hidden" name="special_id" value="{$special_id}" />
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="area_id" value="{$area.area_id}" />
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('COMMIT')}</button>
+				<a class="btn" href="{:U('special/baichengArea')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+		
+		app.controller("myctrl",function($scope){
+			$scope.shop_callback = function(item){
+				$scope.seller_id = item.id;
+				$scope.goods_id = null;
+				$scope.$apply();
+			}
+		});
+	</script>
+</body>
+</html>

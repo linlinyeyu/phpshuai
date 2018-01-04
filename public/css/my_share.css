@@ -1,0 +1,37 @@
+.my-share-li {
+  background: #ffffff;
+  padding-right: 10px;
+  border-bottom: 1px solid #dcdcdc;
+}
+.my-share-li-left {
+  display: inline-block;
+}
+.my-share-li-left img {
+  width: 100px;
+}
+.my-share-li-right {
+  display: inline-block;
+  width: 65%;
+  vertical-align: top;
+  padding: 20px 0;
+}
+.my-share-li-right p {
+  font-size: 12px;
+}
+.my-share-li-right-onep {
+  font-size: 14px;
+}
+.my-share-li-right-twop {
+  display: inline-block;
+  margin-top: 27px;
+}
+.my-share-li-right a {
+  display: inline-block;
+  background: #d93a56;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 5px 5px;
+  border-radius: 5px;
+  float: right;
+  margin-top: 25px;
+}

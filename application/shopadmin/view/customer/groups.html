@@ -1,0 +1,40 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('customer/groups')}">等级列表</a></li>
+			<li><a href="{:U('customer/add_group')}?id={:I('id')}">添加等级</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" >
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">ID</th>
+						<th>活动名称</th>
+						<th>升级所需佣金</th>
+						
+						<th width="120">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="groups" id="vo"}
+					<tr>
+						<td>{$vo.group_id}</td>
+						<td>{$vo.name}</td>
+						<td >{$vo.upgrade}</td>
+						<td>
+							<a href="{:U('customer/add_group',array('id'=>$vo['group_id']))}">{:L('EDIT')}</a>
+							{if condition="$vo.group_id gt 3"} 
+							| <a   href="{:U('customer/del_group',array('id'=>$vo['group_id']))}" class="js-ajax-delete">{:L('DELETE')}</a>
+							{/if}
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+		</form>
+	</div>
+</body>
+</html>

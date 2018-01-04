@@ -1,0 +1,56 @@
+{include file="header"}
+</head>
+
+<body  >
+	
+	<div class="header">
+		    <div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title">修改资料</span>
+			</div>
+	</div>
+	<div ng-controller="myctrl" class="container top-container">
+		<div class="changename-first-div">
+			<input placeholder="请输入昵称" ng-model="nickname" type="text" >
+			<img src="__PUBLIC__/wap/image/cancel.png" ng-click="cancel()">
+		</div>
+		<div class="footer">
+		    <div ng-click="submit()" class="footer-btn footer-full-btn " 
+		    ng-class="{true:'footer-primary', false:'footer-disabled'}[is_submit]">
+		    	<span >确认提交</span><!-- #c3c3c3 不能点的颜色 -->
+		    </div>
+		</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter'])
+		app.controller("myctrl",['$scope',function($scope){
+			$scope.cancel = function(){
+				$scope.nickname = "";
+			}
+			$scope.is_submit = false;
+			
+			$scope.$watch("nickname" , function(){
+				$scope.is_submit = !!$scope.nickname;
+			})
+			
+			$scope.submit = function(){
+				if(!$scope.nickname){
+					pinet.toast("请输入昵称");
+					return ;
+				}
+				
+				if($scope.nickname.length > 20){
+					pinet.toast("昵称长度不得大于20个字符");
+					return;
+				}
+				var data = {'access_token':pinet.getCookie("access_token"),'nickname' : $scope.nickname};
+				pinet.post("user/EditName",data,function(){
+					location.replace("{:U('user/personal_inform')}");
+				})
+				
+			}
+			
+		}]);
+	</script>
+</body>
+</html>

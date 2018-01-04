@@ -1,0 +1,124 @@
+{include file="header"}
+
+</head>
+<body   style="background:white">
+	<div class="header">
+		<div class="wrapper">
+			<span class="title">用户登录</span>
+		</div>
+	</div>
+	<div ng-controller="signctrl" ng-cloak class="container top-container">
+		<div class="improve-data-first-div">
+			<div class="improve-data-first-child">
+				<img image-resize width="60px" ng-src="{{customer.image}}">
+				<p style="line-height:22px;" ng-bind-html="customer.nickname | emoji"></p>
+			</div>
+		</div>
+		<div class="improve-data-second-div">
+			<p>完善用户信息</p>
+		</div>
+		<div class="improve-number-div">
+			<div class="login-number-child-div">
+				<div class="login-phone-code-div">
+					<div ng-show="customer.agent_id == 0" class="login-mid-div">
+						<input ng-model="uuids" type="number" placeholder="推荐人ID">
+					</div>
+					<div class="login-mid-div">
+						<input ng-model="phone" type="tel" placeholder="手机号码">
+					</div>
+					<div class="login-mid-div">
+						<input ng-model="realname" placeholder="真实姓名">
+					</div>
+					
+					<div class="login-code-div">
+						<input type="text" ng-model="verify_code" placeholder="验证码">
+						<a ng-click="send()" ng-init="verify_code_text='发送验证码'">{{verify_code_text}}</a>
+					</div>
+				</div>
+			</div>
+			<a ng-click="login()" class="login-bottom" ng-init="is_finish = false" ng-class="{true:'active',false:'negative'}[is_finish]" >确认</a>
+		</div>
+		<div class="improve-data-last-div">
+			<a ng-click="jump()">跳过该步骤，直接进入商城</a>
+		</div>
+		
+	</div>
+	<script>
+	var app = angular.module("myapp",['emoji-filter', 'back-filter','image-resize']);
+	app.controller('signctrl',function($scope, $interval){
+		$scope.customer = {$customer | json_encode};
+	    $scope.signdata={};
+	    $scope.$watch("phone", function(){
+	    	var is_finish = !!( $scope.phone && $scope.verify_code && $scope.realname);
+	    	$scope.is_finish = is_finish;
+	    });
+	    
+	    $scope.$watch("verify_code", function(){
+	    	var is_finish = !!( $scope.phone && $scope.verify_code && $scope.realname);
+	    	$scope.is_finish = is_finish;
+	    });
+	    
+	    $scope.$watch("realname", function(){
+	    	var is_finish = !!( $scope.phone && $scope.verify_code && $scope.realname);
+	    	console.log($scope.uuids);
+	    	$scope.is_finish = is_finish;
+	    })
+	    $scope.send=function(){
+			var phone = $scope.phone;
+			if(!phone){
+				pinet.alert("请输入手机号");
+				return;
+			}
+			if($scope.stop){
+				return;
+			}
+			$scope.time = 60;
+			$scope.stop = $interval(function(){
+				if($scope.time > 0){
+					$scope.time --;
+					$scope.verify_code_text = $scope.time + "秒重发";
+				}else{
+					$scope.verify_code_text = "发送验证码";
+					$interval.cancel($scope.stop);
+					$scope.stop = null;
+				}
+			}, 1000);
+			
+			pinet.post('User/SendCode',{"phone":$scope.phone,"state":0},function(data){
+				pinet.toast(data.message);
+				$scope.$apply();
+			})
+		};
+		
+		$scope.login = function(){
+			var phone = $scope.phone;
+			var verify_code = $scope.verify_code;
+			var uuid = $scope.uuids;
+			var realname = $scope.realname;
+			if(!phone || !verify_code || !realname){
+				return;
+			}
+			if(!uuid){
+				uuid = "";
+			}
+			
+			layer.open({type:2});
+			pinet.post("User/bindphone",{'access_token' : pinet.getCookie("access_token"),
+				"realname" : realname,
+				'phone' : phone , 'verify_code' : verify_code , 'uuid' : uuid}, function(data){
+				layer.closeAll();
+				location.href = "{:U('home/index')}";
+			});
+		}
+	
+		$scope.jump = function(){
+			pinet.setCookie("ignore_improve_" + $scope.customer.customer_id, 1 ,"/", 365 * 24 * 60 * 60 );
+			location.href = "{:U('home/index')}";
+		}
+    
+});
+
+</script>
+	
+</body>
+</html>

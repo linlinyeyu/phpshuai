@@ -1,0 +1,46 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">客户详情</span>
+			    </div>
+	</div>
+	<div ng-controller="ctrl" ng-cloak class="container main-container">
+		<div class="cd-top-info-div">
+			<div class="cd-top-avater">
+				<img image-resize ratio="1" width="80px" avater="1" ng-src="{{c.image}}">
+			</div>
+			<div class="cd-customer-info">
+				<p><span class="cd-nickname" ng-bind-html="c.nickname | emoji"></span><span class="cd-span">{{c.group_name}}</span></p>
+				<p class="cd-phone">{{c.phone}}</p>
+				<p>推荐人：<span class="cd-span" ng-bind-html="c.pname | emoji"></span></p>
+				<p ng-if="c.uuid">会员ID：<span class="cd-span">{{c.uuid}}</span></p>
+			</div>
+		</div>
+		<div class="cd-score-info">
+			<div>
+				<span>累计积分</span>
+				<span>{{c.total_commission | number : 0}}</span>
+			</div>
+			<div>
+				<span>已兑换积分</span>
+				<span>{{c.used_commission | number : 0}}</span>
+			</div>
+			<div>
+				<span>ta的客户</span>
+				<span>{{c.count}}</span>
+			</div>
+		</div>
+	</div>
+	 <script>		
+	 	var app = angular.module("myapp",['back-filter', 'image-resize','emoji-filter']);
+   	  	app.controller('ctrl',["$scope",function($scope){
+   	  		$scope.c = {$customer | json_encode};
+   	  	}]);
+			   	  	
+			   	  	
+	   </script>
+</body>
+</html>

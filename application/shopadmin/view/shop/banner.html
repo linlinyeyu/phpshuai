@@ -1,0 +1,122 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('shop/settings')}">基础设置</a></li>
+			<li class="active"><a href="{:U('shop/banner')}">App轮播图列表</a></li>
+			<li><a href="{:U('shop/addBanner')}">添加App轮播图</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:U('shop/listorders')}">
+			<div class="table-actions">
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit"  data-subcheck="true">排序</button>
+				<a style="float:right" class="btn btn-warning" href="{:U('shop/addBanner')}">添加App轮播图</a>
+			</div>
+			<table style="margin-top:10px;" class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="16"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+						<th width="50">{:L('SORT')}</th>
+						<th width="50">ID</th>
+						<th>轮播图名称</th>
+						<th width="90">点击事件</th>
+						<th>点击关键词</th>
+						<th>横幅图片</th>
+						<th>状态</th>
+						<th width="120">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="banner" id="vo"}
+					<tr>
+						<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.id}"></td>
+						<td><input name='listorders[{$vo.id}]' class="input input-order mr5" type='text' size='3' value='{$vo.img_order}'></td>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td >{$vo.action_name}</td>
+						<td>{$vo.content}</td>
+						<td><img style="width: 100px;height: 50px;" src="{$vo.image}" target="_blank" /></td>
+						<td>
+						  <div class="dropdown">
+				               {if condition="$vo['status']==1 "}
+				                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+									     开启
+									  <span class="caret"></span>
+								   </button>
+				               {else /}
+				                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+									     关闭
+									  <span class="caret"></span>
+								   </button>
+				               {/if}
+				                   <ul class="dropdown-menu" role="menu">
+									  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['id']})">开启</a></li>
+									  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['id']})">关闭</a></li>
+								   </ul>
+				           </div>
+				        </td>
+						<td>
+							<a href="{:U('shop/addBanner',array('id'=>$vo['id']))}">{:L('EDIT')}</a>|
+							<a href="{:U('shop/delBanner',array('id'=>$vo['id']))}" class="js-ajax-delete">{:L('DELETE')}</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+	$('#upfile').change(function(){
+		$.ajaxFileUpload({
+			url: "{:U('banner/file')}",
+			secureuri : false,  
+             fileElementId:'upfile',
+			dataType: 'json',
+			success: function(data, status){
+				console.log(data);
+				alert(data.msg);
+			},
+			error: function(data, status, e){
+				//alert(data);
+			}
+		})
+	})
+	
+	function toggleIsShow(t,v){
+		$.ajax({
+			url: "{:U('shop/is_active')}",
+			type: "POST",   //请求方式
+			dataType: 'json',
+			data: {id:v,active:t},
+			success: function(json)
+			{
+				if(json.status==1){
+					art.dialog({
+						width: '300px',
+						height:'100px',
+						title: '信息提示',
+						content: '操作成功',
+						ok: function () {
+							location.reload();
+						}
+					});
+				}else{
+					art.dialog({
+						width: '300px',
+						height:'100px',
+						title: '信息提示',
+						content: '操作失败',
+						ok: function () {
+						}
+					});
+				}
+			}
+		})
+
+		}
+
+	</script>
+</body>
+</html>

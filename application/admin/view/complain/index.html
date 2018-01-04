@@ -1,0 +1,118 @@
+{include file="header" /}
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+</head>
+<body ng-app="myapp">
+<div class="wrap" ng-controller="myctrl">
+    <ul class="nav nav-tabs">
+        <li class="active" ><a href="{:U('complain/index')}">投诉</a></li>
+    </ul>
+    <form name="form" method="get" class="js-ajax-form form-horizontal" action="{:U('comment/index')}">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">投诉用户:</label>
+                <div class="controls">
+                    <input type="text" name="nickname" value="{:I('get.nickname')}">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">投诉日期:</label>
+                <div class="controls">
+                    <input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('get.min_date')}" >
+                    <label style="float:left;">-</label>
+                    <input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('get.max_date')}" >
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>投诉编号</th>
+                <th>投诉用户</th>
+                <th>投诉标题</th>
+                <th>投诉内容</th>
+                <th>投诉日期</th>
+                <th>投诉回复</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody class="table-tbody">
+            {volist name="complains" id="vo"}
+            <tr>
+                <td >{$vo.id}</td>
+                <td><a href="{:U('customer/detail', array('id' => $vo.customer_id))}">{$vo.nickname}</a></td>
+                <td width="100px">{$vo.title}</td>
+                <td width="250px">{$vo.content}</td>
+                <td>{$vo.date_add | date="Y-m-d H:i:s",###}</td>
+                <td width="150px">{if condition="$vo.reply"}
+                    回复时间：{$vo.date_reply | date="Y-m-d H:i:s ", ###}
+                    <br/>
+                    <pre>{$vo.reply}</pre>
+                    {else}<span style="color:red">暂未回复</span>{/if}</td>
+                <td>
+                    {if condition="!$vo.reply"}
+                    <a onclick="reply({$vo.id})">回复</a> |
+                    {/if}
+                    <a href="{:U('complain/deleted', array('id' => $vo.id))}" class="js-ajax-delete">删除</a>
+
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+    <div class="pagination">{$page}</div>
+</div>
+<script>
+    var app = angular.module("myapp",['autocomplete']);
+    app.controller("myctrl",function($scope){
+        $scope.goods_callback = function(item){
+            $scope.goods_id = item.id;
+            $scope.$apply();
+        }
+        $scope.shop_callback = function(item){
+            $scope.seller_id = item.id;
+            $scope.$apply();
+        }
+    });
+
+    $(function() {
+        $( "#min_date" ).datetimepicker();
+        $( "#max_date").datetimepicker();
+    });
+
+
+    function reply(id){
+        var dialog=art.dialog({
+            id:"shake-deom",
+            title:'请输入回复内容',
+            content:'<textarea style="width:300px;height:200px;" name="reply"></textarea>',
+            cancel:'取消',
+            ok: function()
+            {
+                $.ajax({
+                    url: "{:U('complain/reply')}",
+                    type : 'post',
+                    dataType: 'json',
+                    data: 'id='+id + "&reply=" + $("textarea[name=reply]").val(),
+                    success: function(json){
+                        alert(json.msg);
+                        if(json.code == 1){
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{include file="header" /} 
+<script type="text/javascript">
+var app = angular.module('myapp', ['uploadimg', 'autocomplete']);
+</script>
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('activity/index')}">活动列表</a></li>
+			<li class="active"><a href="{:U('activity/add')}">添加活动</a></li>
+		</ul>
+		<form  class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">活动名称</label>
+					<div class="controls">
+						<input value="{$activity.name}" type="text" name="name" />
+						<span class="form-required">*</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">活动图片</label>
+					<div class="controls">
+						<uploadimg cate="activity" image-url="{$activity.image}"  width="750" height="380"></uploadimg>
+					</div>
+				</div>
+				{include file="action"}
+				
+				<div class="control-group">
+					<label class="control-label">排序</label>
+					<div class="controls">
+						<input value="{$activity.sort}" type="text" name="sort"/>
+					</div>
+				</div>
+				
+				
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="id" value="{:I('get.id')}">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+	</div>
+	
+
+</body>
+</html>

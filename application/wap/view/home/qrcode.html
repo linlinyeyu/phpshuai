@@ -1,0 +1,23 @@
+{include file="header" /} 
+<style>
+
+
+</style>
+</head>
+<body >
+	<div class="header">
+		<div class="wrapper">
+			<span class="back" on-back-render-filters></span>
+			<span class="title">我的二维码</span>
+		</div>
+	</div>
+	<div class="container top-container">
+		<img src="{$qrcode}" style="width:100%;" /> 
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+		
+	</script>
+</body>
+{include file="base_footer"}
+</html>

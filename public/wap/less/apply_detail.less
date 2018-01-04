@@ -1,0 +1,116 @@
+.ar-service-phone{
+	padding:8px 12px;
+	overflow:hidden;
+	>.ar-service-left{
+		float:left;
+		font-size:12px;
+		line-height:20px;
+		color:@gray;
+		.ar-service-phone-number{
+			color:@money;
+		}
+	}
+	>.ar-service-btn{
+		display:inline-block;
+		float:right;
+		font-size:12px;
+		background-color:@primary-color;
+		color:@white;
+		margin-top:5px;
+		padding:10px 15px;
+		border-radius:3px;
+	}
+}
+
+.ar-first-div{
+	clear:both;
+    background:@white;
+    >div{
+    	position:relative;
+    	font-size:14px;
+    	padding:15px;
+    	border-top:1px solid @border;
+	    >div:first-child{
+	    	font-size:14px;
+	    	float:left;
+			display:block;
+			width:90px;
+			line-height:25px;
+	    }
+	    >div:last-child{
+	    	overflow:hidden;
+	    	width:auto;
+	    	>input{
+	    		padding:0;
+	    		margin:0;
+	    		line-height:25px;
+	    		height:25px;
+	    		font-size:14px;
+		    	display:block;
+		    	border:none;
+	    		overflow:hidden;
+	    		width:100%;
+	            outline:none;
+	            appearance:none;
+	            -moz-appearance:none;
+	            -webkit-appearance:none;
+	    	}
+	    	
+	    }
+    }
+    
+    >.ar-first-reason{
+        >div:last-child>select{
+            border:none;
+            font-size:14px;
+            overflow:hidden;
+            outline:none;
+            width:100%;
+            color:#999;
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance:none;
+            padding-right:25px;
+            background:url(../image/xia.png) no-repeat right center;
+            background-size: 25px 25px;
+        }
+    }
+    
+}
+.ar-second-div{
+    background:@white;
+    margin-top:10px;
+    >.ar-order-detail{
+        border-bottom:1px solid @border;
+        line-height:18px;
+        padding-bottom:10px;
+        >.ar-order-detail-first{
+            padding:5px 15px 0 15px;
+            font-size:12px;
+            color:@word;
+            margin-top:5px;
+            >.ar-right-span{
+                float:right
+            }
+        }
+        >.ar-order-detail-other{
+            padding:5px 15px 0 15px;
+            font-size:12px;
+            color:@word;
+            >.ar-right-span{
+                    float:right
+                }
+            }
+    }
+    >.ar-real-buy{
+        height:35px;
+        font-size:14px;
+        padding:10px 15px 10px 15px;
+        >.ar-real-money{
+            float:right;
+            color:@money;
+            font-size:16px;
+            font-weight:bold
+        }
+    }
+}

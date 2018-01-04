@@ -1,0 +1,25 @@
+<ul class="footer">
+              <li class="home-bottom-icon {if condition="CONTROLLER_NAME eq 'home' and ACTION_NAME eq 'index' " }active {/if}" >
+                <a href="{:U('home/index')}">首页</a>
+              </li>
+              <li style="position:relative;" class="cart-bottom-icon {if condition="CONTROLLER_NAME eq 'user' and ACTION_NAME eq 'cart' " }active {/if}">
+                <div class="cart-goods-number" style="width:18px;height:18px;position:absolute;right:21%;top:2px;text-align:center;color:#008dff;background-color:#008dff;border-radius:50%;-moz-border-radius:50%;-webkit-border-radius:50%;display:none;">
+              		<span style="color: white;font-size:9px;line-height:16px;">0</span>
+              	</div>
+                <a href="{:U('user/cart')}">购物车</a>
+              </li>
+              <li class="my-bottom-icon {if condition="CONTROLLER_NAME eq 'user' and ACTION_NAME eq 'mine' " }active {/if}">
+                <a href="{:U('user/mine')}">个人中心</a>
+              </li>
+            
+</ul>
+<script>
+	var goods_number = "{$goods_number}";
+	if($(".cart-goods-number").length && goods_number > 0){
+	 	$(".cart-goods-number span").html(goods_number);
+	 	$(".cart-goods-number").css("display","block");
+ }
+</script>
+
+
+{include file="base_footer"}

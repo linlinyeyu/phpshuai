@@ -1,0 +1,139 @@
+{include file="header"}
+<link rel="stylesheet" href="__PUBLIC__/wap/css/LCalendar.css?123">
+</head>
+<body ng-controller="myctrl" ng-cloak>
+	<div class="header">
+  	  <div class="wrapper">
+  	  	<span class="back" on-back-render-filters></span>
+  	  	<span class="title">修改资料</span>
+  	  </div>
+    </div>
+	<div class="container top-container">
+		<div class="perinfo-margin-div" onclick="choose()">
+			<span class="perinfo-margin-span">头像</span>
+			<img src="__PUBLIC__/wap/image/right-jiantou.png" class="perinfo-rightjiantou">
+			<img image-resize ratio="1" width="36px" avater="1" ng-src="{{customer.avater}}" class="perinfo-avater">
+		</div>
+		<a href="{:U('user/changename')}" class="perinfo-item-div">
+			<span class="perinfo-item-span">姓名</span>
+			<img src="__PUBLIC__/wap/image/right-jiantou.png" class="perinfo-item-rightjiantou">
+			<span class="perinfo-item-detail-span" ng-bind-html="customer.nickname | emoji"></span>
+		</a>
+		<div class="perinfo-item-div" ng-click="sex_pop = true">
+			<span class="perinfo-item-span">性别</span>
+			<img src="__PUBLIC__/wap/image/right-jiantou.png" class="perinfo-item-rightjiantou">
+			<span class="perinfo-item-detail-span">{{customer.sex}}</span>
+		</div>
+		<div ng-if="customer.agent_id > 0 || customer.phone" class="perinfo-item-div" ng-click="changephone()">
+			<span class="perinfo-item-span">手机号码</span>
+			<img src="__PUBLIC__/wap/image/right-jiantou.png" class="perinfo-item-rightjiantou">
+			<span class="perinfo-item-detail-span">{{customer.phone}}</span>
+		</div>
+		<div class="perinfo-margin-div" id="demo1">
+			<span class="perinfo-margin-span">生日</span>
+			<img src="__PUBLIC__/wap/image/right-jiantou.png" class="perinfo-rightjiantou">
+			<span class="perinfo-margin-detail"><span ng-if="customer.birthday > 0">{{customer.birthday * 1000 | date:'yyyy-MM-dd'}}</span> </span>
+		</div>
+		<a href="{:U('user/changeaddress')}" class="perinfo-margin-div" >
+			<span class="perinfo-margin-span">所在城市</span>
+			<img src="__PUBLIC__/wap/image/right-jiantou.png" class="perinfo-rightjiantou">
+			<span class="perinfo-margin-detail">{{customer.city}}</span>
+		</a>
+		<div class="perinfo-exit-div">
+			<p class="perinfo-exit-p" ng-click="quit()">退出当前账号</p>
+		</div>
+	</div>
+		<div class="modal modal-bottom ng-hide" ng-show="sex_pop"  >
+			<div class="modal-dialog" id="pop-dialog" style="bottom:-100%">
+				<div class="modal-content" >
+					<div class="modal-close" ng-click="sex_pop = false" ></div>
+					<div class="modal-body">
+						<div class="perinfo-change-sex">
+							<div>
+								<a ng-click="changesex(1)">男</a>
+								<a ng-click="changesex(2)">女</a>
+							</div>
+							<a ng-click="sex_pop = false;">取消</a>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="file" id="file" name="file" style="display:none"  accept="image/*" onchange="upload();">
+	<script src="__PUBLIC__/wap/js/LCalendar.js?1"></script>
+	<script src="__PUBLIC__/common/js/ajaxfileupload.js"></script>
+	<script>
+		
+	</script>
+	<script>
+		var app = angular.module("myapp",['image-resize','back-filter', 'emoji-filter']);
+		app.controller('myctrl',['$scope',function($scope){
+			$scope.customer = {$customer | json_encode};
+			
+			var calendar = new LCalendar();
+			calendar.init({
+			    'trigger': '#demo1',//标签id
+			    'type': 'date',
+			    'callback' : function(date){
+			    	var data = {'access_token' : pinet.getCookie("access_token"),'date' : date};
+			    	pinet.post('user/changebirthday',data , function(data){
+			    		pinet.toast("修改成功");
+						$scope.customer.birthday = data.content;
+						$scope.$apply();
+			    	});
+			    },
+			    'initTime' : $scope.customer.birthday * 1000
+			});
+			
+			
+			
+			$scope.changephone=function(){
+				if($scope.customer.phone){
+					location.href="{:U('User/changephone')}";
+				}else{
+					location.href="{:U('User/changephone_2')}";
+				}
+			}
+			$scope.changesex=function(type){
+				pinet.post("User/changesex",{"type":type,"access_token":pinet.getCookie("access_token")},function(data){
+					pinet.toast(data.message);
+					$scope.sex_pop = false;
+					$scope.customer.sex = data.content;
+					$scope.$apply();
+				})
+			}
+			$scope.cancel=function(){
+				$("#pop").hide();
+			}
+			$scope.quit = function(){
+				pinet.removeCookie("access_token","/");
+				pinet.setCookie("force_logout", "1", "/");
+				location.href="{:U('home/index')}";
+			}
+		}]);
+		
+		function choose(){
+			$("#file").click();
+		}
+		
+		function upload(){
+			layer.open({'type':2});
+			$.ajaxFileUpload({
+				url: window.HOST + '/User/UploadAvater',            //需要链接到服务器地址
+                secureuri:false,
+                fileElementId:["file"],                        //文件选择框的id属性
+               	data:{access_token:pinet.getCookie('access_token')},                            
+                success: function (data) 
+                {
+                	layer.closeAll();
+                	pinet.alert("上传成功", function(){
+                		location.reload();
+                	})
+                },
+            });
+		}
+
+	</script>
+</body>
+{include file="base_footer"}
+</html>

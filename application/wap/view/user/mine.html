@@ -1,0 +1,114 @@
+{include file="header"}
+</head>
+<body class="ng-cloak" ng-cloak ng-controller="myctrl">
+	<div class="header">
+  	  <div class="wrapper">
+  	  	<span class="back" on-back-render-filters></span>
+  	  	<span class="title">个人中心</span>
+  	  	<img ng-click="jump()" src="__PUBLIC__/wap/image/setting.png" class="header-btn right-btn" style="width:20px;height:20px;margin-top:3px">
+  	  </div>
+    </div>
+    <div class="container main-container" >
+    	<div class="mine-top-avater-div">
+    		<div class="mine-top-my-avater">
+    			<img image-resize ratio="1" avater="1" width="80px" ng-src="{{customer.avater}}"  class="mine-my-avater-img">
+    		</div>
+    		<div class="mine-top-my-info" style="overflow:visible;">
+    			<p class="mine-top-nickname-p" ng-bind-html="customer.nickname | emoji"></p>
+    			<a style="display:block;" href="{:U('user/member_rank')}" class="mine-top-info-p">{{customer.group_name}}</a>
+    			<p class="mine-top-info-p">推荐人：<span ng-bind-html="customer.pname | emoji"></span></p>
+    			<p class="mine-top-info-p" style="overflow:visible;" ng-if="customer.group_id >= 3">会员ID:{{customer.uuid}}</p>
+    		</div>
+    		<div class="mine-top-my-score">
+    			<a href="{:U('user/personal_inform')}" class="mine-top-score-edit">
+    				<span>编辑个人信息</span>
+    			</a>
+    			<div class="mine-top-today-score">
+    				<p class="mine-top-today-p">今日积分</p>
+    				<p class="mine-top-today-number">{{customer.totay_commission | number : 0}}</p>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="mine-add-score-div">
+    		<div class="mine-add-score-item">
+    			<a href="{:U('commission/my_score')}" class="mine-add-score-first">
+	    			<p class="mine-add-score-p">累计积分</p>
+	    			<p class="mine-add-score-number">{{customer.commission | number : 0}}</p>
+    			</a>
+    			<a href="{:U('user/ranklist')}" class="mine-add-score-second">
+    				<span class="mine-see-rank-span">积分排行榜</span>
+    				<!-- <img src="__PUBLIC__/wap/image/right-jiantou.png"> -->
+    			</a>
+    		</div>
+    		
+    	</div>
+    	<div class="row-container">
+				<div class="row row-bordered" style="margin-top:10px;margin-bottom:10px">
+					<a class="row-content href" href="{:U('order/my_order')}">
+						<span class="row-icon row-left">
+							<img src="__PUBLIC__/wap/image/mine-first.png" />
+						</span>
+						<span class="row-left row-text">我的订单</span>
+						<span class="row-right row-arrow" ></span>
+					</a>
+				</div>
+				<div class="row row-bordered">
+					<a class="row-content href" href="{:U('user/my_customer')}">
+						<span class="row-icon row-left">
+							<img src="__PUBLIC__/wap/image/mine-second.png" />
+						</span>
+						<span class="row-left row-text">我的客户</span>
+						<span class="row-right row-arrow" ></span>
+					</a>
+				</div>
+				<div class="row row-bordered" style="margin-bottom:10px">
+					<a class="row-content href" href="{:U('user/goal_customer')}">
+						<span class="row-icon row-left">
+							<img src="__PUBLIC__/wap/image/mine-third.png" />
+						</span>
+						<span class="row-left row-text">目标客户</span>
+						<span class="row-right row-arrow" ></span>
+					</a>
+				</div>
+				<div  class="row row-bordered" style="margin-bottom:10px">
+					<a class="row-content href" ng-click="qrcode()">
+						<span class="row-icon row-left">
+							<img src="__PUBLIC__/wap/image/mine-code.png" />
+						</span>
+						<span class="row-left row-text">我的二维码</span>
+						<span class="row-right row-arrow" ></span>
+					</a>
+				</div>
+				<div class="row row-bordered">
+					<a class="row-content href" href="{:U('address/getalladdress')}">
+						<span class="row-icon row-left">
+							<img src="__PUBLIC__/wap/image/mine-addr.png"/>
+						</span>
+						<span class="row-left row-text">地址管理</span>
+						<span class="row-right row-arrow" ></span>
+					</a>
+				</div>
+		</div>
+    </div>
+	
+	{include file="footer"}
+	
+	<script>
+		var app = angular.module("myapp",['image-resize','back-filter','emoji-filter']);
+		app.controller('myctrl',function($scope){
+			$scope.customer = {$customer | json_encode};
+			$scope.jump = function(){
+				window.location.href="{:U('user/settings')}";
+			}
+			$scope.qrcode = function(){
+				if($scope.customer.group_id >= 3){
+					location.href="{:U('user/qrcode')}";
+				}else{
+					pinet.alert("成为销售员后方可拥有专属二维码");
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>

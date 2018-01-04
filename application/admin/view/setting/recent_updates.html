@@ -1,0 +1,33 @@
+{include file="header" /} 
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('setting/recent_updates')}">最新发布</a></li>
+		<li><a href="{:U('setting/recent_updates_edit')}">发布公告</a></li>
+	</ul>
+	<div ng-app="myapp">
+		<ul style="list-style:none;margin-top:30px;">
+			{if condition="count($updates) gt 0"}
+			{volist name="updates" id="vo"}
+			<li>
+				<div style='height:40px;'>
+				<span style="color:#2dea40;">{if condition="$vo.type eq 1"}更新{elseif condition="$vo.type eq 2"}上线{/if}</span>
+				<span style="margin-left:10px;">{$vo.title}</span>
+				<span style="margin-left:400px;"><a href="{:U('recent_updates_edit',array('update_id' => $vo.update_id))}">编辑</a></span>
+				<span><a href="{:U('recent_updates_delete',array('update_id' => $vo.update_id))}">删除</a></span>
+				</div>
+			</li>
+			{/volist}
+			{/if}
+		</ul>
+	</div>
+	<div class="pagination">{$page}</div>
+	</div>
+	
+	<script>
+		var app = angular.module("myapp",[]);
+	</script>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/register_money')}">注册返现</a></li>
+			<!-- <li ><a href="{:U('coupon/pay_coupon')}">充值红包</a></li> -->
+		</ul>
+		<form ng-controller="myCtrl" method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">是否开启</label>
+					<div class="controls">
+						<input type="radio" name="is_open" {if condition="$money.is_open eq 0" }checked{/if} value="0" /> 关闭
+						<input type="radio" name="is_open" {if condition="$money.is_open eq 1" }checked{/if} value="1"/> 开启
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">赠送金额金额</label>
+					<div class="controls">
+						<input name="money" value="{$money.money}"  />单位：元，如填5元，则表示注册赠送5元夺宝币
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

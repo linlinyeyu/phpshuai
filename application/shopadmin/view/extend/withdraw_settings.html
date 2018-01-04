@@ -1,0 +1,75 @@
+{include file="header" /} 
+</head>
+<body ng-app="myapp">
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li ><a href="{:U('extend/settings')}">分销设置</a></li>
+			<li  class="active"><a href="{:U('extend/withdraw_settings')}">提现设置</a></li>
+		</ul>
+		<form ng-controller="ctrl" class="form-horizontal js-ajax-form"  method="post">
+			<fieldset>
+				<input type="hidden" name="id">
+				<div class="control-group">
+					<label class="control-label">提现开启</label>
+					<div class="controls">
+						<label class="radio-inline" >
+							<input type="radio" ng-model="s.is_open" name="is_open" value="0" >关闭
+						</label>
+						
+						<label class="radio-inline" >
+							<input type="radio" ng-model="s.is_open" name="is_open" value="1">开启
+						</label>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">微信提现</label>
+					<div class="controls">
+						<label class="radio-inline" >
+							<input type="radio" ng-model="s.weixin" name="weixin" value="0" >关闭
+						</label>
+						
+						<label class="radio-inline" >
+							<input type="radio" ng-model="s.weixin" name="weixin" value="1">开启
+						</label>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">最低提现金额</label>
+					<div class="controls">
+						<input type="text" ng-model="s.min_withdraw" >
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">最低审核金额</label>
+					<div class="controls">
+						<input type="text" ng-model="s.min_audit" >用户一次性提现金额大于此值时，需人工审核
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">提现间隔时间</label>
+					<div class="controls">
+						<input type="text" ng-model="s.min_date" >（天）用户获取分佣后N天后方可进行提现操作
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="settings" value="{{s | json}}" >
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+			</div>
+		</form>
+		
+		<script>
+			var app = angular.module("myapp",[]);
+			app.controller("ctrl", ['$scope', function($scope){
+				$scope.s = {$settings | json_encode};
+				console.log($scope.s);
+			}])
+		</script>
+	</div>
+</body>
+</html>

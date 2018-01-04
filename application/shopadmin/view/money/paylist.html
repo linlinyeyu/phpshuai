@@ -1,0 +1,53 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('keywords/index')}">关键词列表</a></li>
+			<li><a href="{:U('keywords/add')}">添加关键词</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:U('keywords/listorders')}">
+			<div class="table-actions">
+			<!--	<button class="btn btn-primary btn-small js-ajax-submit" type="submit">{:L('SORT')}</button>
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('keywords/toggle',array('display'=>1))}" data-subcheck="true">{:L('DISPLAY')}</button>
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('keywords/toggle',array('hide'=>1))}" data-subcheck="true">{:L('HIDE')}</button>-->
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="16"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+						<th width="50">{:L('SORT')}</th>
+						<th width="50">ID</th>
+						<th>关键词</th>
+						<th width="45">类型</th>
+						<th>添加时间</th>
+						<th width="120">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="keywords" id="vo"}
+					<tr>
+						<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.key_id}"></td>
+						<td><input name='listorders[{$vo.key_id}]' class="input input-order mr5" type='text' size='3' value='{$vo.sort}'></td>
+						<td>{$vo.key_id}</td>
+						<td>{$vo.key_name}</td>
+						<td>{if condition="$vo.type eq 0 "}热门{else}未知{/if}</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('keywords/edit',array('id'=>$vo['key_id']))}">{:L('EDIT')}</a>|
+							<a href="{:U('keywords/del',array('id'=>$vo['key_id']))}" class="js-ajax-delete">{:L('DELETE')}</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="table-actions">
+			<!--	<button class="btn btn-primary btn-small js-ajax-submit" type="submit">{:L('SORT')}</button>
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('keywords/toggle',array('display'=>1))}" data-subcheck="true">{:L('DISPLAY')}</button>
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('keywords/toggle',array('hide'=>1))}" data-subcheck="true">{:L('HIDE')}</button>-->
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

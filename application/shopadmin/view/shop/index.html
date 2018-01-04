@@ -1,0 +1,32 @@
+{include file="header" /} 
+<style>
+li{
+	list-style:none;
+	margin-bottom:30px;
+}
+em{
+	margin-right:30px;
+	font-weight:bold;
+}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<form method="post" class="js-ajax-form">
+			<ul>
+				<li><em>ID:</em> <span>{$shop.seller_id}</span></li>
+				<li><em>店铺名称:</em> <span>{$shop.shop_name}</span></li>
+				<li><em>类型:</em> <span>{if condition="$shop.type eq 1"}普通店铺{elseif condition="$shop.type eq 2"}旗舰店{else}自营{/if}</span></li>
+				<li><em>店铺logo:</em> <span><img style="width:100px;height:100px;" src="{$shop.shop_logo}" target="_blank"/></span></li>
+				<li><em>店铺头部:</em> <span><img style="width: 1250px;height: 150px;" src="{$shop.shop_header}" target="_blank" /></span></li>
+				<li><em>店铺地址:</em> <span>{$shop.shop_address}</span></li>
+				<li><em>百城申请:</em> <span>{if condition="$shop.baicheng_apply eq '0'"}未申请{elseif condition="$shop.baicheng_apply eq 1"}待审核{elseif condition="$shop.baicheng_apply eq 2"}已通过{else}已拒绝{/if}</span></li>
+				<li><em>是否百城店铺:</em> <span>{if condition="$shop.is_baicheng eq 1"}是{else}否{/if}</span></li>
+				<li><em>是否优秀店铺:</em> <span>{if condition="$shop.is_youxiu eq 1"}是{else}否{/if}</span></li>
+				{if condition="$shop.baicheng_apply eq '0'"}<li><a href="{:U('shop/baichengApply')}">申请百城万店</a></li>{/if}
+			</ul>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+</body>
+</html>

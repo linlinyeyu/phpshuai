@@ -1,0 +1,23 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/withdraw_fee')}">提现手续费设置</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">手续费比例：</label>
+					<div class="controls">
+						<input type="text" name="withdraw_fee" value="{$withdraw_fee}" style="outline:none">%
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">确定</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

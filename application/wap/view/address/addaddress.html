@@ -1,0 +1,163 @@
+{include file="header"}
+<link href="__PUBLIC__/wap/css/LArea.min.css?123" rel="stylesheet">
+</head>
+<body ng-app="myapp">
+	<div class="header" >
+    	<div class="wrapper">
+    		<span class="back" on-back-render-filters></span>
+	     	<span class="title">添加收货地址</span>
+	    </div>
+	</div>
+	<div ng-cloak ng-controller="ctrl" class="container top-container">
+		<form  class="ed-address-form" style="margin-top:10px">
+			<div class="ed-address-form-div">
+				<span class="ed-address-left" style="width:56px;text-align:center">收 货 人</span>
+				<div class="ed-address-pro">
+				<input   type="text" class="name" placeholder="请输入姓名" id="name" value="{$address.name}"/>
+				</div>
+			</div>
+			<div class="ed-address-form-div">
+				<span class="ed-address-left">手机号码</span>
+				<div class="ed-address-pro">
+				<input  type="tel" id="phone" class="phone" placeholder="请输入手机号码" value="{$address.phone}" />
+				</div>
+			</div>
+	
+			<div class="ed-address-form-div">
+				<span class="ed-address-left">所在地区</span>
+				<div class="ed-address-pro right">
+					<input readonly="readonly" ng-model="province" id="Area" type="text" placeholder="省/市/区">
+				</div>
+			</div>
+			<div class="ed-address-form-div" style="margin-bottom:-3px">
+				<span class="ed-address-left">详细地址</span>
+				<div class="ed-address-pro ed-address-right">
+					<input id="address" type="text" class="address" value="{$address.address}" placeholder="门牌号/楼层号等详细地址"/>
+				</div>
+			</div>
+			<div class="ed-background-div">
+			</div>
+			<div  class="ed-set-default-div">
+				<div class="ed-set-second-div">
+					<img ng-click="change_status()" ng-if="address.status != 1" src="__PUBLIC__/wap/image/nodefault.png">
+					<img ng-click="change_status()" ng-if="address.status == 1" src="__PUBLIC__/wap/image/default.png"> 
+					<span ng-click="change_status()">设为默认地址</span>
+				</div>
+			</div>
+		</form>
+		<div  class="footer">
+		    <div class="footer-btn footer-primary footer-full-btn" ng-click="save()" >
+		    	保存
+		    </div>
+		</div>
+	</div>
+	<script src="__PUBLIC__/wap/js/LArea.js"></script>
+	<script src="__PUBLIC__/wap/js/LAreaData.js?165"></script>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+		app.controller("ctrl", ['$scope', function($scope){
+			$scope.address = {$address | json_encode};
+			$scope.change_status = function(){
+				var stat = (!($scope.address.status == 1)) ? 1 : 0;
+				$scope.address.status = stat;
+			}
+			var area1 = new LArea();
+			area1.init({
+				'trigger' : "#Area",
+				'keys':{
+					id:'id',
+					name : 'name'
+				},
+				'type' : 1,
+				'data' :LAreaData,
+				'callback' : function(data){
+					$scope.address.province = data[0];
+					$scope.address.city = data[1];
+					$scope.address.district = data[2];
+					$scope.$apply();
+				}
+			});
+			
+			$scope.province = "";
+			if($scope.address.province_id > 0){
+				var data = [0,0,0];
+				for(var i in LAreaData){
+					if(LAreaData[i]['name'] == $scope.address.province){
+						data[0] = i;
+						var city = LAreaData[i]['child'];
+						for(var j in city){
+							if(city[j]['name'] == $scope.address.city){
+								data[1] = j;
+								var district = city[j]['child'];
+								for(var k in district){
+									if(district[k]['name'] == $scope.address.district){
+										data[2] = k;
+										break;
+									}
+								}
+								break;
+							}
+							
+							break;
+						}
+						break;	
+					}
+				}
+				area1.value = data;
+				var address = $scope.address;
+				$scope.province = address.province + "," + address.city + "," + address.district ;
+			}
+			
+			$scope.save = function(){
+				var name = $("#name").val();
+				
+				if(!name){
+					pinet.toast("请输入收货人");
+					return;
+				}
+				
+				var phone = $("#phone").val();
+				
+				if(!phone){
+					pinet.toast("请输入电话");
+					return;
+				}
+				
+				if(!$scope.address.province){
+					pinet.toast("请选择省市区");
+					return;
+				}
+				
+				var address = $("#address").val();
+				if(!address){
+					pinet.toast("请输入详细地址");
+					return;
+				}
+				
+				var data = 
+				{
+					province: $scope.address.province,
+					city : $scope.address.city,
+					district : $scope.address.district,
+					address_id : $scope.address.address_id,
+					address : address,
+					access_token : pinet.getCookie("access_token"),
+					name : name,
+					phone : phone,
+					status : $scope.address.status
+				};
+				layer.open({type:2});
+				pinet.post("/address/saveAddress", 
+						data, function(data){
+					layer.closeAll();
+					history.go(-1);
+				});
+			}
+		}]);
+	</script>
+	
+	<script>
+		
+	</script>
+</body>
+</html>

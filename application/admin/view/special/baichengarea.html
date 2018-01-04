@@ -1,0 +1,121 @@
+{include file="header" /} 
+<style>
+.control-group{
+float:left;
+}
+</style>
+</head>
+
+<body ng-app="myapp">
+	<div class="wrap" ng-controller="myctrl">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('special/index',['special_id' => $special_id])}">专题列表</a></li>
+			<li><a href="{:U('special/add',['special_id' => $special_id])}">添加专题图片</a></li>
+			{if condition="!in_array($special_id,[1,7,8])"}
+			<li><a href="{:U('special/goods',['special_id' => $special_id])}">专题商品列表</a></li>
+			<li><a href="{:U('special/goodsAdd',['special_id' => $special_id])}">添加专题商品</a></li>
+			{/if}
+			{if condition="$special_id eq 5"}
+			<li><a href="{:U('special/shop',['special_id' => $special_id])}">优选店铺列表</a></li>
+			<li><a href="{:U('special/shopAdd',['special_id' => $special_id])}">添加优选店铺</a></li>
+			{/if}
+			{if condition="$special_id eq 7"}
+			<li><a href="{:U('special/baicheng',['special_id' => $special_id])}">百城店铺列表</a></li>
+			<li class="active"><a href="{:U('special/baichengArea',['special_id' => $special_id])}">区域地区馆</a></li> 
+			{/if}
+		</ul>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>地区id</th>
+						<th width="300">地区名称</th>
+						<th>区域图片</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{if condition="count($area) gt 0"}
+					{volist name="area" id="vo"}
+					<tr>
+						<td>{$vo.area_id}</td>
+						<td>{$vo.area_name}</td>
+						<td><img style="wdith:40px;height:40px;" src="{:C('img_url')}{$vo.image}" /></td>
+						<td>
+						<div class="dropdown">
+		               {if condition="$vo['status']==0 "}
+		                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+							     隐藏
+							  <span class="caret"></span>
+						   </button>
+		               {else /}
+		                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+							     显示
+							  <span class="caret"></span>
+						   </button>
+		               {/if}
+		                   <ul class="dropdown-menu" role="menu">
+							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['area_id']},{$special_id})">显示</a></li>
+							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['area_id']},{$special_id})">隐藏</a></li>
+						   </ul>
+		               </div>
+		               </td>
+						<td>
+						<a href="{:U('special/areaEdit',array('area_id' => $vo.area_id,'special_id' => $special_id))}">编辑</a>
+						</td>
+					</tr>
+					{/volist}
+					{/if}
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<script>
+		var app = angular.module("myapp",["autocomplete"]);
+		app.controller("myctrl",function($scope){
+			$scope.shop_callback = function(item){
+				$scope.seller_id = item.id;
+				$scope.$apply();
+			}
+		});
+		
+		function toggleIsShow(t,v,special_id){
+			$.ajax({
+				url: "{:U('special/areaActive')}",
+				type: "POST",   //请求方式
+				dataType: 'json',
+				data: {id:v,active:t,special_id:special_id},
+				success: function(json)
+				{
+					if(json.status==1){
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作成功',
+							ok: function () {
+								location.reload();
+							}
+						});
+					}else{
+						art.dialog({
+							width: '300px',
+							height:'100px',
+							title: '信息提示',
+							content: '操作失败',
+							ok: function () {
+							}
+						});
+					}
+				}
+			})
+
+   		}
+	$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	</script>
+</body>
+</html>

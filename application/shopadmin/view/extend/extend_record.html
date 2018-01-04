@@ -1,0 +1,154 @@
+{include file="header" /} 
+
+<style>
+.control-group{
+float:left;
+}
+.ui-datepicker{width:308px;}
+
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active" ><a href="{:U('extend/extend_record',array('customer_id' => I('customer_id'),'goods_id' => I('goods_id'),'ta_customer_id' => I('ta_customer_id') , 'withdraw_id' => I('withdraw_id')))}">分销记录</a></li>
+		</ul>
+		
+		<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">{$desc}</p>
+		{if condition="I('goods_id') gt 0 and I('customer_id') gt 0"}
+		<div  class="panel panel-default">
+			<div class="panel-heading">{$goods.name}</div>
+			<div class="panel-body">
+				<table class="table table-bordered">
+					<tr>
+						<td>总佣金</td>
+						<td colspan="5">{$goods.total}</td>
+					</tr>
+					<tr>
+						<td>可提现佣金</td>
+						<td>{$goods.available}</td>
+						<td>结算期佣金</td>
+						<td>{$goods.balance}</td>
+						<td>已使用佣金</td>
+						<td>{$goods.used}</td>
+					</tr>
+					
+				</table>
+			</div>
+		</div>
+		{/if}
+		
+		{if condition="count($orders) > 0"}
+		<div  class="panel panel-default">
+			<div class="panel-heading">此次提现对应订单（新系统只记录2016-10-28之后的下单信息，旧订单不予显示）</div>
+			<div class="panel-body">
+				<table class="table table-bordered">
+					<tr>
+						<th>订单号</th>
+						<th>分销人员</th>
+						<th>分销商品</th>
+						<th>佣金（层级）</th>
+						<th>日期</th>
+					</tr>
+					{volist name="orders" id="vo"}
+					<tr>
+						<td><a href="{:U('orders/details',['number'=>$vo.order_sn])}">{$vo.order_sn}</a></td>
+						<td><img src="{$vo.avater}" width="40" height = "40" /><a href="{:U('customer/detail',['id' => $vo.customer_id])}">{$vo.nickname}</a></td>
+						<td>{$vo.goods_name}</td>
+						<td>{$vo.commission} ({$vo.level}级)</td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s', ###}</td>
+					</tr>
+					{/volist}
+					
+					
+				</table>
+			</div>
+		</div>
+		{/if}
+		<form  method="get" class="form-horizontal" >
+			 <div class="control-group">
+					<label class="control-label">用户昵称：</label>
+					<div class="controls">
+						<input type="text" name="name" value="{:I('get.name')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">用户编号：</label>
+					<div class="controls">
+						<input type="text" name="uuid" value="{:I('get.uuid')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">用户手机：</label>
+					<div class="controls">
+						<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">层级：</label>
+					<div class="controls">
+						<select name="level">
+							<option value="0" {if condition="I('level') eq 0"}selected{/if}>全部</option>
+							<option value="1" {if condition="I('level') eq 1"}selected{/if}>一级</option>
+							<option value="2" {if condition="I('level') eq 2"}selected{/if}>二级</option>
+							<option value="3" {if condition="I('level') eq 3"}selected{/if}>三级</option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">记录日期:</label>
+					<div class="controls">
+						<input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+						<label style="float:left;">-</label>
+						<input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+					</div>	
+				</div>
+				
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+					</div>
+				</div>
+		</form>
+		
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>昵称</th>
+						<th with="150px">商品</th>
+						<th>订单号</th>
+						<th>获得佣金(层级)</th>
+						<th>分销日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="$records" id="vo"}
+					<tr>
+						<td>{$vo['uuid']}</td>
+						<td><img width="40" height="40" src="{$vo.avater}" /><a href="{:U('customer/detail',['id' => $vo.customer_id])}">{$vo['nickname']?$vo['nickname']:L('NOT_FILLED')}</a></td>
+						<td><a href="{:U('goods/edit', array('goods_id' => $vo['goods_id']))}">{$vo['goods_name']}</a></td>
+						<td><a href="{:U('orders/details', array('number' => $vo['order_sn']))}">{$vo['order_sn']}</a></td>
+						<td>{$vo.commission}（{$vo['level']}级）</td>
+						<td>{$vo.date_add | date='Y-m-d H:i:s',###}</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="pagination">{$page}</div>
+		</form>
+	</div>
+	
+	<script>
+		$(function() {
+			$( "#min_date" ).datetimepicker();
+			$( "#max_date").datetimepicker();
+		});
+	</script>
+</body>
+</html>

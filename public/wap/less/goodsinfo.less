@@ -1,0 +1,372 @@
+
+.nav-container>.nav-wrapper>.no-padding{
+    padding-left:0px!important;
+    padding-right:0px!important;
+}
+.nav-container>.nav-wrapper>.nav-pills>.nav-small{
+    font-size:14px!important;
+}
+.nav-small img{
+    width:15px;
+    vertical-align:middle;
+}
+.goodsinfo-footer-content{
+    width:100%;
+    height:100%;
+}
+
+.goodsinfo-count-down{
+	bottom:0;
+	position:absolute;
+	width:100%;
+	left:0;
+	background-color:rgba(0,0,0,0.5);
+	color:@white;
+	font-size:14px;
+	z-index:1000;
+	text-align:center;
+	height:25px;
+	line-height:25px;
+}
+.goodsinfo-footer-content span{
+    display:inline-block;
+    width:50%;
+    line-height:50px;
+    float:left;
+    background:#E72450;
+    font-size:16px;
+    color:#fff;
+    text-align:center;
+    &.imm{
+        background-color:#008dff;
+        color:#fff;
+    }
+    &.addcart{
+        background-color:#ff8f09;
+        color:#fff;
+    }
+}
+
+.content-container{
+	background-color:@white;
+	>div{
+		.goodsinfo-params{
+			border-bottom:1px solid @border;
+			padding:10px 20px;
+		}
+		.goodsinfo-no-params{
+			padding:10px;
+			font-size:14px;
+			text-align:center;
+		}
+		
+		&.goodsinfo-descripion{
+			padding:10px;
+		}
+		
+		
+		.goodsinfo-comment-top-content{
+			padding:10px 0;
+			position:relative;
+			overflow:hidden;
+			>.goodsinfo-comment-top-left{
+				float:left;
+				width:40%;
+				height:48px;
+				text-align:center;
+				border-right:1px solid @border;
+				>span{
+					color:@black;
+					font-size:12px;	
+				}
+				>.goodsinfo-comment-total{
+					margin-top:5px;
+					color:@money;
+					font-weight:bold;
+					font-size:20px;
+				}
+			}
+			>.goodsinfo-comment-top-right{
+				float:left;
+				width:60%;
+				.goodsinfo-comment-score{
+					padding-left:5%;
+					>span{
+						font-size:12px;
+						color:@word;
+						&.goodsinfo-comment-rate{
+							color:@secondary-color;
+						}
+					}
+					>.goodsinfo-comment-process-container{
+						background-color:@light-gray;
+						width:60%;
+						height:12px;
+						display:inline-block;
+						position:relative;
+						>.goodsinfo-comment-process{
+							height:100%;
+							background-color:@secondary-color;
+							
+						}
+					}
+				}
+			}
+			
+		}
+		.goodsinfo-comment-split{
+			background-color:@light-gray;
+			height:10px;
+		}
+		
+		.goodsinfo-comment-nav{
+			padding:15px;
+			overflow:hidden;
+			border-bottom:1px solid @border;
+			>span{
+				display:block;
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+				float:left;
+				background-color:@light-gray;
+				color:@word;
+				text-align:center;
+				border-radius:2px;
+				font-size:12px;
+				width:22%;
+				padding:8px 0;
+				margin-left:3%;
+				&:first-child{
+					margin-left:0;
+				}
+				&.active{
+				
+					background-color:@primary-color;
+					color:@white;
+				}
+			}
+		}
+		
+		.goodsinfo-comment-item{
+			padding:15px;
+			border-bottom:1px solid @border;
+			>.goodsinfo-comment-item-top{
+				display:block;
+				padding-bottom:10px;
+				overflow:hidden;
+				>img{
+					display:block;
+					float:left;
+					border-radius:50%;
+				}
+				>.goodsinfo-comment-item-left{
+					margin-left:5%;
+					width:50%;
+					float:left;
+					position:relative;
+					white-space:nowrap;
+					text-overflow:ellipsis;
+					overflow:hidden;
+					>div{
+						
+						color:@gray;
+						font-size:12px;
+						line-height:22px;
+						&:first-child{
+							display:inline-block;
+						}
+					}
+				}
+				>.goodsinfo-comment-item-right{
+					color:@gray;
+					font-size:12px;
+					float:right;
+				}
+			}
+			>.goodsinfo-comment-item-content{
+				clear:both;
+				font-size:14px;
+				>span{
+					color:@secondary-color;
+					line-height:16px;
+				}
+			}
+			.goodsinfo-comment-reply-before{
+				margin-left:15px;
+				display:block;
+				width:0;
+				height:0;
+				border-left:5px solid transparent;
+				border-right : 5px solid transparent;
+				border-bottom : 7px solid @light-gray;
+			}
+			.goodsinfo-comment-reply{
+				background-color:@light-gray;
+				color:@word;
+				padding:10px;
+				font-size:12px;
+			}
+		}
+		
+	}
+}
+
+.goodsinfo-modal-input{
+	text-align:center;
+	border: 1px solid @light-gray;
+	width:100%;
+	font-size:14px;
+	margin-top:10px;
+	padding:6px;
+	outline:none;
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+	display:inline-block;
+	border-radius:1px;
+}
+
+.goodsinfo-modal-input-group{
+	>.goodsinfo-modal-input{
+		width:60%;
+	}
+	>.goodsinfo-modal-verify{
+		display:inline-block;
+		border:1px solid @primary-color;
+		color:@primary-color;
+		width:35%;
+		margin-left:1%;
+		height:33px;
+		line-height:33px;
+		text-align:center;
+		border-radius:3px;
+	}
+}
+
+.goods-pop-container{
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:1044;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background-color:rgba(0,0,0,0.3);
+}
+.goodsinfo-modal-info{
+	padding-bottom:10px;
+	border-bottom:1px solid @border;
+	.goodsinfo-modal-text{
+		display:inline-block;
+		vertical-align:top;
+		margin-top:12px;
+		.goodsinfo-modal-price{
+			display:block;
+			color:@secondary-color;
+			font-size: 14px;
+		}
+		.goodsinfo-modal-stock{
+			display:block;
+			color:@gray;
+			font-size:12px;
+			margin-top:8px;
+		}
+		.goodsinfo-modal-name{
+			display:block;
+			color:@black;
+			font-size:12px;
+			margin-top:8px;
+		}
+	}
+}
+.goodsinfo-modal-specs-container{
+	max-height:300px;
+	overflow:scroll;
+	.goodsinfo-modal-specs{
+		border-bottom:1px solid @border;
+		overflow:hidden;
+		.goodsinfo-modal-specs-title{
+			display:block;
+			margin-top:10px;
+			font-size:14px;
+			color:@black;
+			margin-bottom:10px;
+		}
+		.goodsinfo-modal-specs-item{
+			display:inline-block;
+			border-radius:3px;
+			padding:5px 10px;
+			color:@gray;
+			border:1px solid @gray;
+			&.active{
+				color:@secondary-color;
+				border-color:@secondary-color;
+			}
+			
+			margin-bottom:15px;
+			margin-right:10px;
+			font-size:13px;
+		}
+	}
+}
+.goodsinfo-modal-number-container{
+	border-bottom:1px solid @border;
+	overflow:hidden;
+	padding: 5px 0;
+	>.goodsinfo-modal-number-title{
+		display:block;
+		font-size:14px;
+		line-height:30px;
+		color:@black;
+		float:left;
+	}
+	>.goodsinfo-modal-number-content{
+		float:right;
+		color:@black;
+	}
+}
+
+
+.goodsinfo-rec{
+	padding:10px 0;
+	overflow:hidden;
+	>.goodsinfo-rec-goods{
+		display:block;
+		float:left;
+		overflow:hidden;
+		margin : 0 2%;
+		width:46%;
+		margin-bottom: 10px;
+		border : 1px solid @border;
+		>.goodsinfo-rec-info{
+			padding:10px 5px;
+			
+			>.goodsinfo-rec-names{
+				line-height:16px;
+				height:32px;
+				font-size:14px;
+				overflow:hidden;
+				text-overflow:ellipsis;
+			}
+			>.goodsinfo-rec-bottom{
+				margin-top:10px;
+				overflow:hidden;
+				>.goodsinfo-rec-price{
+					float:left;
+					color:@money;
+					font-size:16px;
+				}
+				>.goodsinfo-rec-sale{
+					line-height:18px;
+					float:right;
+					color:@gray;
+					font-size:12px;
+				}
+			}
+			
+		}
+		
+	}
+}

@@ -1,0 +1,151 @@
+.my-order-search-div{
+    height:50px;
+    width:100%;
+    background:@white;
+    padding:8px 15px;
+    border-top:1px solid @border;
+    overflow:hidden;
+    >.my-order-search{
+        height:32px;
+        width:83%;
+        background:#eee;
+        padding:5px 0;
+        text-align:center;
+        overflow:hidden;
+        float:left;
+        >.my-order-input{
+            width:180px;
+            height:100%;
+            overflow:hidden;
+            margin:auto;
+            text-align:center;
+            >input{
+            	height:100%;
+            	width:100%;
+                border:none;
+                outline:none;
+                background:#eee;
+                padding-left:20px;
+	            background:url(../image/search.png) no-repeat left center;
+	            background-size : 15px 15px;
+                font-size:12px;
+            }
+        }
+    }
+    >a{
+        width:15%;
+        margin-left:2%;
+        height:32px;
+        line-height:17px;
+        text-align:center;
+        font-size:12px;
+        padding:9px;
+        float:left;
+        background:@primary-color;
+        color:@white;
+        border-radius:5px
+    }
+}
+.my-order-state-div{
+    height:44px;
+    background:@white;
+    border-top:1px solid @border;
+}
+.my-order-detail-div{
+    margin-top:10px;
+    background:@white;
+    overflow:hidden;
+    >.my-order-seckill{
+        height:44px;
+        font-size:14px;
+        padding:14px;
+        border-bottom:1px solid @border;
+        color:@word;
+        >p{
+            >span{
+                color:@money;
+                margin-left:5px;
+                font-size:16px
+            }
+        }
+    }
+    >.my-order-goods-state{
+        height:66px;
+        font-size:14px;
+        padding:14px;
+        border-bottom:1px solid @border;
+        color:@word;
+        >.my-order-one-p{
+            >span:first-child{
+                margin-left:5px
+            }
+            >span:last-child{
+                float:right
+            }
+        }
+        >.my-order-two-p{
+            margin-top:10px;
+            >span:first-child{
+                margin-left:5px
+            }
+            >span:last-child{
+                margin-left:5px
+            }
+        }
+    }
+    >.my-order-money-div{
+        height:44px;
+        font-size:14px;
+        padding:14px;
+        border-bottom:1px solid @border;
+        color:@word;
+        overflow:hidden;
+        >div:first-child{
+            font-size:12px;
+            float:left;
+            margin-top:2px
+        }
+        >div:last-child{
+            float:right;
+            >span:first-child{
+                float:left;
+                margin-right:10px
+            }
+            >span:last-child{
+                color:@money;
+                font-size:20px;
+                font-weight:bold;
+                float:left;
+                margin-top:-3px
+            }
+        }
+    }
+    >.my-order-buy-cancel{
+        height:50px;
+        font-size:14px;
+        padding:5px 14px;
+        color:@word;
+        float:right;
+        >a:first-child{
+            float:left;
+            display:block;
+            text-align:center;
+            padding:12px;
+            width:110px;
+            border:1px solid @border;
+            margin-right:15px;
+            height: 100%;
+        }
+        >a:last-child{
+            float:left;
+            display:block;
+            text-align:center;
+            padding:12px;
+            width:110px;
+            border:1px solid @border;
+            color:@white;
+            background:@primary-color;
+            height: 100%;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{include file="header"}
+</head>
+<body>
+	<div class="header">
+  	  <div class="wrapper">
+  	  	<span class="back" on-back-render-filters></span>
+  	  	<span class="title">会员等级说明</span>
+  	  </div>
+    </div>
+    <div ng-controller="ctrl" ng-cloak class="container top-container">
+    	<div ng-repeat="l in levels" ng-class="{true : 'active'}[l.group_id == group_id]" class="member-rank-div" >
+    		<div class="member-right-rank-div">
+    			<div class="member-right-img-div">
+    				<div class="member-right-level">
+    					会员等级：<span>{{l.name}}</span>
+    				</div>
+    			</div>
+    			<p class="member-right-rank-p">达成条件:{{l.requirement}}</p>
+    		</div>
+    		<div class="member-bottom-word-div">
+    			<p class="member-bottom-word-p">会员特权：{{l.privilege}}</p>
+    		</div>
+    	</div>
+    </div>
+</body>
+<script>
+	var app = angular.module("myapp",['back-filter']);
+	
+	app.controller("ctrl",['$scope', function($scope){
+		$scope.levels = {$levels | json_encode};
+		$scope.group_id = "{$group_id}";
+	}]);
+</script>
+{include file="base_footer"}
+</html>

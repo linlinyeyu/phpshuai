@@ -1,0 +1,176 @@
+{include file="header" /} 
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/goodsDetail.css?2017">
+</head>
+
+<body>
+    <div class="goodswrap" ng-app="myapp" ng-controller="myctrl" ng-cloak>
+        <div class="headWrap">
+        </div>
+        <div class="goodsWrap">
+            <div class="goodsBox">
+                <dl class="goodsInfo">
+                    <dt>
+                        <img src="{$goods.cover}">
+                    </dt>
+                    <dd>
+                        <ul class="imgList">
+                            <li class="isClick" ng-repeat='item in goods.images'><img ng-src="{{item}}">{{item}}</li>
+                        </ul>
+                    </dd>
+                </dl>
+                <div class="shopInfo">
+                    <div class="goodsName">
+                        {$goods.name}
+                    </div>
+                    <div class="priceInfo">
+                        <dl>
+                            <dt>原价</dt>
+                            <dd style="text-decoration: line-through;">￥{$goods.market_price}</dd>
+                            <dd style=" width: 100px;float: right;" class="totalEval">累计评价<em>{$goods.comment.total}</em></dd>
+                        </dl>
+                        <dl>
+                            <dt style="padding-top: 16px;">帅柏价</dt>
+                            <dd class="primary">￥<span style="font-size: 30px;line-height: 40px;">{$goods.shop_price}</span></dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                会员
+                            </dt>
+                            <dd>
+                                <ul class="vipInfo">
+                                    <li>可使用&nbsp;{$goods.max_integration}&nbsp;积分</li>
+                                    <li>可使用&nbsp;{$goods.max_shopping_coin}&nbsp;购物积分</li>
+                                    <li>可使用&nbsp;{$goods.pv}&nbsp;PV</li>
+                                </ul>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>促销</dt>
+                            <dd><span class="full">满&nbsp;减</span>满&nbsp;100.00&nbsp;减&nbsp;10.00</dd>
+                        </dl>
+                    </div>
+                    <div class="delivery">
+                        <dl>
+                            <dt>配送至</dt>
+                            <dd>浙江省杭州市&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;快递&nbsp;免运费</dd>
+                        </dl>
+                        <dl ng-repeat='items in goods.specs'>
+                            <dt>
+                                {{items.name}}
+                            </dt>
+                            <dd class='chooseBtn'>
+                                <button ng-repeat='item in items.items'>{{item.name}}</button>
+                            </dd>
+                        </dl>
+                        <dl class="chooseNum" style="line-height: 28px;">
+                            <dt>数量</dt>
+                            <dd>
+                                <button>-</button>
+                                <input type="" name="" value="1">
+                                <button>+</button>&nbsp;件
+                                <em>（库存{$goods.stock}件）</em>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="buyBtn">
+                        <button type="button" class="el-button el-button-primary">
+                            立即购买</button>
+                        <button type="button" class="el-button el-button-text">
+                            加入购物车</button>
+                    </div>
+                </div>
+                <div class="storeInfo">
+                    <div class="title">
+                        <div class="titleContent">
+                            <div class="slider"></div>
+                            <div class="name">{$goods.shop_name}</div>
+                            <div class="slider"></div>
+                        </div>
+                    </div>
+                    <div class="storeContent">
+                        <div class="storeName">
+                            {$goods.name}
+                        </div>
+                        <div class="eval">
+                            <dl>
+                                <dt>商品</dt>
+                                <dd>{$goods.comment.goods_comment}</dd>
+                            </dl>
+                            <dl>
+                                <dt>服务</dt>
+                                <dd>{$goods.comment.service_comment}</dd>
+                            </dl>
+                            <dl style="border: none;">
+                                <dt>物流</dt>
+                                <dd>{$goods.comment.logistics_comment}</dd>
+                            </dl>
+                        </div>
+                        <dl class="online">
+                            <dt>在线客服</dt>
+                            <dd class="qqkf"><img src="__PUBLIC__/images/goodsDetail/qq.png" height="14" width="12"> 客服
+                            </dd>
+                            <dd>
+                                <div class="wxkf"><img src="__PUBLIC__/images/goodsDetail/weixin.png" height="14" width="14"> 客服
+                                </div>
+                                <div><img src="" style="width: 100px; height: 100px;"></div>
+                            </dd>
+                        </dl>
+                        <div class="collectBtn">
+                            <button type="button" class="el-button el-button--text el-button--small">
+                                <span><img  src="__PUBLIC__/images/goodsDetail/viewStoreOn.png" height="14" width="14">关注店铺</span>
+                            </button>
+                            <button type="button" class="el-button el-button--text el-button--small" style="margin-left: 0px;">
+                                <span><img  src="__PUBLIC__/images/goodsDetail/colGoodOn.png" height="14" width="14">
+					收藏商品
+				</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="goodsDetail">
+            <div class="sliderBox">
+            </div>
+            <div class="detailCon">
+                <dl  class="infoBox">
+                    <dt style="line-height: 36px;border-bottom: 1px solid #ccc;background-color: #f5f5f5;">
+                        <button  class="infoTabChecked">商品详情</button> 
+                        <button  class="">评价（{$goods.comment.total}）</button>
+                    </dt> 
+                    <dd >
+                        <div  class="goodsQuery">
+                            <div  class="detailTitle">产品参数 </div>
+                            <ul  class="productInfo">
+                                <li ng-repeat='item in goods.params'>
+                                    <dl>
+                                        <dt>{{item.name}}</dt>
+                                        <dd>{{item.value}}</dd>
+                                    </dl>
+                                </li>
+                            </ul>
+                        </div>   
+                    </dd>
+                </dl>
+                <div class="detailsList">
+                    <div class="storeImg" ng-bind-html="description">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footerWrap"> </footer>
+    </div>
+</body>
+<script type="text/javascript">
+    var app = angular.module("myapp",[]);
+        app.controller("myctrl",function($scope, $sce){
+            $scope.goods = {$goods|json_encode};
+            var description = escape2Html($scope.goods.description);
+            $scope.description = $sce.trustAsHtml(description) ;
+            function escape2Html (a) {
+             var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+             return a.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+            }
+        });
+</script>
+</html>

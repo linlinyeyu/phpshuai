@@ -1,0 +1,20 @@
+{include file="header"}
+<style>
+	.essay-detail img, .essay-detail iframe{
+		display:block !important;
+		width:100% !important;
+		height: auto !important;
+	}
+</style>
+</head>
+<body style="height:100%;background-color:#fff">
+	<div  class="container" >
+		<p class="essay-title">{$essay.title}</p>
+		<p class="essay-date">{$essay.date_add | date="Y-m-d H:i:s",###}</p>
+		<div class="essay-detail">{$essay.content | html_entity_decode}</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+	</script>
+</body>
+</html>

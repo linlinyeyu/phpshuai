@@ -1,0 +1,53 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/editpwd')}">修改密码</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="{:U('setting/editpwd')}" submit-check="checked">
+			<fieldset>
+				{if condition='$is_setting'}
+				<div class="control-group">
+					<label class="control-label">旧密码</label>
+					<div class="controls">
+						<input type="password" name="old_pwd"><span class="form-required">*</span>
+					</div>
+				</div>
+				{/if}
+				<div class="control-group">
+					<label class="control-label">新密码</label>
+					<div class="controls">
+						<input type="password" id="new_pwd" name="new_pwd"><span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">再次输入</label>
+					<div class="controls">
+						<input type="password" id="new_repeat" ><span class="form-required">*</span>
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js?324=23"></script>
+
+	<script>
+		function checked(){
+			if($("#new_pwd").val().length < 6){
+				art.dialog("新密码不得小于6位");
+				return false;
+			}
+			if($("#new_pwd").val().trim() != $("#new_repeat").val().trim()){
+				art.dialog("两次密码输入不相等");
+				return false;
+			} 
+		}
+	</script>
+</body>
+</html>

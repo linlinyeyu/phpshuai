@@ -1,0 +1,68 @@
+.about-container {
+  background-color: #fff;
+}
+.container-content {
+  padding: 0 20px;
+}
+.container-content-top img {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 100px;
+  padding-top: 20px;
+}
+.container-content-top h1 {
+  font-size: 14px;
+}
+.container-content-top-onep {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.container-content-top-twop {
+  margin-bottom: 30px;
+  font-size: 14px;
+  line-height: 18px;
+  text-indent: 2em;
+}
+.am-line {
+  display: inline-block;
+  border: 2px solid #cdcdcd;
+  width: 30%;
+  margin-bottom: 4px;
+}
+.app-Americanism-top {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.app-Americanism-top h1 {
+  font-size: 14px;
+  color: #d93a56;
+  text-align: center;
+  display: inline-block;
+  line-height: 15px;
+}
+.app-Americanism-content li {
+  margin-bottom: 20px;
+}
+.app-Americanism-content img {
+  width: 18px;
+  vertical-align: top;
+  margin-top: -2px;
+}
+.app-Americanism-content h4 {
+  display: inline-block;
+  font-size: 14px;
+  color: #d93a56;
+}
+.app-Americanism-content p {
+  margin-top: 20px;
+  margin-left: 0.5em;
+  font-size: 14px;
+  line-height: 18px;
+}
+.container-content-footer {
+  margin: 50px 0 15px 0;
+}
+.container-content-footer p {
+  font-size: 14px;
+  text-align: center;
+}

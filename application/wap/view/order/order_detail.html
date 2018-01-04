@@ -1,0 +1,265 @@
+{include file="header"}
+</head>
+<body ng-controller="ctrl" ng-class="{true:'over-hidden'}[modalActive||deliveryed||applyed]">
+	<div class="header" >
+		    	<div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title" style="color:#333">订单详情</span>
+			    </div>
+	</div>
+	<div class="container main-container"  ng-cloak>
+		<div class="od-first-state-div">
+			<div class="od-child-div">
+				<img image-resize ng-if="order.order_state == 1"  width="60px"  src="__PUBLIC__/wap/image/wait-buy.png?12"> 
+				<img image-resize ng-if="order.order_state == 2"  width="60px"  src="__PUBLIC__/wap/image/wait-buy.png?12"> 
+				<img image-resize ng-if="order.order_state == 3" width="60px"  src="__PUBLIC__/wap/image/wait-order.png">
+				<img image-resize ng-if="order.order_state == 4 || order.order_state == 5"  width="60px"  src="__PUBLIC__/wap/image/ordersuccess.png?12"> 
+				<img image-resize ng-if="order.order_state == 7" width="60px"  src="__PUBLIC__/wap/image/wait-refund.png?12"> 
+				<img image-resize ng-if="order.order_state == 8" width="60px"  src="__PUBLIC__/wap/image/orderyes.png?12"> 
+				<span>{{order.state}}</span>
+			</div>
+		</div>
+		<div ng-if="order.order_state == 3" class="od-received">
+			<div>还有<span class="od-received-time">{{order.date_received | date_count_down}}</span>自动确认</div>
+			<div>逾期未确认收货，订单将自动完成</div>
+			<div ng-if="order.is_delay == 0" ng-click="delay()" class="od-received-btn">
+				延长自动确认时间（延长3天，限1次）
+			</div>
+		</div>
+		<div class="od-second-div">
+			<img src="__PUBLIC__/wap/image/address-logo.png">
+			
+			<div class="od-address-div">
+				<p class="od-address-first-p">
+					<span>{{order.address_name}}</span>
+					<span class="od-address-span">{{order.address_phone}}</span>
+				</p>
+				<p class="od-address-second-p">{{order.province}}{{order.city}}{{order.district}}{{order.address}}</p>
+			</div>
+			<a ng-show="express.length > 0 " ng-click="modalActive = true;">查看物流</a>
+		</div>
+		<div class="od-third-div">
+			<p>订单编号:<span>{{order.order_sn}}</span></p>
+			<p class="od-third-p">下单时间:<span>{{order.date_add * 1000 | date: 'yyyy-MM-dd HH:mm'}}</span></p>
+			<p class="od-third-p" ng-if="order.express_id > 0">配送方式:<span>{{order.express_name}}</span></p>
+			<p class="od-third-p" ng-if="order.express_id > 0">物流单号:<span>{{order.express_sn}}</span></p>
+		</div>
+		<div class="od-goods-div" ng-if="refund_info">
+			<div class="od-goods-child">
+				<p>退款详情</p>
+			</div>
+			<div class="od-goods-refund-info">
+		<!-- 已处理状态下特有的p -->	<p class="od-goods-refund-p" ng-if="refund_info.state > 1">处理方式:<span>{{refund_info.reply}}</span></p>
+				<p class="od-goods-refund-p">退款原因:<span>{{refund_info.reason}}</span></p>
+				<p class="od-goods-refund-p">退款金额:<span class="od-refund-money">¥{{refund_info.price}}</span></p>
+				<p class="od-goods-refund-p">备注信息:<span>{{refund_info.remark}}</span></p>
+				<p class="od-goods-refund-p">申请退款时间:<span>{{refund_info.date_add * 1000 | date: 'yyyy-MM-dd HH:mm'}}</span></p>
+			</div>
+			<div class="od-goods-refund-info" ng-if="refund_info.state == 1">
+				<p>卖家电话:<span>{$seller_info.service_phone}</span></p>
+				<p class="od-goods-refund-p">卖家地址:<span>{$seller_info.address}</span></p>
+				<p class="od-goods-refund-p">请尽快联系卖家协议退款事宜！</p>
+			</div>
+			<div class="od-goods-refund-info" ng-if="refund_info.state != 1"><!-- 已处理状态特有div -->
+				<p>退款结果:
+					<span style="color:#008dff" ng-if="refund_info.state == 3">商家拒绝退款</span> 
+					<span style="color:#008dff" ng-if="refund_info.state == 2">商家已同意退款，退款已冲入您的余额</span> 
+				</p>
+				<p class="od-goods-refund-p" ng-if="refund_info.state == 3">备注消息:
+					<span>{{refund_info.reply_remark}}</span>
+				</p>
+            	<p class="od-goods-refund-p" ng-if="refund_info.state == 2">退款时间:
+            		<span>{{refund_info.date_audit * 1000 | date: 'yyyy-MM-dd HH:mm'}}</span>
+            	</p><!-- 退款成功显示 -->
+			</div>
+		</div>
+		<div class="od-goods-div">
+			<div class="od-goods-child">
+				<p>商品详情</p>
+				<a ng-if="order.order_state == 3" ng-click="delivery()">确认收货</a>
+			</div>
+			<div class="od-goods-div" style="margin-top:0px">
+				<div ng-repeat="g in order.goods" class="od-goods-two-child">
+					<div class="od-goods-info">
+						<img image-resize width="75px"  ng-src="{{g.image}}" goods="1">
+						<p class="od-goods-detail-onep">{{g.name}}</p>
+						<p class="od-goods-detail-twop">规格:<span>{{g.option_name}}</span></p>
+						<p class="od-goods-detail-three">¥{{g.price}}</p>
+						<span>×{{g.quantity}}</span>
+					</div>
+					<!-- 交易成功显示--> 
+					<div class="od-success-evaluate" ng-if="order.order_state == 4 || order.order_state == 5">
+						<a href="{:U('order/evaluate')}?order_sn={{order.order_sn}}&goods_id={{g.goods_id}}" ng-if="order.order_state == 4">去评价</a>
+						<a class="evaluated" ng-if="order.order_state == 5">已评价</a> 
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="od-money-detail-div">
+			<div class="od-money-one-div">
+				<div>
+					<span>商品金额</span>
+					<span class="od-money-span">¥{{order.goods_amount}}</span>
+				</div>
+				<div class="od-money-child">
+					<span>物流金额</span>
+					<span class="od-money-span">¥{{order.express_amount}}</span>
+				</div>
+				<div class="od-money-child" ng-if="order.pay_id >0">
+					<span>{{order.pay_name}}</span>
+					<span class="od-money-span">¥{{order.order_amount}}</span>
+				</div>
+			</div>
+			<div class="od-money-two-div">
+				<div>
+					<span class="od-money-two-real">实际消费</span>
+					<span class="od-money-real-num">¥{{order.order_amount}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="footer" ng-if="order.order_state == 1">
+		    <div class="footer-btn footer-primary footer-full-btn" ng-click="pay()">去付款</div>
+		</div>
+		<div class="footer" ng-if="order.order_state == 2 && (!refund_info || refund_info.state == 3) && order.goods_amount > 0">
+		    <div class="footer-btn footer-primary footer-full-btn" ng-click="apply()">申请退款</div>
+		</div>
+		<div class="footer" ng-if="order.order_state == 3 && (!refund_info || refund_info.state == 3) && order.goods_amount > 0">
+		    <div class="footer-btn footer-primary footer-full-btn" ng-click="apply()" >申请退款</div>
+		    <!-- <div class="footer-btn footer-primary" ng-click="delivery()">确认收货</div> -->
+		</div>
+		
+		<!-- <div class="footer" ng-if="order.order_state == 3 && ((refund_info && refund_info.state == 1) || order.goods_amount == 0) ">
+		    <div class="footer-btn footer-primary footer-full-btn" ng-click="delivery()">确认收货</div>
+		</div> -->
+		<div class="modal ng-hide" ng-show="applyed">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-close" ng-click="applyed=false;"></div>
+					<div class="modal-body" style="padding-top:10px">
+						<p style="margin-top:30px;line-height:25px">申请退款后，请尽快联系商家确认退款相关事宜！</p>
+						<p style="margin-top:20px;line-height:10px">卖家电话:<span style="font-size:15px;margin-left:5px">{$seller_info.service_phone}</span></p>
+						<p style="margin-top:5px;line-height:18px">卖家地址:<span style="font-size:15px;margin-left:5px">{$seller_info.address}</span></p>
+					</div>
+					<div class="modal-footer">
+						<div class="modal-btn modal-primary-reverse-btn" ng-click="applyed = false">取消</div>
+						<div class="modal-btn modal-primary-btn" ng-click="refund()">立即申请退款</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="modal ng-hide" ng-show="deliveryed">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-close" ng-click="deliveryed = false;"></div>
+					<div class="modal-body" style="padding-top:10px">
+						<p style="margin-top:30px;line-height:25px">确认收货后，您的上级将立即收到销售积分，订单将不可再申请退款，您确认已经收到货物了吗？</p>
+					</div>
+					<div class="modal-footer">
+						<div class="modal-btn modal-primary-reverse-btn" ng-click="deliveryed = false">取消</div>
+						<div class="modal-btn modal-primary-btn" ng-click="take()">确认</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal ng-hide" ng-show="modalActive">
+			<div class="modal-dialog" >
+				<div class="modal-content" >
+					<div class="modal-close" ng-click="modalActive = false;"></div>
+					<div class="modal-body" style=" padding-bottom:0;overflow:hidden">
+						<div>
+							<p>{{order.express_name}}</p>
+							<p class="od-modal-express-p">运单号:<span>{{order.express_sn}}</span></p>
+						</div>
+						<div class="od-express-modal-div">
+							<div class="od-express-background" ng-if="express.length > 0">
+								<div class="od-express-child-div " >
+										<div ng-repeat="e in express" class="od-express-child" ng-class="{true:'active'}[$index == 0]">
+											<span class="od-express-point "></span>
+											<div>
+												<div>
+													<p>{{e.address}}</p>
+													<p>{{e.time}}</p>
+												</div>
+											</div>
+										</div>
+								</div>
+							</div>
+							<div class="od-express-no-express" ng-if="express.length == 0">
+									找不到相关物流信息
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	 <script>		
+	 	var app = angular.module("myapp",["back-filter",'image-resize','date-filter']);
+   	  	app.controller('ctrl',["$scope","$interval", function($scope, $interval){
+   	  		
+   	  		$scope.apply = function(){
+   	  			$scope.applyed = true;
+   	  		}
+   	  		
+   	  		$scope.delivery = function(){
+   	  			$scope.deliveryed = true;
+   	  		}
+   	  		
+   	  		$scope.order = {$order | json_encode};
+   	  		$scope.refund_info = {$refund_info | json_encode};
+   	  		$scope.express = {$express | json_encode};
+			$scope.pay = function(){
+				location.href = "{:U('order/pay_bal')}?orders=" + $scope.order.order_sn;
+			}
+			
+   			$scope.cancel = function(){
+   				var order_sn = $scope.order.order_sn;
+   				pinet.post("order/cancel", {'orders' : order_sn, access_token :pinet.getCookie("access_token")},
+   						function(data){
+   					pinet.alert("取消成功", function(){
+   						location.reload();
+   					});
+   				});
+   			}
+   			$scope.refund = function(){
+   				var order_sn = $scope.order.order_sn;
+   				location.href = "{:U('order/apply_refund')}?order_sn=" + order_sn;
+   			}
+   			
+			
+			
+   			$scope.take = function(){
+   				var order_sn = $scope.order.order_sn;
+   				pinet.post("order/delivery", {'order_sn' : order_sn, access_token :pinet.getCookie("access_token")},
+   						function(data){
+   					pinet.alert(data.message, function(){
+   						location.reload();
+   					});
+   					
+   				});
+   			}
+   			
+   			$scope.delay = function(){
+   				var order_sn = $scope.order.order_sn;
+   				pinet.post("order/delay",{'order_sn' : order_sn, access_token :pinet.getCookie("access_token")},
+   						function(data){
+   					pinet.alert("已为您延长3天自动确认收货时间", function(){
+   						location.reload();
+   					});
+   				});
+   			}
+   			
+   			$interval(function(){
+   				if($scope.order.order_state == 3){
+   					$scope.order.date_received --;
+   				}
+   			},1000);
+
+   	  	}]);
+			   	  	
+	   </script>
+</body>
+</html>

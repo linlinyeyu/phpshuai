@@ -1,0 +1,203 @@
+.index-head-bar {
+  background-color: #fff;
+  overflow: hidden;
+}
+.index-body-title {
+  float: left;
+  background-color: #FFF;
+  overflow: hidden;
+  width: 25%;
+  text-align: center;
+  display: inline-block;
+  padding: 5px 0!important;
+  border-bottom: 1px solid #dcdcdc;
+}
+.index-body-title a {
+  width: 100%;
+  display: inline-block;
+}
+.index-body-title p {
+  font-size: 12px;
+  margin-top: 5px!important;
+}
+.index-body-title img {
+  height: 30px;
+}
+.index-head-bar {
+  background-color: #fff;
+  overflow: hidden;
+}
+.index-body-title {
+  float: left;
+  background-color: #FFF;
+  overflow: hidden;
+  width: 25%;
+  text-align: center;
+  display: inline-block;
+  padding: 15px 0;
+  border-bottom: 1px solid #dcdcdc;
+}
+.index-body-title a {
+  width: 100%;
+  display: inline-block;
+}
+.index-body-title p {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.index-body-title img {
+  height: 30px;
+}
+.index-rollnew-container {
+  height: 40px;
+  width: 100%;
+  border-bottom: 1px solid #dcdcdc;
+  background: #ffffff;
+  overflow: hidden;
+}
+.index-rollnew-container li {
+  height: 40px;
+  width: 100%;
+  padding-left: 15px;
+}
+.index-rollnew-container img {
+  height: 25px;
+  vertical-align: middle;
+}
+.index-rollnew-container p,
+.index-rollnew-container span {
+  font-size: 12px;
+  display: inline-block;
+  line-height: 40px;
+}
+.index-body-title-sec p {
+  font-size: 18px;
+  border-bottom: 3px solid red;
+  padding: 0 3px;
+  font-weight: 100;
+  padding-bottom: 4px;
+}
+.index-body-title-sec {
+  padding: 6px 12px 8px;
+  position: relative;
+  float: left;
+  margin-top: 15px;
+  background-color: #FFF;
+  overflow: hidden;
+  width: 33.33333%;
+  text-align: center;
+  font-size: 20px;
+}
+.index-box {
+  width: 50% ;
+  float: left;
+  display: inline-block;
+  background-color: #Fff;
+  border: 1px solid #E7E7E7;
+  padding-bottom: 5px;
+}
+.index-goods_bg {
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 140px;
+  background-size: auto 140px;
+  margin: 10px 0;
+}
+.index-goods_info {
+  font-size: 14px;
+  height: 36px;
+  overflow: hidden;
+  width: 90%;
+  margin: 0 auto;
+  line-height: 18px;
+}
+.index-addlist-btn {
+  font-size: 12px;
+  margin-right: 5px;
+  border: 1px solid #E72450;
+  border-radius: 5px;
+  padding: 3px 5px;
+  color: #E72450;
+  background-color: #fff;
+  float: right;
+  margin-top: -24px;
+}
+.index-progressbar-bg {
+  background-color: #f4f4f4;
+  height: 7px;
+  width: 50%;
+  margin: 5px 0 10px 4px;
+}
+.index-progressbar {
+  background-color: #E72450;
+  height: 100%;
+}
+.index-goods_state p {
+  margin-top: 20px;
+}
+.index-progress_state {
+  margin-left: 4px;
+  font-size: 10px;
+}
+.index-progress_state span {
+  margin-left: 9%;
+  color: #E72450;
+}
+.index-addlist-btn:hover {
+  background-color: #f4f4f4;
+}
+.index_search {
+  color: #fff;
+}
+.index-shell {
+  background: #ffffff;
+  border-bottom: 1px solid #dcdcdc;
+  width: 100%;
+  padding: 3px 2px 2px 10px;
+  overflow: hidden;
+}
+#index-shell-container {
+  height: 30px;
+  overflow: hidden;
+  display: block;
+  float: left;
+}
+#index-shell-container a {
+  display: block;
+  font-size: 12px;
+  line-height: 30px;
+  text-decoration: none;
+  color: #333;
+  font-family: Arial;
+  height: 30px;
+  overflow: hidden;
+}
+.index-box img {
+  width: 30px;
+  float: left;
+  margin-left: 10px;
+}
+.index-shell img {
+  display: block;
+  float: left;
+  width: 20px;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+.nav-container > .nav-wrapper > .no-padding {
+  padding-left: 0px!important;
+  padding-right: 0px!important;
+}
+.nav-container > .nav-wrapper > .nav-pills > .nav-small {
+  font-size: 14px!important;
+}
+.index-big {
+  line-height: 24px;
+}
+.nav-small img {
+  width: 15px;
+  vertical-align: middle;
+}
+.index-shell-blue {
+  color: #0b70f2;
+}

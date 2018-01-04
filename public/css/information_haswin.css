@@ -1,0 +1,103 @@
+.information-haswin-content {
+  background: #ffffff;
+}
+.information-haswin-content li {
+  display: inline-block;
+  border-bottom: 1px solid #dcdcdc;
+}
+.information-haswin-li-div-top-left {
+  width: 30%;
+  float: left;
+  margin-bottom: 10px;
+}
+.information-haswin-li-div-top-left img {
+  width: 100%;
+}
+.information-haswin-li-div-top-right {
+  width: 68%;
+  float: left;
+}
+.information-haswin-li-div-top-right p {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.information-haswin-li-div-top-right a {
+  color: #d93a56;
+  text-decoration: underline;
+}
+.information-haswin-li-div-top-right .information-haswin-li-div-top-right-p-two {
+  margin-bottom: 10px;
+}
+.information-haswin-li-div-top-right span,
+.information-haswin-li-div-top-right a {
+  font-size: 12px;
+}
+.information-haswin-li-div-top {
+  display: inline-block;
+  padding: 10px 10px;
+  width: 100%;
+}
+.information-haswin-li-div-bottom {
+  display: inline-block;
+  padding: 10px;
+  width: 100%;
+}
+.information-haswin-state-zero {
+  display: inline-block;
+  width: 100%;
+}
+.information-haswin-state-zero span {
+  font-size: 12px;
+  line-height: 24px;
+}
+.information-haswin-li-div-bottom a {
+  font-size: 14px;
+  background: #d93a56;
+  color: #ffffff;
+  padding: 5px;
+  float: right;
+  border-radius: 5px;
+}
+.information-haswin-top {
+  display: inline-block;
+  width: 100%;
+  background-size: cover;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+}
+.information-haswin-top-top img {
+  width: 20px;
+  float: left;
+}
+.information-haswin-top-top span {
+  margin-left: -15px;
+}
+.information-haswin-top-bottom img {
+  width: 40px;
+  border-radius: 100%;
+  margin-top: 20px;
+  border: 2px solid #ffffff;
+  margin-left: -20px;
+}
+.information-haswin-top-top span {
+  font-size: 16px;
+  color: #ffffff;
+}
+.information-haswin-top-bottom p,
+.information-haswin-top-bottom span {
+  color: #ffffff;
+}
+.information-haswin-top-bottom p {
+  font-size: 14px;
+  margin: 10px 0;
+}
+.information-haswin-top-bottom span {
+  font-size: 12px;
+}
+.information-haswin-info-fixed-container {
+  position: fixed;
+  top: 142px;
+}

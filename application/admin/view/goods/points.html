@@ -1,0 +1,48 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="index.html">积分商品</a></li>
+			<li><a href="{:U('goods/point_add')}">添加积分商品</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>积分商品编号</th>
+						<th>积分商品</th>
+						<th>商品图片</th>
+						<th>商品所需总金额</th>
+						<th>状态</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="lists" id="vo"}
+					<tr>
+						<td>{$vo.sku}</td>
+						<td>{$vo.name}</td>
+						<td><img style="wdith:25px;height:25px;" src="{:C('img_url')}{$vo.image_url}" /></td>
+						<td>￥{$vo.price}</td>
+						<td>{if condition="$vo.on_sale eq '1'"}已上架{else /}下架中{/if}</td>
+						<td>{:get_color_date($vo.date_add)}</td>
+						<td>
+							<a href="{:U('goods/point_edit',['goods_id'=>$vo.goods_id])}">编辑</a>|
+							{if condition="$vo.on_sale eq '1'"}
+							<a href="{:U('goods/point_offsale',['goods_id'=>$vo.goods_id])}" class="js-ajax-dialog-btn" data-msg="">商品下架</a>
+							{else /}
+							<a href="{:U('goods/point_onsale',['goods_id'=>$vo.goods_id])}" class="js-ajax-dialog-btn" data-msg="">商品上架</a>
+							{/if}
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

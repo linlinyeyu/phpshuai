@@ -1,0 +1,39 @@
+{include file="header"}
+</head>
+<body >
+	<div class="header">
+		    <div class="wrapper">
+		    		<span class="back" on-back-render-filters></span>
+			     	<span class="title">积分明细</span>
+			</div>
+	</div>
+	<div  ng-controller="ctrl" ng-cloak  class="container top-container">
+		<div  infinite bind="records" url="commission/getrecords" data="goods_id={:I('goods_id')}" need_token="1" ng-show="records.length > 0">
+			<div  ng-repeat="r in records" class="score-detail-div">
+				<div class="score-detail-left-td">
+					<p class="score-detail-left-p">
+						<span >{{r.group_name}}</span>
+						<span class="score-detail-name" ng-bind-html="r.nickname | emoji"></span>
+						<span>消费积分</span>
+					</p>
+					<p class="score-detail-left-second" ng-if="r.end > 0 && r.refund == 0" >{{r.end | date_count_down:"dd天" }}后可兑换</p>
+					<p class="score-detail-left-second" ng-if="r.refund == 1">已退款</p>
+				</div>
+				<div class="score-detail-right-td">
+					<p class="score-detail-right-p">{{r.date_add * 1000 | date:'yyyy-MM-dd HH:mm'}}</p>
+					<p class="score-detail-right-second">+{{r.commission}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="dt-gad-no-record" ng-show="records.length == 0">
+			<img src="__PUBLIC__/wap/image/classify34.png"  />
+			<span>亲，您暂无积分记录</span>
+		</div>
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter','emoji-filter','date-filter','lazy-load']);
+		app.controller('ctrl',['$scope', function($scope){
+		}]);
+	</script>
+</body>
+</html>

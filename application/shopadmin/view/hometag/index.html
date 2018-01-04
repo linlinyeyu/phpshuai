@@ -1,0 +1,51 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('activity/index')}">首页活动</a></li>
+			<li><a href="{:U('banner/index')}">横幅列表</a></li>
+			<li ><a href="{:U('banner/web_banner')}">网页端顶部横幅</a></li>
+			<li class="active"><a href="{:U('hometag/index')}">标签列表</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:U('hometag/listorders')}">
+			<div class="table-actions">
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit"  data-subcheck="true">排序</button>
+				<a style="float:right" class="btn btn-warning" href="{:U('hometag/add')}">添加标签</a>
+			</div>
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="16"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+						<th width="50">{:L('SORT')}</th>
+						<th width="50">ID</th>
+						<th>标签名称</th>
+						<th>点击动作</th>
+						<th>点击参数</th>
+						<th>标签图标</th>
+						<th width="120">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="tags" id="vo"}
+					<tr>
+						<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.id}"></td>
+						<td><input name='listorders[{$vo.id}]' class="input input-order mr5" type='text' size='3' value='{$vo.sort}'></td>
+						<td>{$vo.id}</td>
+						<td>{$vo.name}</td>
+						<td >{$vo.action_name}</td>
+						<td >{$vo.content}</td>
+						<td><img style="width: 80px;height: 80px;" src="{$vo.image}" target="_blank" /></td>
+						<td>
+							<a href="{:U('hometag/add',array('id'=>$vo['id']))}">{:L('EDIT')}</a>|
+							<a href="{:U('hometag/del',array('id'=>$vo['id']))}" class="js-ajax-delete">{:L('DELETE')}</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+#mine-header {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  background: url(../images/head-goods/background_blue.jpg) no-repeat;
+  background-size: 100% 100%;
+  color: #ffffff;
+  padding-bottom: 15px;
+}
+#mine-header .mine-advice {
+  float: right;
+}
+#mine-header .mine-advice img {
+  width: 18px;
+  margin: 10px 10px 0 0;
+}
+#mine-header .mine-logo {
+  position: relative;
+  height: 60px;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+#mine-header .mine-logo img {
+  z-index: 555;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  bottom: -40px;
+  width: 68px;
+  height: 68px;
+  border-radius: 100%;
+  border: 2px solid #ffffff;
+}
+.mine-info {
+  margin-top: 50px;
+}
+#mine-header .mine-name {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+#mine-header .mine-id {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+#mine-header span {
+  font-size: 14px;
+}
+#mine-header .mine-recharge {
+  display: inline-block;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  padding: 5px 10px;
+  background: #e52451;
+  color: #ffffff;
+  margin: 0 0 0 10px;
+}
+.mine-container .mine-active p {
+  color: #e72450;
+}
+.mine-container {
+  margin-top: 0.8vw;
+}
+.mine-container p {
+  font-size: 3.8vw;
+  margin: 0;
+}
+.mine-container .mine-row,
+.mine-container {
+  width: 100%;
+  margin: 0px;
+}
+.mine-container .mine-row div {
+  text-align: center;
+}
+.mine-sign {
+  margin-top: 10px;
+  text-align: center;
+}
+.mine-sign a {
+  color: #ffffff;
+  font-size: 18px;
+  text-decoration: underline!important;
+}
+.mine-tip {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.row-container-margin {
+  margin-top: 20px;
+}

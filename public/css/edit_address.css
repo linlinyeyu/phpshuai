@@ -1,0 +1,116 @@
+.ed-address-left {
+  float: left;
+  margin-left: 10px;
+  line-height: 18px;
+}
+.ed-address-right {
+  float: right;
+  margin-right: 10px;
+}
+.ed-address-red {
+  color: #e72450;
+}
+.ed-address-gray {
+  color: #979797;
+}
+.ed-address-small {
+  font-size: 14px;
+}
+.ed-address-form {
+  background: #ffffff;
+}
+.ed-address-form-div {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  border-bottom: 1px solid #dcdcdc;
+  font-size: 14px;
+}
+.ed-address-form div span {
+  margin-right: 4vw;
+}
+.ed-address-form div input {
+  border: none;
+  outline: none;
+  width: 75%;
+  font-size: 14px;
+}
+.ed-address-form div select {
+  border: none;
+  outline: none;
+  width: 70vw;
+  font-size: 14px;
+  background: #ffffff;
+}
+.ed-address-pro {
+  float: right;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  width: 75%;
+  border: none;
+}
+.ed-address-pro img {
+  float: right;
+  width: 5vw;
+  margin-right: 4vw;
+}
+.ed-address-mask {
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  z-index: 10;
+  background: #000000;
+  opacity: 0.2;
+}
+.ed-address-mask,
+.ed-address-pop-box {
+  position: absolute;
+  display: none;
+}
+.ed-address-pop-box {
+  z-index: 100;
+  background: #ffffff;
+  color: #000000;
+  padding: 4vw 5vw;
+  border-radius: 1vw;
+  top: 50%;
+  left: 50%;
+  margin: -12.8vw 0 0 -35vw;
+}
+.ed-address-pop-box p {
+  margin: 0px;
+}
+.ed-address-pop-box span,
+.ed-address-pop-box a {
+  float: right;
+  margin: 3vw 0 0 7.3vw;
+}
+.ed-address-p-one,
+.ed-address-p-two {
+  color: #242424;
+}
+.ed-address-p-one {
+  font-size: 16px;
+}
+.ed-address-p-two,
+.ed-address-ok,
+.ed-address-no {
+  font-size: 14px;
+}
+.ed-address-red-bag {
+  margin-right: 5.8vw;
+}
+.ed-address-pay-style {
+  margin-top: 4vw;
+}
+.ed-address-pay-style li {
+  display: inline-block;
+  width: 100vw;
+  background: #f6f5f3;
+  padding: 4vw 15px;
+  margin-left: -15px;
+}
+.ed-address-pay-style li img {
+  width: 7vw;
+}

@@ -1,0 +1,109 @@
+.haswin-left {
+  float: left;
+  margin-left: 10px;
+  height: 80px;
+  width: 10%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 90%;
+}
+.haswin-right {
+  float: right;
+  margin-right: 10px;
+}
+.haswin-red {
+  color: #e72450;
+}
+.haswin-gray {
+  color: #979797;
+  padding-bottom: 5px;
+}
+.haswin-top {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 14px;
+  color: #ffffff;
+  background: #e72450;
+  position: fixed;
+  top: 0;
+}
+.haswin-content {
+  display: inline-block;
+  width: 100%;
+}
+.haswin-goods li {
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 5px;
+  background: #ffffff;
+  padding: 0 0 1vw 0;
+}
+.haswin-goods li,
+.haswin-goods {
+  display: inline-block;
+  width: 100%;
+}
+.haswin-goods li a {
+  display: inline-block;
+  float: right;
+  color: #ffffff;
+  padding: 5px 10px;
+  background: #e72450;
+  border-radius: 5px;
+}
+.haswin-goods li {
+  font-size: 14px;
+}
+.haswin-goods li span {
+  display: inline-block;
+  margin-top: 5px;
+}
+.haswin-goods .haswin-top-p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.haswin-goods .haswin-small {
+  font-size: 12px;
+}
+.haswin-goods .haswin-left {
+  width: 30%;
+  margin: 0px;
+}
+.haswin-goods .haswin-right {
+  width: 66%;
+  margin-top: 10px;
+}
+#haswin-bj {
+  display: inline-block;
+  font-size: 14px;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 109px;
+  margin-left: -54px;
+  text-align: center;
+}
+#haswin-bj img {
+  width: 100px;
+  margin-bottom: 10px;
+  padding-left: 7%;
+}
+#haswin-bj a {
+  display: inline-block;
+  margin-top: 5px;
+  text-align: center;
+  padding: 5px 10px;
+  background: #e72450;
+  color: #ffffff;
+  border-radius: 5px;
+}
+.haswin-top-fill {
+  height: 45px;
+}
+.haswin-issue {
+  padding-bottom: 5px;
+}
+.haswin-confirm {
+  margin-top: 3px;
+}

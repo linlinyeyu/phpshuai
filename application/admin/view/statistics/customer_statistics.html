@@ -1,0 +1,97 @@
+{include file="header" /} 
+<link rel="stylesheet" href="__PUBLIC__/js/jquery-ui/jquery-ui.min.css"/>
+<style>
+.control-group{
+float:left;
+}
+.table-tr td{
+	vertical-align: middle;
+	text-align: center;
+}
+.table th{
+	text-align:center;
+}
+a:hover{text-decoration:none;}
+.ui-datepicker{width:214px;}
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="" >用户消费统计</a></li>
+		</ul>
+		<form name="form" method="get" class="js-ajax-form form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">昵称:</label>
+					<div class="controls">
+						<input type="text" name="customer_name" value="{:I('get.customer_name')}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">用户手机:</label>
+					<div class="controls">
+					<input type="text" name="phone" value="{:I('get.phone')}">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" class="btn btn-primary"  onClick="click_first()" style="width:100px;height:30px;float:left;text-align:center;"/>
+						<button type="submit" class="btn btn-primary" onClick="click_second('pre_excel')" style="width:100px;height:30px;float:left;text-align:center;margin-left:20px">导出excel</button>
+					</div>
+				</div>
+			</fieldset>	 
+		</form>
+		<div class="panel panel-default">
+			<div class="panel-heading">总销售员数为{$count.count}人,总佣金为{$count.total}元，总可提现佣金为{$count.available}元，总结算期佣金为{$count.balance}元，总已兑换积分为{$count.withdraw}元 </div>
+		</div>
+		<form method="post" class="js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th >用户编号</th>
+						<th >用户</th>
+						<th >手机</th>
+						<th >消费金额</th>
+						<th>总佣金</th>
+						<th>可提现佣金</th>
+						<th>结算期佣金</th>
+						<th>已提现佣金</th>
+					</tr>
+				</thead>
+				<tbody class="table-tbody">
+					{volist name="lists" id="list"}
+					<tr>
+						<td>{$list.uuid}</td>
+						<td><img width="40" height="40" src="{$list.avater}"><a href="{:U('customer/detail', ['id' => $list.customer_id])}">{$list.nickname}</a></td>
+						<td>{$list.phone}</td>
+						<td>{$list.total_account}</td>
+						<td>{$list.total}</td>
+						<td>{$list.available}</td>
+						<td>{$list.balance}</td>
+						<td>{$list.withdraw}</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</form>
+		<div class="pagination">{$page}</div>
+	</div>
+	<script>
+	function click_first(){
+		document.form.action="{:U('Statistics/customer_statistics')}";
+		document.form.submit();
+	}
+	function click_second(){
+		document.form.action="{:U('Statistics/customer_excel')}";
+		document.form.submit();
+	}
+	
+	$(function() {
+		$( "#min_date" ).datetimepicker();
+		$( "#max_date").datetimepicker();
+	});
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+.hasfinish-left {
+  float: left;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 90%;
+}
+.hasfinish-right {
+  float: right;
+  margin-right: 10px;
+}
+.hasfinish-red {
+  color: #e72450;
+}
+.hasfinish-gray {
+  color: #979797;
+}
+.hasfinish-top {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 14px;
+  color: #ffffff;
+  background: #e72450;
+  position: fixed;
+  top: 0;
+}
+.hasfinish-content {
+  display: inline-block;
+  width: 100%;
+}
+.hasfinish-goods li {
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 5px;
+  background: #ffffff;
+  padding: 0 0 1vw 0;
+}
+.hasfinish-goods li,
+.hasfinish-goods {
+  display: inline-block;
+  width: 100%;
+}
+.hasfinish-goods li a {
+  display: inline-block;
+  float: right;
+  color: #ffffff;
+  padding: 5px 10px;
+  background: #e72450;
+  border-radius: 1vw;
+}
+.hasfinish-goods li {
+  font-size: 5vw;
+}
+.hasfinish-goods li span {
+  display: inline-block;
+  margin-top: 5px;
+}
+.hasfinish-goods .hasfinish-top-p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.hasfinish-goods .hasfinish-small {
+  font-size: 12px;
+}
+.hasfinish-goods .hasfinish-left {
+  width: 30%;
+  margin: 0px;
+}
+.hasfinish-goods .hasfinish-right {
+  width: 66%;
+  margin-top: 10px;
+}
+.hasfinish-top-fill {
+  height: 45px;
+}

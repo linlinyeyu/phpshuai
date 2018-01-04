@@ -1,0 +1,24 @@
+{include file="header"}
+</head>
+<body height="100%">
+	<div class="top-container container">
+		<div class="header" >
+			<div class="wrapper">
+				<div class="left back" on-back-render-filters></div>
+			     <span class="title">{$title}</span>
+		    </div>
+		</div>
+		
+		<iframe frameborder="0" id="myframe" width="100%" name="myframe"  scrolling="auto" src="{$url}">
+        </iframe>
+	</div>
+</body>
+<script>
+	var app = angular.module("myapp",['back-filter']);
+    var height = document.documentElement.clientHeight - 45;
+    var width = document.documentElement.clientWidth;	
+    var frame = document.getElementById("myframe");
+    frame.height = height;
+    frame.width = width;
+</script>
+</html>

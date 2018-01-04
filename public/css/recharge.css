@@ -1,0 +1,128 @@
+.recharge-content-top {
+  display: inline-block;
+  width: 100%;
+  background: #fffec6;
+  padding: 5px 0;
+  text-align: center;
+}
+.recharge-content-top p {
+  font-size: 12px;
+}
+.recharge-price {
+  display: inline-block;
+  border-bottom: 1px solid #dcdcdc;
+  padding-bottom: 15px;
+}
+.recharge-price ul {
+  padding: 10px;
+}
+.recharge-price span {
+  display: inline-block;
+  margin-left: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+.recharge-price ul {
+  width: 100%;
+  display: inline-block;
+  font-size: 14px;
+}
+.recharge-price ul li {
+  float: left;
+  width: 25vw;
+  display: inline-block;
+  border: 1px solid #dcdcdc;
+  padding: 10px 0;
+  text-align: center;
+  margin-right: 6.3%;
+  margin-top: 10px;
+}
+.recharge-price ul .recharge-a {
+  margin-left: 4vw;
+}
+.recharge-footer {
+  display: inline-block;
+  width: 100%;
+  padding: 5px 0;
+  position: fixed;
+  bottom: 0;
+  zoom: 1;
+  background: #ffffff;
+  border-top: 1px solid #dcdcdc;
+}
+.recharge-footer .recharge-one {
+  line-height: 24px;
+  margin-left: 10px;
+}
+.recharge-footer a {
+  display: inline-block;
+  background: #e82551;
+  padding: 5px 10px;
+  color: #ffffff;
+  border-radius: 5px;
+  float: right;
+  margin-right: 10px;
+  font-size: 14px;
+}
+.recharge-pay-bal {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+}
+.recharge-pay-bal li {
+  padding: 15px 0 0 0;
+  display: inline-block;
+  width: 100%;
+}
+.recharge-pay-bal ul span {
+  margin-left: 10px;
+}
+.recharge-pay-bal ul img {
+  vertical-align: top;
+  width: 25px;
+  margin-right: 10px;
+  float: right;
+}
+.recharge-price ul .recharge-red {
+  border: 1px solid #e72450;
+}
+.recharge-price ul li input {
+  padding: 0px;
+  margin: 0px;
+  background: none;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-size: 12px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+.recharge-number {
+  color: #e72450;
+}
+.recharge-footer span {
+  font-size: 14px;
+}
+.recharge-custom {
+  font-size: 4vw;
+}
+.recharge-one {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 39px;
+  margin-left: 10px;
+}
+.recharge-footer-a {
+  float: right;
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 6.5px;
+  color: #ffffff;
+  padding: 5px 10px;
+  background: #d93a56;
+  border-radius: 5px;
+}

@@ -1,0 +1,71 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('activity/index')}">首页活动</a></li>
+			<li class="active"><a href="{:U('banner/index')}">横幅列表</a></li>
+			<li ><a href="{:U('banner/web_banner')}">网页端顶部横幅</a></li>
+			<li><a href="{:U('hometag/index')}">标签列表</a></li>
+			
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:U('banner/listorders')}">
+			<div class="table-actions">
+				<button class="btn btn-primary btn-small js-ajax-submit" type="submit"  data-subcheck="true">排序</button>
+				<a style="float:right" class="btn btn-warning" href="{:U('banner/add')}">添加横幅</a>
+			</div>
+			<table style="margin-top:10px;" class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="16"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+						<th width="50">{:L('SORT')}</th>
+						<th width="50">ID</th>
+						<th>横幅名称</th>
+						<th width="90">点击事件</th>
+						<th>点击关键词</th>
+						<th>横幅图片</th>
+						<th width="120">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="banners" id="vo"}
+					<tr>
+						<td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.banner_id}"></td>
+						<td><input name='listorders[{$vo.banner_id}]' class="input input-order mr5" type='text' size='3' value='{$vo.sort}'></td>
+						<td>{$vo.banner_id}</td>
+						<td>{$vo.name}</td>
+						<td >{$vo.action_name}</td>
+						<td>{$vo.content}</td>
+						<td><img style="width: 100px;height: 50px;" src="{$vo.image}" target="_blank" /></td>
+						<td>
+							<a href="{:U('banner/add',array('id'=>$vo['banner_id']))}">{:L('EDIT')}</a>|
+							<a href="{:U('banner/del',array('id'=>$vo['banner_id']))}" class="js-ajax-delete">{:L('DELETE')}</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+	$('#upfile').change(function(){
+		$.ajaxFileUpload({
+			url: "{:U('banner/file')}",
+			secureuri : false,  
+             fileElementId:'upfile',
+			dataType: 'json',
+			success: function(data, status){
+				console.log(data);
+				alert(data.msg);
+			},
+			error: function(data, status, e){
+				//alert(data);
+			}
+		})
+	})
+
+	</script>
+</body>
+</html>

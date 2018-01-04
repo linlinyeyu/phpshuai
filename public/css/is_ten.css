@@ -1,0 +1,76 @@
+.ten-footer .ten-footer-onespan {
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 39px;
+}
+.ten-footer-twospan {
+  display: inline-block;
+  font-size: 14px;
+  background: #d93a56;
+  padding: 5px;
+  border-radius: 5px;
+  color: #ffffff;
+  margin: 7.5px 10px 0 0;
+  float: right;
+}
+.ten-footer a {
+  display: inline-block;
+  float: right;
+  margin-top: 7px;
+}
+.ten-footer img {
+  width: 25px;
+  margin-right: 10px;
+}
+.ten-goods-container {
+  width: 100%;
+}
+.ten-goods-container-left {
+  display: inline-block;
+  width: 90px;
+  float: left;
+}
+.ten-goods-container-left img {
+  width: 100%;
+}
+.ten-ul {
+  background: #ffffff;
+  width: 100%;
+  display: inline-block;
+}
+.ten-ul > li {
+  border-bottom: 1px solid #eee;
+}
+.ten-goods-container-right {
+  display: inline-block;
+  height: 100px;
+  padding: 10px 0;
+  width: 70%;
+}
+.ten-goods-container-right p {
+  font-size: 14px;
+  padding: 5px;
+}
+.ten-goods-container-right .ten-right-small {
+  display: inline-block;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.ten-tocart {
+  background: #d93a56;
+  font-size: 14px;
+  float: right;
+  padding: 5px;
+  color: #ffffff;
+  border-radius: 5px;
+  position: relative;
+  margin-top: 5px;
+  display: block;
+}
+.ten-blue {
+  color: #0b70f2;
+}
+.ten-goods-last {
+  height: 30px;
+}

@@ -1,0 +1,58 @@
+{include file="header"}
+
+</head>
+<body>
+	<div class="header" >
+	    <div class="wrapper">
+	    		<span class="back" on-back-render-filters></span>
+		     	<span class="title">消息提醒</span>
+		</div>
+	</div>
+	<div ng-controller="ctrl" class="container top-container">
+		<div class="row-container" style="margin-top:10px">
+			<div class="row row-bordered">
+				<div class="row-content">
+					<div class="row-left row-text">
+						消息提醒
+					</div>
+					<div class="row-right ">
+						<span ng-class="{'active':switch_on}" ng-click="toggle_switch()" class="row-switch"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="set-bottom">
+			<a href="{:U('home/agreement')}" class="set-rules">服务条款</a>
+			<div class="set-copy-right">{$bear_copyright} {$bear_record}</div>
+		</div>
+		<div ng-click="quit()" class="footer">
+			<div class="set-btn">
+				退出当前账号
+			</div>
+			
+		</div>
+		
+	</div>
+	<script>
+		var app = angular.module("myapp",['back-filter']);
+		app.controller("ctrl", ['$scope', function($scope){
+			$scope.switch_on = "{$switch}" == 1 ;
+			$scope.quit = function(){
+				pinet.removeCookie("access_token","/");
+				pinet.setCookie("force_logout", "1", "/");
+				location.href="{:U('home/index')}";
+			}
+			
+			$scope.toggle_switch = function(){
+				$scope.switch_on = !$scope.switch_on
+				var need_push = $scope.switch_on ? 1 : 0;
+				pinet.post("user/need_push", {'access_token' : pinet.getCookie('access_token'),'need_push' : need_push},
+						function(data){
+				});
+			} 
+		}])
+	</script>
+</body>
+{include file="base_footer"}
+</html>

@@ -1,0 +1,87 @@
+.evaluate-rank-div{
+    height:240px;
+    background:@white;
+    margin-top:10px;
+    >.evaluate-rank-child{
+        height:45px;
+        overflow:hidden;
+        border-bottom:1px solid @border;
+        padding:15px 0;
+        color:@word;
+        >.evaluate-rank{
+            float:left;
+            width:33.3%;
+            text-align:center;
+            border-left:1px solid @border;
+            &:first-child{
+            	border:none;
+            }
+            >span{
+                color:@word;
+                &.active{
+                	padding-left:30px;
+                	background:url(../image/right.png) no-repeat left center;
+                	background-size : 20px 14px;
+                    color:@primary-color;
+                }
+            }
+        }
+    }
+    >.evaluate-textarea{
+        height:195px;
+        width:100%;
+        border:none;
+        resize:none;
+        color:@word;
+        padding:10px 15px;
+        font-size:16px;
+        line-height:32px;
+    }
+}
+.evaluate-footer{
+    display:block;
+    width:100%;
+    overflow:hidden;
+    position:fixed;
+    left:0px;
+    z-index:999;
+    bottom:0px;
+    border-top:1px solid #dcdcdc;
+    background-color:#fff;
+    height:@footer-height;
+    >.evaluate-footer-first{
+        overflow:hidden;
+        height:100%;
+        padding:15px;
+        width:50%;
+        float:left;
+        >img{
+            width:15px;
+            float:left;
+            margin-top:2px
+        }
+        >span{
+            float:left;
+            font-size:14px;
+            color:#999;
+            margin-left:5px;
+            margin-top:2px
+        }
+    }
+    >.evaluate-footer-second{
+        height:100%;
+        width:50%;
+        float:left;
+        overflow:hidden;
+        padding:5px 15px;
+        >a{
+            display:block;
+            padding-top:11px;
+            height:100%;
+            color:@white;
+            background:@primary-color;
+            border-radius:3px;
+            text-align:center
+        }
+    }
+}

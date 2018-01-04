@@ -1,0 +1,37 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('promotion/code_lists')}">推广列表</a></li>
+			<li class="active"><a href="">推广详情</a></li>
+		</ul>
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th>来源</th>
+						<th>昵称</th>
+						<th>手机号</th>
+						<th>创建日期</th>
+						<th>总消费金额</th>
+					</tr>
+				</thead>
+				<tbody>
+				{volist name="lists" id="user"}
+					<tr>
+						<td>{if condition="$user.oauth_type eq 0"}手机密码注册{elseif condition="$user.oauth_type eq 1" /}手机验证码注册{elseif condition="$user.oauth_type eq 2" /}微信注册{else /}公众号注册{/if}</td>
+						<td><a href="{:U('customer/detail',['id'=>$user.customer_id])}" title="点击进入会员详情">{$user.nickname}</a></td>
+				
+						<td>{$user.phone}</td>
+
+						<td>{:get_color_date($user.date_add)}</td>
+						<td>{$user.total_price}</td>
+					</tr>
+				{/volist}
+				</tbody>
+			</table>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+</html>

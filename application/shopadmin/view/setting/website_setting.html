@@ -1,0 +1,39 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('setting/website_setting')}">网站参数</a></li>
+			<li ><a href="{:U('setting/test_setting')}">测试参数</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" >
+			<fieldset>
+				
+				<div class="control-group">
+					<label class="control-label">网站标题</label>
+					<div class="controls">
+						<input value="{$title}" name="title" /><span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">图片网址</label>
+					<div class="controls">
+						<input value="{$image_url}" name="image_url" /><span class="form-required">*</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">手机网址</label>
+					<div class="controls">
+						<input value="{$mobile_url}" name="mobile_url" /><span class="form-required">*</span>
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="{:U('user/index')}">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

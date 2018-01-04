@@ -1,0 +1,99 @@
+{include file="header" /}
+</head>
+<body ng-app="myapp">
+    <div class="wrap" ng-controller="myctrl">
+        <form method="get" class="js-ajax-form form-horizontal" action="{:U('withdraw/index')}">
+            <div class="control-group">
+                <label class="control-label">用户名：</label>
+                <div class="controls">
+                    <input type="text" name="nickname" value="{:I('nickname')}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">提现状态:</label>
+                <div class="controls">
+                    <select name="state">
+                        <option value="0" >全部</option>
+                        <option {if condition="I('state') eq 1"} selected {/if}value="1">申请中</option>
+                        <option {if condition="I('state') eq 2"} selected {/if}value="2">申请成功</option>
+                        <option {if condition="I('state') eq 3"} selected {/if}value="3">申请失败</option>
+                        <option {if condition="I('state') eq 4"} selected {/if}value="4">已完成</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">提现方式:</label>
+                <div class="controls">
+                    <select name="type">
+                        <option value="0" >全部</option>
+                        <option {if condition="I('type') eq 1"} selected {/if}value="1">银行卡提现</option>
+                        <option {if condition="I('type') eq 2"} selected {/if}value="2">支付宝提现</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">创建日期:</label>
+                <div class="controls">
+                    <input type="text" name="min_date" id="min_date" style="width:100px;float:left" value="{:I('min_date')}" >
+                    <label style="float:left;">-</label>
+                    <input type="text" name="max_date" id="max_date" style="width:100px; float:left" value="{:I('max_date')}" >
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-primary"  style="width:100px;height:30px;float:left;text-align:center;" value="搜索"/>
+                </div>
+            </div>
+        </form>
+        <form method="post" class="js-ajax-form">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>提现金额</th>
+                    <th>提现状态</th>
+                    <th>提现时间</th>
+                    <th>提现方式</th>
+                    <th>提现账号/支行</th>
+                    <th>真实姓名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {if condition="count($lists) gt 0"}
+                {volist name="lists" id="vo"}
+                <tr>
+                    <td>{$vo.nickname}</td>
+                    <td>{$vo.money}</td>
+                    <td>{if condition="$vo.state eq 1"}申请中{elseif condition="$vo.state eq 2"}申请成功，待打款{elseif condition="$vo.state eq 3"}申请失败{elseif condition="$vo.state eq 4"}已完成{/if}</td>
+                    <td>{:get_color_date($vo.date_add)}</td>
+                    <td>{if condition="$vo.type eq 2"}支付宝{elseif condition="$vo.type eq 1"}银行卡{/if}</td>
+                    <td>{$vo.account}
+                        <br>
+                        {$vo.subbranch}
+                    </td>
+                    <td>{$vo.realname}</td>
+                    <td>
+                        {if condition="$vo.state eq 1"}
+                        <a class="js-ajax-dialog-btn" href="{:U('withdraw/agree',['id' => $vo.id])}">同意</a> |
+                        <a class="js-ajax-dialog-btn" href="{:U('withdraw/reject',['id' => $vo.id])}">拒绝</a>
+                        {elseif condition="$vo.state eq 2"}
+                        <a class="js-ajax-dialog-btn" href="{:U('withdraw/sure',['id' => $vo.id])}">完成</a>
+                        {/if}
+                    </td>
+                </tr>
+                {/volist}
+                {/if}
+                </tbody>
+            </table>
+            <div class="pagination">{$page}</div>
+        </form>
+    </div>
+    <script>
+        $(function() {
+            $( "#min_date" ).datetimepicker();
+            $( "#max_date").datetimepicker();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{include file="header" /} 
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li {if condition="$type eq 0"}class="active" {/if}><a href="{:U('rank/week_list')}">周排行</a></li>
+			<li {if condition="$type eq 1"}class="active" {/if}><a href="{:U('rank/month_list')}">月排行</a></li>
+			<li {if condition="$type eq 2"}class="active" {/if}><a href="{:U('rank/total_list')}">总排行</a></li>
+		</ul>
+		<form method="post" class="js-ajax-form" >
+				<a style="float:right" class="btn btn-warning js-ajax-dialog-btn" href="{:U('rank/refresh')}">刷新排名</a>
+			
+			<p style="line-height:30px;background-color:#f8f0c8; text-align:center;">排名刷新为0、6、12、18点，也可手动刷新排名</p>
+			<table style="margin-top:10px;" class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th width="50">排名</th>
+						<th width="50">名称</th>
+						<th>总佣金</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="rank.rank" id="vo"}
+					<tr>
+						<td width="100px">{$key + 1}</td>
+						<td width="200px"><a href="{:U('customer/detail',['id'=>$vo.customer_id])}">{$vo.nickname}</a></td>
+						<td>{$vo.commission}</td>
+					</tr>
+					{/volist}
+				</tbody>
+				
+			</table>
+		</form>
+	</div>
+</body>
+</html>
